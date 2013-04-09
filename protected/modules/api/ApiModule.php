@@ -10,7 +10,9 @@ class ApiModule extends CWebModule
         // import the module-level models and components
         $this->setImport(array(
             'api.models.*',
-            'api.components.*'
+            'api.components.api.*',
+            'api.components.base.*',
+            'api.components.util.*',
         ));
     }
     

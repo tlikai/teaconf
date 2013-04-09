@@ -4,5 +4,4 @@
 .settings/
 tags
 document
-assets/*
 protected/runtime/*

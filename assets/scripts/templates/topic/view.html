@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="main">
+        <section class="box topic">
+            <div class="inner topic-meta">
+                <a href="#" class="pull-right"><img src="http://cdn.v2ex.com/avatar/51da/85a3/3557_normal.png?m=1330351261" alt="" width="48" height="48" class="avatar" /></a>
+                <h1 class="topic-title">
+                    <a href="#/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
+                    <span class="sep">•</span>
+                    <a href="#node" class="node topic-node">问与答</a>
+                </h1>
+                <div class="topic-info">
+                    <a href="#/user/{{ topic.author.id }}" class="topic-author">{{ topic.author.name }}</a> 发表于<time>{{ topic.created_at }}</time>
+                    <span class="sep">•</span>
+                    最后回复 <a href="#/user/{{ topic.lastPoster.id }}" class="topic-author">{{ topic.lastPoster.name }}</a>
+                    <span class="sep">•</span>
+                    共 <span class="count">{{ topic.views }}</span> 次阅读
+                </div>
+            </div>
+            <div class="inner topic-body">{{ topic.content }}</div>
+            <div class="inner topic-toolbar clearfix">
+                <div class="pull-right topic-action">
+                    <a href="#">回复</a>
+                    <span class="sep">•</span>
+                    <a href="#">关注(10)</a>
+                    <span class="sep">•</span>
+                    <a href="#">喜欢(0)</a>
+                </div>
+                <div class="topic-share">
+                    share
+                </div>
+            </div>
+        </section>
+
+        <section class="box">
+            <div class="inner posts-header">
+                共有 <span class="count">{{ topic.posts_count }}</span> 次回复
+                <span class="sep">•</span>
+                最后回复来自于 <a href="#" class="last-poster">李恺</a> <time>一小时前</time>
+            </div>
+            <div class="posts"></div>
+        </section>
+    </div>
+
+    <div class="sidebar">
+        <section class="box">
+            <h2 class="inner subject">好评如潮</h2>
+            <ul class="inner topics" id="likes_topics">
+                <li><a href="#">Teahour.fm 第3期，除夕特别版发布 :-)</a></li>
+                <li><a href="#">谁能推荐一款人体工学的椅子。</a></li>
+                <li><a href="#">Teahour.fm 第3期，除夕特别版发布 :-)</a></li>
+                <li><a href="#">Ruby 语言二十岁生日，如果你采访Matz，你会问什么？</a></li>
+                <li><a href="#">谁能推荐一款人体工学的椅子。</a></li>
+            </ul>
+        </section>
+        <section class="box">
+            <h2 class="inner subject">无人问津</h2>
+            <ul class="inner topics" id="noreply_topics">
+                <li><a href="#">Ruby 语言二十岁生日，如果你采访Matz，你会问什么？</a></li>
+                <li><a href="#">Teahour.fm 第3期，除夕特别版发布 :-)</a></li>
+                <li><a href="#">谁能推荐一款人体工学的椅子。</a></li>
+                <li><a href="#">Teahour.fm 第3期，除夕特别版发布 :-)</a></li>
+                <li><a href="#">Ruby 语言二十岁生日，如果你采访Matz，你会问什么？</a></li>
+                <li><a href="#">谁能推荐一款人体工学的椅子。</a></li>
+            </ul>
+        </section>
+    </div>
+</div>

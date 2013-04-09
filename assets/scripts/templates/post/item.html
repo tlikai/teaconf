@@ -1,0 +1,19 @@
+<div class="inner post">
+    <dl class="clearfix post-wrap">
+        <dt class="post-sidebar">
+        <a href="#"><img src="http://cdn.v2ex.com/avatar/51da/85a3/3557_normal.png?m=1330351261" alt="" width="48" height="48" class="avatar" /></a>
+        </dt>
+        <dd class="post-main">
+        <div class="post-meta">
+            <a href="#/users/{{ post.created_by }}">{{ post.created_by }}</a> 回复于 <time>{{ post.created_at }}</time>
+        </div>
+        <div class="sep5"></div>
+        <div class="post-body">{{ post.content }}</div>
+        <div class="post-action">
+            <a href="#">回复</a>
+            <span class="sep">•</span>
+            <a href="#">喜欢({{ post.likes_count }})</a>
+        </div>
+        </dd>
+    </dl>
+</div>

@@ -1,0 +1,41 @@
+<div class="modal hide fade modal-post">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>创建主题</h3>
+    </div>
+    <div class="modal-body">
+        <form action="./" method="post" class="form-horizontal">
+            <div class="control-group">
+                <input type="text" name="username" class="input-xlarge" placeholder="标题">
+                <select id="node" name="node" class="node-selector">
+                    <option value="0">请选择节点</option>
+                    <option value="0">问与答</option>
+                    <option value="0">求职天地</option>
+                    <optgroup label="PHP">
+                        <option value="1">框架</option>
+                        <option value="1">问答</option>
+                        <option value="1">部署</option>
+                        <option value="1">开源</option>
+                        <option value="1">单元测试</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="control-group">
+                <div class="editor">
+                    <div class="editor-toolbar">
+                        <i class="icon-bold"></i>
+                        <i class="icon-list"></i>
+                        <i class="icon-picture"></i>
+                        <i class="icon-preview"></i>
+                    </div>
+                    <div class="sep5"></div>
+                    <textarea class="input-xxlarge editor-area" rows="15"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary">发布</a>
+        <a href="#" class="btn">取消</a>
+    </div>
+</div>

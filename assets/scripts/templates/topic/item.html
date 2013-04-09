@@ -1,0 +1,21 @@
+<div class="topic inner">
+    <table width="100%">
+        <tr>
+            <td class="avatar"><a href="/user/{{ topic.author.id }}"><img src="{{ topic.author.avatar }}" alt="" /></a></td>
+            <td class="summary">
+                <a href="/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
+                <div class="sep5"></div>
+                <div class="info">
+                    <a href="/node/{{ topic.node.id }}" class="node">{{ topic.node.name }}</a>
+                    <a href="/user/{{ topic.author.id }}" class="author">{{ topic.author.name }}</a>
+                    最后由
+                    <a href="/user/{{ topic.poster.id }}">{{ topic.poster.name }}</a>
+                    于 <time>{{ topic.poster.created_at }}</time> 回复
+                </div>
+            </td>
+            <td class="right">
+                <a href="/topic/{{ topic.posts_count }}" class="count likes">{{ topic.posts_count }}</a>
+            </td>
+        </tr>
+    </table>
+</div>
