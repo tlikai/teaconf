@@ -3,12 +3,12 @@ define([
     'underscore',
     'backbone',
     'handlebars',
-    'text!templates/topic/create.html'
+    'text!templates/site/login.html'
 ], function($, _, Backbone, Handlebars, template){
     return Backbone.View.extend({
-        id: '#createTopic',
+        id: '#siteLogin',
         render: function(){
-            console.log('render: topic/create');
+            console.log('render: site/login');
             var ctemplate = Handlebars.compile(template);
             var data = {};
             this.$el.append(ctemplate(data));

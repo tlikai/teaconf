@@ -81,7 +81,7 @@ body{background: #eee; color: #555;}
 .node-selector .caret{position: absolute; right: 12px;}
 .node-selector li{cursor: pointer;}
 
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; height: auto;}
 .btn, .btn-group, .dropdown-menu, .label, .badge, .pre, .popover, .alert, .uneditable-input, .form-search .input-append .search-query, .form-search .input-prepend .search-query, .table-bordered, .typeahead, .well, .breadcrumb, .pagination ul, .thumbnail, .progress, div.subnav, .nav-tabs > li > a, .input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child>.dropdown-toggle, .input-prepend .add-on:first-child, .input-prepend .btn:first-child, .btn-group>.btn:first-child{-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;}
 
 .breadcrumb{background: white;}

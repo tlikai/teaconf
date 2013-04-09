@@ -16,7 +16,6 @@ define([
                 var root = location.protocol + "//" + location.host + URL_ROOT;
                 if (href.prop.slice(0, root.length) === root) {
                     evt.preventDefault();
-                    console.log(href.attr);
                     Backbone.history.navigate(href.attr, true);
                 }
             });

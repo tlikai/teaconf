@@ -15,13 +15,7 @@
                 <div class="navbar-inner">
                     <div class="container">
                         <a class="brand" href="#">TeaConf</a>
-                        <ul class="nav pull-right">
-                            <li><a href="#" class="name">likai</a></li>
-                            <li><a href="#">提醒</a></li>
-                            <li><a href="#">设置</a></li>
-                            <!--<li><img src="http://placekitten.com/40/40" /></li>-->
-                            <li><a href="?modal" data-toggle="modal">登录</a></li>
-                        </ul>
+                        <div id="topPanel"></div>
                     </div>
                 </div>
             </div>

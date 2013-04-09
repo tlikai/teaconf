@@ -15,7 +15,6 @@ define([
             return this;
         },
         renderTopics: function(){
-            console.log(this.filter);
             var filter = this.filter;
             require([
                 'collections/topics',
