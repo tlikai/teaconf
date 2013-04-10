@@ -8,15 +8,16 @@
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property string $secure_code
  * @property string $signature
  * @property string $avatar_small
  * @property string $avatar_middle
  * @property string $avatar_large
  * @property string $weibo
  * @property string $qq
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $last_posted_at
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $last_posted_at
  */
 class User extends ActiveRecord
 {
@@ -25,7 +26,7 @@ class User extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'user';
+		return '{{user}}';
 	}
 
 	/**
@@ -39,8 +40,8 @@ class User extends ActiveRecord
 			array('name', 'length', 'min' => 2, 'max' => 20),
             array('password', 'length', 'min' => 6),
             array('email', 'email'),
-			array('created_at, updated_at, last_posted_at', 'numerical', 'integerOnly' => true),
-			array('email, password, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max' => 255),
+			array('created_at, updated_at, last_posted_at', 'length', 'max'=>11),
+			array('email, password, secure_code, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max'=>255),
 
             // on create
             array('email', 'required', 'on' => 'create'),
@@ -70,15 +71,16 @@ class User extends ActiveRecord
 			'name' => '用户名',
 			'email' => '邮箱',
 			'password' => '密码',
+			'secure_code' => '重要操作安全码',
 			'signature' => '签名',
-			'avatar_small' => 'Avatar Small',
-			'avatar_middle' => 'Avatar Middle',
-			'avatar_large' => 'Avatar Large',
-			'weibo' => 'Weibo',
-			'qq' => 'Qq',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
-			'last_posted_at' => 'Last Posted At',
+			'avatar_small' => '小头像',
+			'avatar_middle' => '中头像',
+			'avatar_large' => '大头像',
+			'weibo' => 'weibo id',
+			'qq' => 'qq id',
+			'created_at' => '创建时间',
+			'updated_at' => '修改时间',
+			'last_posted_at' => '最后发帖时间',
 		);
 	}
 
@@ -104,15 +106,16 @@ class User extends ActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('password',$this->password,true);
+		$criteria->compare('secure_code',$this->secure_code,true);
 		$criteria->compare('signature',$this->signature,true);
 		$criteria->compare('avatar_small',$this->avatar_small,true);
 		$criteria->compare('avatar_middle',$this->avatar_middle,true);
 		$criteria->compare('avatar_large',$this->avatar_large,true);
 		$criteria->compare('weibo',$this->weibo,true);
 		$criteria->compare('qq',$this->qq,true);
-		$criteria->compare('created_at',$this->created_at);
-		$criteria->compare('updated_at',$this->updated_at);
-		$criteria->compare('last_posted_at',$this->last_posted_at);
+		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('last_posted_at',$this->last_posted_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

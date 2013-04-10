@@ -5,9 +5,9 @@
  *
  * The followings are the available columns in table 'topic_watch':
  * @property string $id
- * @property integer $topic_id
- * @property integer $user_id
- * @property integer $created_at
+ * @property string $topic_id
+ * @property string $user_id
+ * @property string $created_at
  */
 class TopicWatch extends ActiveRecord
 {
@@ -16,7 +16,7 @@ class TopicWatch extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'topic_watch';
+		return '{{topic_watch}}';
 	}
 
 	/**
@@ -27,7 +27,7 @@ class TopicWatch extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('topic_id, user_id, created_at', 'numerical', 'integerOnly'=>true),
+			array('topic_id, user_id, created_at', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, topic_id, user_id, created_at', 'safe', 'on'=>'search'),
@@ -77,9 +77,9 @@ class TopicWatch extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('topic_id',$this->topic_id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('created_at',$this->created_at);
+		$criteria->compare('topic_id',$this->topic_id,true);
+		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('created_at',$this->created_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -5,15 +5,15 @@
  *
  * The followings are the available columns in table 'user_auth':
  * @property string $id
- * @property integer $user_id
+ * @property string $user_id
  * @property string $provider
- * @property integer $provider_id
+ * @property string $provider_id
  * @property string $name
  * @property string $avatar
  * @property string $access_token
  * @property string $refersh_token
- * @property integer $expires
- * @property integer $created_at
+ * @property string $expires
+ * @property string $created_at
  */
 class UserAuth extends ActiveRecord
 {
@@ -22,7 +22,7 @@ class UserAuth extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'user_auth';
+		return '{{user_auth}}';
 	}
 
 	/**
@@ -33,9 +33,8 @@ class UserAuth extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, provider_id, expires, created_at', 'numerical', 'integerOnly'=>true),
-			array('provider, name, avatar', 'length', 'max'=>255),
-			array('access_token, refersh_token', 'length', 'max'=>255),
+			array('user_id, provider_id, expires, created_at', 'length', 'max'=>11),
+			array('provider, name, avatar, access_token, refersh_token', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, provider, provider_id, name, avatar, access_token, refersh_token, expires, created_at', 'safe', 'on'=>'search'),
@@ -91,15 +90,15 @@ class UserAuth extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('provider',$this->provider,true);
-		$criteria->compare('provider_id',$this->provider_id);
+		$criteria->compare('provider_id',$this->provider_id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('avatar',$this->avatar,true);
 		$criteria->compare('access_token',$this->access_token,true);
 		$criteria->compare('refersh_token',$this->refersh_token,true);
-		$criteria->compare('expires',$this->expires);
-		$criteria->compare('created_at',$this->created_at);
+		$criteria->compare('expires',$this->expires,true);
+		$criteria->compare('created_at',$this->created_at,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

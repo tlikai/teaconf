@@ -5,19 +5,19 @@
  *
  * The followings are the available columns in table 'topic':
  * @property string $id
- * @property integer $node_id
+ * @property string $node_id
  * @property string $title
  * @property string $content
- * @property integer $created_at
+ * @property string $created_at
  * @property string $created_by
- * @property integer $creator_id
- * @property integer $last_posted_at
+ * @property string $creator_id
+ * @property string $last_posted_at
  * @property string $last_posted_by
- * @property integer $last_poster_id
- * @property integer $views
- * @property integer $posts_count
- * @property integer $watch_count
- * @property integer $likes_count
+ * @property string $last_poster_id
+ * @property string $views
+ * @property string $posts_count
+ * @property string $watch_count
+ * @property string $likes_count
  */
 class Topic extends ActiveRecord
 {
@@ -26,7 +26,7 @@ class Topic extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'topic';
+		return '{{topic}}';
 	}
 
 	/**
@@ -38,13 +38,10 @@ class Topic extends ActiveRecord
 		// will receive user inputs.
 		return array(
             array('node_id, title, content', 'required', 'on' => 'create'),
-
-			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'numerical', 'integerOnly'=>true),
+			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>255),
 			array('created_by, last_posted_by', 'length', 'max'=>20),
 			array('content', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, node_id, title, content, created_at, created_by, creator_id, last_posted_at, last_posted_by, last_poster_id, views, posts_count, watch_count, likes_count', 'safe', 'on'=>'search'),
 		);
 	}
@@ -71,34 +68,21 @@ class Topic extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'node_id' => '节点',
+			'node_id' => '所属节点',
 			'title' => '标题',
 			'content' => '内容',
-			'created_at' => 'Created At',
-			'created_by' => 'Created By',
-			'creator_id' => 'Creator',
-			'last_posted_at' => 'Last Posted At',
-			'last_posted_by' => 'Last Posted By',
-			'last_poster_id' => 'Last Poster',
-			'views' => 'Views',
-			'posts_count' => 'Posts Count',
-			'watch_count' => 'Watch Count',
+			'created_at' => '创建时间',
+			'created_by' => '创建人',
+			'creator_id' => '创建人ID',
+			'last_posted_at' => '最后回复时间',
+			'last_posted_by' => '最后回复人',
+			'last_poster_id' => '最后回复人ID',
+			'views' => '查看数',
+			'posts_count' => '回复数',
+			'watch_count' => '关注数',
 			'likes_count' => 'Likes Count',
 		);
 	}
-
-    public function behaviors()
-    {
-        return array(
-            'timestamp' => array(
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => null,
-                'timestampExpression' => time(),
-            ),
-        );
-    }
-
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -119,31 +103,25 @@ class Topic extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('node_id',$this->node_id);
+		$criteria->compare('node_id',$this->node_id,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('content',$this->content,true);
-		$criteria->compare('created_at',$this->created_at);
+		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('created_by',$this->created_by,true);
-		$criteria->compare('creator_id',$this->creator_id);
-		$criteria->compare('last_posted_at',$this->last_posted_at);
+		$criteria->compare('creator_id',$this->creator_id,true);
+		$criteria->compare('last_posted_at',$this->last_posted_at,true);
 		$criteria->compare('last_posted_by',$this->last_posted_by,true);
-		$criteria->compare('last_poster_id',$this->last_poster_id);
-		$criteria->compare('views',$this->views);
-		$criteria->compare('posts_count',$this->posts_count);
-		$criteria->compare('watch_count',$this->watch_count);
-		$criteria->compare('likes_count',$this->likes_count);
+		$criteria->compare('last_poster_id',$this->last_poster_id,true);
+		$criteria->compare('views',$this->views,true);
+		$criteria->compare('posts_count',$this->posts_count,true);
+		$criteria->compare('watch_count',$this->watch_count,true);
+		$criteria->compare('likes_count',$this->likes_count,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Topic the static model class
-	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
