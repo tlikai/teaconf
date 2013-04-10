@@ -24,6 +24,7 @@ require.config({
 
 require([
     'app'
-], function(App){
-    App.run();
+], function(app){
+    window.App = app;
+    window.App.run();
 });

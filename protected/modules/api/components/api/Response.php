@@ -28,7 +28,7 @@ class Response extends CComponent
         header("HTTP/1.1 {$status} {$label}");
         header("Content-Type: {$formatter::$mimeType}");
 
-        $body = empty($body) ? null : $formatter->encode($body);
+        $body = empty($body) ? null : is_string($body) ? $body : $formatter->encode($body);
         Yii::app()->end($body);
     }
 

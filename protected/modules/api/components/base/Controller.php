@@ -22,6 +22,11 @@ class Controller extends CController
         return new Response($status, $data, $format);
     }
 
+    protected function error($message, $status = Response::BAD_REQUEST)
+    {
+        $this->response(Yii::t('error', $message), $status);
+    }
+
 	/**
 	 * Returns the request parameters that will be used for action parameter binding.
 	 * By default, this method will return $_GET. You may override this method if you
@@ -71,7 +76,7 @@ class Controller extends CController
                 $name = $param->getName();
                 if(!isset($params[$name]) && !$param->isDefaultValueAvailable())
                 {
-                    $this->response(Yii::t('app', 'Invalid parameters: ' . $name), Response::BAD_REQUEST);
+                    $this->response(Yii::t('error', 'Invalid parameters {attribute}', array('{attribute}' => $name)), Response::BAD_REQUEST);
                 }
             }
         }

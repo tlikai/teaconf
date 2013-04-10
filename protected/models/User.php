@@ -33,15 +33,19 @@ class User extends ActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('created_at, updated_at, last_posted_at', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>20),
-			array('email, password, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, name, email, password, signature, avatar_small, avatar_middle, avatar_large, weibo, qq, created_at, updated_at, last_posted_at', 'safe', 'on'=>'search'),
+            // global
+            array('name, password', 'required'),
+			array('name', 'length', 'min' => 2, 'max' => 20),
+            array('password', 'length', 'min' => 6),
+            array('email', 'email'),
+			array('created_at, updated_at, last_posted_at', 'numerical', 'integerOnly' => true),
+			array('email, password, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max' => 255),
+
+            // on create
+            array('email', 'required', 'on' => 'create'),
+            array('name', 'unique', 'className' => 'User', 'message' => '{attribute}已被使用', 'on' => 'create'),
+            array('email', 'unique', 'className' => 'User', 'message' => '{attribute}已被使用', 'on' => 'create'),
 		);
 	}
 
@@ -63,10 +67,10 @@ class User extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'email' => 'Email',
-			'password' => 'Password',
-			'signature' => 'Signature',
+			'name' => '用户名',
+			'email' => '邮箱',
+			'password' => '密码',
+			'signature' => '签名',
 			'avatar_small' => 'Avatar Small',
 			'avatar_middle' => 'Avatar Middle',
 			'avatar_large' => 'Avatar Large',

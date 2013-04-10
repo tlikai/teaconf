@@ -16,30 +16,16 @@ class AvatarUtil
     const MIDDLE_SIZE = '48';
     const SMALL_SIZE = '48';
 
-    public static function fetch($email)
+    public static function gavatar($email)
     {
-        /**
-         * TODO 同步QQ头像
-        if(preg_match('/^([1-9][0-9]+@(vip)*qq\.com)|([1-9][0-9]@foxmail.com)$/', $email))
-        {
-            $qq = substr($email, 0, strpos($email, '@'));
-            $avatar = 'http://face7.qun.qq.com/cgi/svr/face/getface?type=1&uin=' . $qq;
-            return $avatar;
-        }
-         */
-
-        $default = urlencode('');
+        $default = Yii::app()->params->user['defaultAvatar'];
         $email = md5(strtolower($email));
         $url = "http://www.gravatar.com/avatar/$email?d=$default&s=%d";
-        $headers = get_headers(sprintf($url, 10), true);
-        $type = $headers['Content-Type'];
-        if(in_array($type, array('image/jpeg', 'image/png')))
-            return array(
-                sprintf($url, self::LARGE_SIZE),
-                sprintf($url, self::MIDDLE_SIZE),
-                sprintf($url, self::SMALL_SIZE),
-            );
-        return array('', '', '');
+        return array(
+            sprintf($url, self::SMALL_SIZE),
+            sprintf($url, self::MIDDLE_SIZE),
+            sprintf($url, self::LARGE_SIZE),
+        );
     }
 
 }

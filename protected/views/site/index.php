@@ -14,7 +14,7 @@
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
-                        <a class="brand" href="#">TeaConf</a>
+                        <a class="brand" href="<?php echo Yii::app()->baseUrl; ?>/">TeaConf</a>
                         <div id="topPanel"></div>
                     </div>
                 </div>

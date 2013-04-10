@@ -3,6 +3,7 @@
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'teaconf',
+    'language' => 'zh_cn',
     'timeZone' => 'Asia/Shanghai',
     
     'preload' => array('log'),
@@ -22,6 +23,9 @@ return array(
     ),
     
     'components' => array(
+        'coreMessages' => array(
+            'basePath' => null,
+        ),
         'user' => array(
             'allowAutoLogin' => true,
         ),
@@ -37,6 +41,14 @@ return array(
                 array('api/<controller>/read', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'GET'),
                 array('api/<controller>/update', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'PUT'),
                 array('api/<controller>/delete', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'DELETE'),
+
+                // user services
+                array('api/user/login', 'pattern' => 'api/login', 'verb' => 'POST'),
+                array('api/user/authenticate', 'pattern' => 'api/authenticate', 'verb' => 'GET'),
+                array('api/user/logout', 'pattern' => 'api/logout', 'verb' => 'DELETE'),
+                array('api/user/register', 'pattern' => 'api/register', 'verb' => 'POST'),
+                array('api/user/resetPassword', 'pattern' => 'api/resetPassword', 'verb' => 'PUT'),
+
 
                 // topic services
                 array('topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
@@ -84,6 +96,9 @@ return array(
     'params' => array(
         'time' => array(
             'format' => 'ago',
+        ),
+        'user' => array(
+            'defaultAvatar' => '/public/avatar/default.png',
         ),
         'adminEmail' => 'webmaster@example.com'
     )

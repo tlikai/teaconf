@@ -12,7 +12,7 @@ class ApiModule extends CWebModule
             'api.models.*',
             'api.components.api.*',
             'api.components.base.*',
-            'api.components.util.*',
+            'api.components.utils.*',
         ));
     }
     

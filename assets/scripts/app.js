@@ -5,17 +5,28 @@ define([
     'backbone',
     'router'
 ], function($, Bootstrap, _, Backbone, Router){
-    return {
+    var app = {
         run: function(){
+            this.initialize();
+            Router.start();
+        },
+        initialize: function(){
             this.initUser();
             this.initEvents();
-            Router.initialize();
+
+            $.ajaxSetup({
+                dataType: 'json'
+            }, true);
         },
         initUser: function(){
+            var self = this;
             require([
+                'models/user',
                 'views/site/topPanel'
-            ], function(View){
-                var view = new View();
+            ], function(User, View){
+                self.user = new User();
+                var view = new View({model: self.user});
+                self.user.authenticate();
                 view.render();
             });
         },
@@ -32,4 +43,5 @@ define([
             });
         }
     };
+    return _.extend(app, Backbone.Events);
 });

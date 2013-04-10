@@ -71,6 +71,7 @@ body{background: #eee; color: #555;}
 
 
 
+.modal form{margin: 0;}
 .modal-header h3{font-size: 20px; line-height: 20px;}
 .modal-body .control-group:last-child{margin-bottom: 0;}
 

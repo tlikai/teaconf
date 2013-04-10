@@ -37,6 +37,8 @@ class Topic extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+            array('node_id, title, content', 'required', 'on' => 'create'),
+
 			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
 			array('created_by, last_posted_by', 'length', 'max'=>20),
@@ -69,9 +71,9 @@ class Topic extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'node_id' => 'Node',
-			'title' => 'Title',
-			'content' => 'Content',
+			'node_id' => '节点',
+			'title' => '标题',
+			'content' => '内容',
 			'created_at' => 'Created At',
 			'created_by' => 'Created By',
 			'creator_id' => 'Creator',
