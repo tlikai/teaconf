@@ -1,33 +1,53 @@
 <?php
+/**
+ * UserIdentity class file.
+ *
+ * @author likai<youyuge@gmail.com>
+ * @link http://www.youyuge.com/
+ */
 
 /**
- * UserIdentity represents the data needed to identity a user.
- * It contains the authentication method that checks if the provided
- * data can identity the user.
+ UserIdentity
+ *
+ * @author likai<youyuge@gmail.com>
+ * @version $Id$
  */
 class UserIdentity extends CUserIdentity
 {
-    /**
-     * Authenticates a user.
-     * The example implementation makes sure if the username and password
-     * are both 'demo'.
-     * In practical applications, this should be changed to authenticate
-     * against some persistent user identity storage (e.g. database).
-     * @return boolean whether authentication succeeds.
-     */
-    public function authenticate()
+    public $id;
+
+    public function __construct($id, $password)
     {
-        $users = array(
-            // username => password
-            'demo' => 'demo',
-            'admin' => 'admin'
-        );
-        if (!isset($users[$this->username]))
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        elseif ($users[$this->username] !== $this->password)
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
+        $this->id = $this->username = $id;
+        $this->password = $password;
+    }
+
+	/**
+	 * Authenticates a user.
+	 * The example implementation makes sure if the username and password
+	 * are both 'demo'.
+	 * In practical applications, this should be changed to authenticate
+	 * against some persistent user identity storage (e.g. database).
+	 * @return boolean whether authentication succeeds.
+	 */
+	public function authenticate()
+	{
+        $user = User::model()->findById($this->id);
+        if(!$user)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+        elseif(!Bcrypt::verify($this->password, $user->password))
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
         else
-            $this->errorCode = self::ERROR_NONE;
-        return !$this->errorCode;
+        {
+            $this->id = $user->id;
+            $this->username = $user->name;
+			$this->errorCode = self::ERROR_NONE;
+        }
+		return !$this->errorCode;
+	}
+
+    public function getId()
+    {
+        return $this->id;
     }
 }
