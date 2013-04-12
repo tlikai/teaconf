@@ -7,6 +7,12 @@ define([
     'text!templates/node/list.html'
 ], function($, _, Backbone, Handlebars, Nodes, template){
     return Backbone.View.extend({
+        id: 'nodeListModal',
+        events: {
+            'click .node-section a': function(e){
+                this.$el.find('.modal').modal('hide');
+            }
+        },
         render: function(){
             console.log('render: node/list');
             var self = this;

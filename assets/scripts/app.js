@@ -13,10 +13,8 @@ define([
         initialize: function(){
             this.initUser();
             this.initEvents();
+            this.initComponents();
 
-            $.ajaxSetup({
-                dataType: 'json'
-            }, true);
         },
         initUser: function(){
             var self = this;
@@ -39,6 +37,22 @@ define([
                 ], function(View){
                     var view = new View();
                     view.render();
+                });
+            });
+        },
+        initComponents: function(){
+            $.ajaxSetup({
+                dataType: 'json'
+            }, true);
+
+            // register handlebars helpers
+            require([
+                'handlebars',
+            ], function(Handlebars){
+                Handlebars.registerHelper('loginRequire', function(route){
+                    if(!App.user.get('isGuest'))
+                        return route;
+                    return 'site/login';
                 });
             });
         }

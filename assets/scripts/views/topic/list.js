@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'handlebars',
+    'models/node',
     'text!templates/topic/list.html'
-], function($, _, Backbone, Handlebars, template){
+], function($, _, Backbone, Handlebars, Node, template){
     return Backbone.View.extend({
         el: $('#container'),
         initialize: function(){
@@ -16,6 +17,13 @@ define([
                 node: this.collection.node,
                 user: App.user.toJSON()
             };
+
+            Handlebars.registerHelper('nodePath', function(node) {
+                if(node)
+                    return '/node/' + node;
+                return '';
+            });
+
             this.$el.html(ctemplate(data));
             this.setActive(this.collection.filter);
             this.renderTopics();
