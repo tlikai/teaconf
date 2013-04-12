@@ -43,18 +43,18 @@ class TopicController extends Controller
      * uri: /topics
      * method: POST
      *
-     * @param integer $nodeId
+     * @param integer $node
      * @param string $title
      * @param string $content
      */
-    public function actionCreate($nodeId, $title, $content)
+    public function actionCreate($node, $title, $content)
     {
         if(!Yii::app()->user->checkAccess('createTopic'))
             $this->response('Permission Denied', Response::BAD_REQUEST);
 
-        $topic = new Topic();
+        $topic = new Topic('create');
         $topic->setAttributes(array(
-            'node_id' => $nodeId,
+            'node_id' => $node,
             'title' => $title,
             'content' => $content,
             'creator_id' => Yii::app()->user->id,

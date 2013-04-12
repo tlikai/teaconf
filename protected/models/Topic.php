@@ -34,15 +34,14 @@ class Topic extends ActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-            array('node_id, title, content', 'required', 'on' => 'create'),
+            array('node_id', 'exist', 'className' => 'Node', 'attributeName' => 'id', 'message' => 'Invalid node', 'on' => array('create', 'update')),
+            array('node_id, title, content', 'required', 'on' => array('create', 'update')),
+
+            array('content', 'length', 'min' => 10),
 			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>255),
-			array('created_by, last_posted_by', 'length', 'max'=>20),
-			array('content', 'safe'),
-			array('id, node_id, title, content, created_at, created_by, creator_id, last_posted_at, last_posted_by, last_poster_id, views, posts_count, watch_count, likes_count', 'safe', 'on'=>'search'),
+			array('created_by, last_posted_by', 'length', 'max' => 20),
 		);
 	}
 

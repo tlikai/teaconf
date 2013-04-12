@@ -26,8 +26,14 @@ return array(
         'coreMessages' => array(
             'basePath' => null,
         ),
+
         'user' => array(
+            'class' => 'WebUser',
             'allowAutoLogin' => true,
+        ),
+
+        'authManager' => array(
+            'class' => 'AuthManager',
         ),
 
         'urlManager' => array(
