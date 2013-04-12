@@ -116,4 +116,11 @@ class Node extends ActiveRecord
             'order' => 'listorder DESC, id DESC',
         );
     }
+
+    public static function findByAlias($alias)
+    {
+        return self::model()->findByAttributes(array(
+            'alias' => $alias,
+        ));
+    }
 }

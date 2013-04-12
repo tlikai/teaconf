@@ -19,7 +19,7 @@ class TopicController extends Controller
      *
      * @param string $filter
      */
-	public function actionList($filter = 'popular', $node = 0)
+	public function actionList($filter = 'popular', $node = null)
 	{
         $topics = new Topic();
         if(in_array($filter, array('popular', 'recent', 'suggest')))
@@ -27,9 +27,13 @@ class TopicController extends Controller
         elseif($filter == 'watched')
             $topics->watched(Yii::app()->user->id);
         if(!empty($node))
-            $topics->node($node);
-        $dataProvider = $topics->createDataProvider();
+        {
+            $node = Node::findByAlias($node);
+            if($node)
+                $topics->node($node->id);
+        }
 
+        $dataProvider = $topics->createDataProvider();
         $this->response($dataProvider->data);
     }
 
