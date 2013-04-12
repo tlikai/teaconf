@@ -39,9 +39,8 @@ class Section extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+            'nodes' => array(self::HAS_MANY, 'Node', 'section_id'),
 		);
 	}
 
@@ -94,4 +93,19 @@ class Section extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getIteratorAttributes()
+    {
+        $attributes = parent::getIteratorAttributes();
+        return array_merge($attributes, array(
+            'nodes' => $this->nodes,
+        ));
+    }
+
+    public function defaultScope()
+    {
+        return array(
+            'order' => 'listorder DESC, id DESC',
+        );
+    }
 }

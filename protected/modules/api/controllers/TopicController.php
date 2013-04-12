@@ -28,8 +28,7 @@ class TopicController extends Controller
             $topics->watched(Yii::app()->user->id);
         if(!empty($node))
             $topics->node($node);
-
-        $dataProvider = new ActiveDataProvider($topics);
+        $dataProvider = $topics->createDataProvider();
 
         $this->response($dataProvider->data);
     }

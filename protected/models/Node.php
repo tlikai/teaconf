@@ -109,4 +109,11 @@ class Node extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function defaultScope()
+    {
+        return array(
+            'order' => 'listorder DESC, id DESC',
+        );
+    }
 }

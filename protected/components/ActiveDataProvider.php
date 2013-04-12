@@ -15,4 +15,15 @@ class ActiveDataProvider extends CActiveDataProvider
         $pagination->currentPage = intval(isset($_REQUEST['page']) ? $_REQUEST['page'] : 1);
         return $pagination;
     }
+
+    protected function fetchData()
+    {
+        $data = parent::fetchData();
+        return array(
+            'page' => intval($this->pagination->currentPage),
+            'limit' => intval($this->pagination->pageSize),
+            'total' => intval($this->pagination->itemCount),
+            'data' => $data,
+        );
+    }
 }

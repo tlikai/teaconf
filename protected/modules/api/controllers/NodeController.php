@@ -10,10 +10,8 @@ class NodeController extends Controller
      */
 	public function actionList()
 	{
-        $dataProvider = new CActiveDataProvider('Node', array(
-            'criteria' => array(),
-        ));
-
+        $section = new Section();
+        $dataProvider = $section->createDataProvider();
         $this->response($dataProvider->data);
     }
 

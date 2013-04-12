@@ -8,11 +8,12 @@ class PostController extends Controller
      * uri: /posts
      * method: GET
      *
-     * @param integer $id
+     * @param integer $id topic_id
      */
 	public function actionList($id)
 	{
-        $dataProvider = new CActiveDataProvider('Post', array(
+        $post = new Post();
+        $dataProvider = $post->createDataProvider(array(
             'criteria' => array(
                 'condition' => 'topic_id = :id',
                 'params' => array(

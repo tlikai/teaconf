@@ -21,6 +21,16 @@ class ActiveRecord extends CActiveRecord
         return $error[0];
     }
 
+    public function createDataProvider($config = array())
+    {
+        if(!empty($config['criteria']))
+        {
+            $this->getDbCriteria()->mergeWith($config['criteria']);
+            $config['criteria'] = $this->getDbCriteria();
+        }
+        return new ActiveDataProvider($this, $config);
+    }
+
     public function getIterator()
     {
         $attributes = $this->getIteratorAttributes();
