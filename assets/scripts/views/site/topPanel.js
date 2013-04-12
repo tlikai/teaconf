@@ -14,7 +14,7 @@ define([
             console.log('render: site/topPanel');
             var ctemplate = Handlebars.compile(template);
             var data = {
-                user: App.user.toJSON(),
+                user: App.user.toJSON()
             };
             console.log('login:', data);
             this.$el.html(ctemplate(data));

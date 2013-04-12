@@ -1,12 +1,16 @@
 <div class="toolbar clearfix">
     <ul class="nav nav-pills pull-left">
-        <li class="popular"><a href="/topics/popular">热议</a></li>
-        <li class="recent"><a href="/topics/recent">最新</a></li>
-        <li class="watch"><a href="/topics/watch">关注</a></li>
-        <li class="suggest"><a href="/topics/suggest">推荐</a></li>
+        <li class="popular"><a href="/popular">热议</a></li>
+        <li class="recent"><a href="/recent">最新</a></li>
+        <li class="watch"><a href="/watch">关注</a></li>
+        <li class="suggest"><a href="/suggest">推荐</a></li>
         <li><a href="javascript:;" modal="node/list">节点</a></li>
     </ul>
+    {{#if user.isGuest}}
     <button class="btn btn-default pull-right" modal="topic/create"><i class="icon icon-plus"></i>创建主题</button>
+    {{else}}
+    <button class="btn btn-default pull-right" modal="site/login"><i class="icon icon-plus"></i>创建主题</button>
+    {{/if}}
 </div>
 <div class="row">
     <div class="main">

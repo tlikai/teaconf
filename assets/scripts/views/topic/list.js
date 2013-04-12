@@ -3,38 +3,36 @@ define([
     'underscore',
     'backbone',
     'handlebars',
-    'text!templates/topic/index.html'
+    'text!templates/topic/list.html'
 ], function($, _, Backbone, Handlebars, template){
     return Backbone.View.extend({
         el: $('#container'),
-        node: null,
-        page: null,
-        filter: null,
+        initialize: function(){
+            this.listenTo(this.collection, 'change', this.render);
+        },
         render: function(){
             var ctemplate = Handlebars.compile(template);
-            this.$el.html(ctemplate());
-            this.$('.' + this.filter).addClass('active');
+            var data = {
+                node: this.collection.node,
+                user: App.user.toJSON()
+            };
+            this.$el.html(ctemplate(data));
+            this.setActive(this.collection.filter);
             this.renderTopics();
             return this;
         },
+        setActive: function(filter){
+            this.$('.' + filter).addClass('active');
+        },
         renderTopics: function(){
-            var node = this.node;
-            var page = this.page;
-            var filter = this.filter;
+            var self = this;
             require([
-                'collections/topics',
                 'views/topic/item'
-            ], function(Topics, Item){
-                var topics = new Topics();
-                topics.fetch({
-                    data: {
-                        node: node,
-                        page: page,
-                        filter: filter
-                    },
-                    success: function(){
+            ], function(View){
+                self.collection.fetch({
+                    success: function(topics){
                         topics.each(function(topic){
-                            var view = new Item({
+                            var view = new View({
                                 el: this.$('.main .topics'),
                                 model: topic 
                             });

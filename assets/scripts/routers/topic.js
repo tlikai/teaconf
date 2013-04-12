@@ -4,23 +4,34 @@ define([
     'backbone',
 ], function($, _, Backbone){
     return Backbone.Router.extend({
+        initialize: function(){
+            this.route(/(popular|recent|watch|suggest)\/*(\d+)*/, 'index');
+            this.route(/node\/(\w+)\/*(popular|recent|watch|suggest)*\/*(\d+)*/, 'node');
+        },
         routes: {
             '': 'index',
-            'topics/:filter': 'list',
             'topic/create': 'create',
             'topic/:id': 'view'
         },
-        index: function(){
-            console.log('route: topic/index');
-            this.list('popular');
+        index: function(filter, page){
+            this.list(null, filter, page);
         },
-        list: function(filter){
-            console.log('route: topic/list');
+        node: function(node, filter, page){
+            this.list(node, filter, page);
+        },
+        list: function(node, filter, page){
+            console.log('node:', node);
+            console.log('filter:', filter);
+            console.log('page:', page);
             require([
-                'views/topic/index'
-            ], function(View){
-                var view = new View();
-                view.filter = filter;
+                'collections/topics',
+                'views/topic/list'
+            ], function(Topics, View){
+                var topics = new Topics();
+                topics.page = page || 0;
+                topics.node = node || null;
+                filter && (topics.filter = filter);
+                var view = new View({collection: topics});
                 view.render();
             });
         },
