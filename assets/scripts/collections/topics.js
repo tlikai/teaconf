@@ -8,7 +8,7 @@ define([
         model: Topic,
         page: 0,
         node: null,
-        filter: 'popular',
+        tab: 'popular',
         limit: null,
         fetch: function(options){
             options || (options = {});
@@ -16,8 +16,8 @@ define([
             _.extend(options.data, {
                 page: this.page,
                 limit: this.limit,
-                node: this.node,
-                filter: this.filter
+                node_alias: this.node,
+                tab: this.tab
             });
 
             return Backbone.Collection.prototype.fetch.call(this, options);

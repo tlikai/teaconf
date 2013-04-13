@@ -11,6 +11,7 @@
  */
 class Response extends CComponent
 {
+    /*
     const OK = 200;
     const CREATED = 201;
     const BAD_REQUEST = 400;
@@ -19,18 +20,7 @@ class Response extends CComponent
     const SERVER_ERROR = 500;
     const UPDATED = 200;
     const DELETED = 204;
-
-    public function __construct($status, $body, $format = null)
-    {
-        $label = self::$statusLabels[$status];
-        
-        $formatter = Formatter::factory($format);
-        header("HTTP/1.1 {$status} {$label}");
-        header("Content-Type: {$formatter::$mimeType}");
-
-        $body = empty($body) ? null : is_string($body) ? $body : $formatter->encode($body);
-        Yii::app()->end($body);
-    }
+     */
 
     public static $statusLabels = array(
         100 => 'Continue',
@@ -75,4 +65,61 @@ class Response extends CComponent
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
     );
+
+    public function __construct($status, $body, $format = Formatter::JSON)
+    {
+        $label = self::$statusLabels[$status];
+        
+        $formatter = Formatter::factory($format);
+        header("HTTP/1.1 {$status} {$label}");
+        header("Content-Type: {$formatter::$mimeType}");
+
+        $body = empty($body) ? null : is_string($body) ? $body : $formatter->encode($body);
+        Yii::app()->end($body);
+    }
+
+    public static function ok($body = null)
+    {
+        new self(200, $body);
+    }
+
+    public static function created($body = null)
+    {
+        new self(201, $body);
+    }
+
+    public static function updated($body = null)
+    {
+        self::ok($body);
+    }
+
+    public static function deleted($body = null)
+    {
+        new self(204, $body);
+    }
+
+    public static function badRequest($body = null)
+    {
+        new self(400, $body);
+    }
+
+    public static function unAuthorized($body = null)
+    {
+        new self(401, $body);
+    }
+
+    public static function forbidden($body = null)
+    {
+        new self(403, $body);
+    }
+
+    public static function notFound($body = null)
+    {
+        new self(404, $body);
+    }
+
+    public static function serverError($body)
+    {
+        new self(500, $body);
+    }
 }

@@ -27,7 +27,7 @@ class UserController extends Controller
     public function actionRegister($email, $name, $password)
     {
         if(!Yii::app()->user->getIsGuest())
-            $this->response('Logged', Response::BAD_REQUEST);
+            Response::forbidden('Has logged');
 
         $passwordHash = Bcrypt::hash(trim($password));
         $user = new User('create');
@@ -43,10 +43,10 @@ class UserController extends Controller
                 $identity = new UserIdentity($user->id, $user->password);
                 $identity->username = $user->name;
                 Yii::app()->user->login($identity);
-                $this->response($user, Response::OK);
+                Response::ok($user);
             }
         }
-        $this->response($user->getErrorMessage(), Response::BAD_REQUEST);
+        Response::badRequest($user->getFirstError());
     }
 
     /**
@@ -62,16 +62,16 @@ class UserController extends Controller
 	public function actionLogin($id, $password, $rememberMe = false)
 	{
         if(!Yii::app()->user->getIsGuest())
-            $this->error('Logged', Response::BAD_REQUEST);
+            Response::forbidden('Has logged');
 
         $identity = new UserIdentity($id, $password);
         if($identity->authenticate())
         {
 			$duration = $rememberMe ? 3600 * 24 * 30 : 0; // 30 days
             Yii::app()->user->login($identity, $duration);
-            $this->response(User::model()->findByPk($identity->id), Response::OK);
+            Response::ok($this->loadModel($identity->id));
         }
-        $this->error('Invalid ID or password', Response::BAD_REQUEST);
+        Response::badRequest('Invalid ID or password');
 	}
 
     /**
@@ -81,10 +81,10 @@ class UserController extends Controller
     {
         if(!Yii::app()->user->getIsGuest())
         {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            $this->response($user, Response::OK);
+            $user = $this->loadModel(Yii::app()->user->id);
+            Response::ok($user);
         }
-        $this->error('Unauthorized', Response::UNAUTHORIZED);
+        Response::unAuthorized();
     }
 
     /**
@@ -96,9 +96,9 @@ class UserController extends Controller
 	public function actionLogout()
 	{
         if(Yii::app()->user->getIsGuest())
-            $this->error('Unauthorized', Response::BAD_REQUEST);
+            Response::unAuthorized();
 		Yii::app()->user->logout();
-        $this->response('Success', Response::OK);
+        Response::ok();
 	}
 
     /**
@@ -111,9 +111,7 @@ class UserController extends Controller
      */
     public function actionReserveRestPassword($email)
     {
-        $user = User::model()->findById($email);
-        if(!$user)
-            $this->response('Unknow user', Response::BAD_REQUEST);
+        $user = $this->loadModel($userId);
         $code = User::generateSecureCode();
         $expires = time() + self::RESET_PASSWORD_EXPIRES;
         $url = Yii::app()->createAbsoluteUrl('user/actionRestPassword') . '?' . http_build_query(array( 
@@ -127,7 +125,7 @@ class UserController extends Controller
             echo $url;
             // TODO send mail
         else
-            $this->response('Unknow error', Response::SERVER_ERROR);
+            Response::serverError();
     }
 
     /**
@@ -144,15 +142,27 @@ class UserController extends Controller
      */
     public function actionResetPassword($userId, $code, $expires, $sign, $password)
     {
-        $user = User::model()->findByPk($userId);
-        if(!$user)
-            $this->response('Unknow user', Response::BAD_REQUEST);
+        $user = $this->loadModel($userId);
         if(md5($userId . $code . $expires) != $sign || time() - $expires > self::RESET_PASSWORD_EXPIRES  || $code != $user->secure_code)
-            $this->response('Token failed or expired', Response::BAD_REQUEST);
+            Response::badRequest('Token failed or expired');
         $password = Bcrypt::hash($password);
         $user->password = $password;
         if($user->save())
-            $this->response('Reset password success', Response::OK);
-        $this->response('Reset password failed', Response::SERVER_ERROR);
+            Response::ok('Reset password success');
+        Response::serverError('Reset password failed');
+    }
+
+    /**
+     * 加载用户模型
+     *
+     * @param integer $id
+     * @return User
+     */
+    public function loadModel($id)
+    {
+        $model = User::model()->findByPk($id);
+        if($model === null)
+            Response::notFound('The user does not exist');
+        return $model;
     }
 }

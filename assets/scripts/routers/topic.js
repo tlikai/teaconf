@@ -13,15 +13,15 @@ define([
             'topic/create': 'create',
             'topic/:id': 'view'
         },
-        index: function(filter, page){
-            this.list(null, filter, page);
+        index: function(tab, page){
+            this.list(null, tab, page);
         },
-        node: function(node, filter, page){
-            this.list(node, filter, page);
+        node: function(node, tab, page){
+            this.list(node, tab, page);
         },
-        list: function(node, filter, page){
+        list: function(node, tab, page){
             console.log('node:', node);
-            console.log('filter:', filter);
+            console.log('tab:', tab);
             console.log('page:', page);
             require([
                 'collections/topics',
@@ -30,7 +30,7 @@ define([
                 var topics = new Topics();
                 topics.page = page || 0;
                 topics.node = node || null;
-                filter && (topics.filter = filter);
+                tab && (topics.tab = tab);
                 var view = new View({collection: topics});
                 view.render();
             });

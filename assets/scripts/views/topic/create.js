@@ -14,7 +14,7 @@ define([
                 var $alert = this.$('.alert');
                 var $modal = this.$('.modal');
                 var attrs = {
-                    node: this.$('select[name=node]').val(),
+                    node_id: this.$('select[name=node]').val(),
                     title: this.$('input[name=title]').val(),
                     content: this.$('textarea[name=content]').val()
                 };

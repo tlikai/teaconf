@@ -14,21 +14,11 @@
  */
 class ActiveRecord extends CActiveRecord
 {
-    public function getErrorMessage()
+    public function getFirstError()
     {
         $errors = $this->getErrors();
         $error = array_shift($errors);
         return $error[0];
-    }
-
-    public function createDataProvider($config = array())
-    {
-        if(!empty($config['criteria']))
-        {
-            $this->getDbCriteria()->mergeWith($config['criteria']);
-            $config['criteria'] = $this->getDbCriteria();
-        }
-        return new ActiveDataProvider($this, $config);
     }
 
     public function getIterator()

@@ -8,21 +8,14 @@ class PostController extends Controller
      * uri: /posts
      * method: GET
      *
-     * @param integer $id topic_id
+     * @param integer $topic_id
      */
-	public function actionList($id)
+	public function actionList($topic_id)
 	{
-        $post = new Post();
-        $dataProvider = $post->createDataProvider(array(
-            'criteria' => array(
-                'condition' => 'topic_id = :id',
-                'params' => array(
-                    ':id' => $id,
-                ),
-            ),
-        ));
-
-        $this->response($dataProvider->data);
+        $posts = new Post();
+        $posts->topic_id = $topic_id;
+        $dataProvider = $posts->createDataProvider();
+        Response::ok($dataProvider->data);
     }
 
     /**
@@ -31,27 +24,27 @@ class PostController extends Controller
      * uri: /posts
      * method: POST
      *
-     * @param integer $topicId
+     * @param integer $topic_id
      * @param string $content
      */
-    public function actionCreate($topicId, $content)
+    public function actionCreate($topic_id, $content)
     {
-        if(!Yii::app()->user->checkAccess('createPost'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
-        $topic = Topic::model()->findByPk($topicId);
+        Yii::app()->user->requirePermission('createPost');
+
+        $topic = Topic::model()->findByPk($topic_id);
         if($topic === null)
-            $this->response('Invalid Topic', Response::BAD_REQUEST);
+            Response::notFound('The topic does not exist');
 
-        $post = new Post();
-        $post->content = $content;
-        $post->topic_id = $topic->id;
-        $post->created_at = time();
-        $post->creator_id = Yii::app()->user->id;
-        $post->created_by = Yii::app()->user->name;
+        $model = new Post();
+        $model->content = $content;
+        $model->topic_id = $topic->id;
+        $model->created_at = time();
+        $model->creator_id = Yii::app()->user->id;
+        $model->created_by = Yii::app()->user->name;
 
-        if($post->save())
-            $this->response($post, Response::CREATED);
-        $this->response($post->getErrorMessage(), Response::BAD_REQUEST);
+        if($model->save())
+            Response::created($model);
+        Response::badRequest($model->getFirstError());
     }
 
     /**
@@ -65,17 +58,13 @@ class PostController extends Controller
      */
     public function actionUpdate($id, $content)
     {
-        $post = Post::model()->findByPk($id);
-        if($post === null)
-            $this->response('Invalid Post', Response::BAD_REQUEST);
+        $model = $this->loadModel($id);
+        Yii::app()->user->requirePermission('updatePost', array('post' => $model));
 
-        if(!Yii::app()->user->checkAccess('updatePost', array('post' => $post)))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
-
-        $post->content = $content;
-        if($post->save())
-            $this->response($post, Response::UPDATED);
-        $this->response($post->getErrorMessage(), Response::BAD_REQUEST);
+        $model->content = $content;
+        if($model->save())
+            Response::updated($model);
+        Response::badRequest($model->getFirstError());
     }
 
     /**
@@ -88,10 +77,8 @@ class PostController extends Controller
      */
     public function actionRead($id)
     {
-        $post = Post::model()->findByPk($id);
-        if($post === null)
-            $this->response('Invalid Post', Response::NOT_FOUND);
-        $this->response($post);
+        $model = $this->loadModel($id);
+        Response::ok($model);
     }
 
     /**
@@ -104,10 +91,19 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        if(!Yii::app()->user->checkAccess('deletePost'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
-        if(Post::model()->deleteAllByAttributes(array('id' => $id, 'creator_id' => Yii::app()->user->id)))
-            $this->response('Deleted', Response::DELETED);
-        $this->response('Invalid Post', Response::NOT_FOUND);
+        $model = $this->loadModel($id);
+        Yii::app()->user->requirePermission('deletePost', array('post' => $model));
+
+        if($model->delete())
+            Response::deleted();
+        Response::serverError();
+    }
+
+    public function loadModel($id)
+    {
+        $model = Post::model()->findByPk($id);
+        if($model === null)
+            Response::notFound('The post does not exist');
+        return $model;
     }
 }

@@ -67,39 +67,6 @@ class Node extends ActiveRecord
 	}
 
 	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('section_id',$this->section_id,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('alias',$this->alias,true);
-		$criteria->compare('describe',$this->describe,true);
-		$criteria->compare('listorder',$this->listorder,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
-		$criteria->compare('topics_count',$this->topics_count,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
-	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
@@ -123,4 +90,13 @@ class Node extends ActiveRecord
             'alias' => $alias,
         ));
     }
+
+	public function createDataProvider()
+	{
+		$criteria = new CDbCriteria();
+
+		return new ActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+	}
 }

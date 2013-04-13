@@ -27,7 +27,7 @@ define([
                 var posts = new Posts();
                 posts.fetch({
                     data: {
-                        id: topic.id,
+                        topic_id: topic.id,
                     },
                     success: function(){
                         posts.each(function(post){

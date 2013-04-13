@@ -83,44 +83,6 @@ class Topic extends ActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('node_id',$this->node_id,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('content',$this->content,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('created_by',$this->created_by,true);
-		$criteria->compare('creator_id',$this->creator_id,true);
-		$criteria->compare('last_posted_at',$this->last_posted_at,true);
-		$criteria->compare('last_posted_by',$this->last_posted_by,true);
-		$criteria->compare('last_poster_id',$this->last_poster_id,true);
-		$criteria->compare('views',$this->views,true);
-		$criteria->compare('posts_count',$this->posts_count,true);
-		$criteria->compare('watch_count',$this->watch_count,true);
-		$criteria->compare('likes_count',$this->likes_count,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -153,35 +115,32 @@ class Topic extends ActiveRecord
             'lastPoster' => $this->lastPoster,
         ));
     }
-    
-    /**
-     * scopes
-     */
-    public function scopes()
-    {
-        return array(
-            'recent' => array(
-                'order' => 'id DESC',
-            ),
-            'popular' => array(),
-            'suggest' => array(),
-        );
-    }
 
-    /**
-     * set node filter
-     *
-     * @param integer $id Node ID
-     * @reurn ActiveRecord
-     */
-    public function node($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'node_id = ?',
-            'params' => array($id),
-        ));
-        return $this;
-    }
+	public function createDataProvider($nodeAlias = null, $tab = null)
+	{
+		$criteria = new CDbCriteria();
+
+        // filter by node
+        if($nodeAlias !== null)
+        {
+            $node = Node::findByAlias($nodeAlias);
+            $node && $criteria->compare('node_id', $node->id);
+        }
+
+        // order
+        if($tab == 'popular')
+            ; // TODO implement me
+        elseif($tab == 'suggest')
+            ; // TODO implement me
+        elseif($tab == 'latest')
+            $criteria->order = 'id DESC';
+        elseif($tab == 'watched')
+            $this->watched(Yii::app()->user->id);
+
+		return new ActiveDataProvider($this, array(
+			'criteria' => $criteria,
+		));
+	}
 
     /**
      * set watched filter

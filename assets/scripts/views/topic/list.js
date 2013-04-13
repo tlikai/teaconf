@@ -25,12 +25,12 @@ define([
             });
 
             this.$el.html(ctemplate(data));
-            this.setActive(this.collection.filter);
+            this.setActive(this.collection.tab);
             this.renderTopics();
             return this;
         },
-        setActive: function(filter){
-            this.$('.' + filter).addClass('active');
+        setActive: function(tab){
+            this.$('.' + tab).addClass('active');
         },
         renderTopics: function(){
             var self = this;

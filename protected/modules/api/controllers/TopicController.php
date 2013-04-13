@@ -17,24 +17,14 @@ class TopicController extends Controller
      * uri: /topics
      * method: GET
      *
-     * @param string $filter
+     * @param string $node_alias
+     * @param string $tab
      */
-	public function actionList($filter = 'popular', $node = null)
+	public function actionList($node_alias = null, $tab = 'popular')
 	{
-        $topics = new Topic();
-        if(in_array($filter, array('popular', 'recent', 'suggest')))
-            $topics->$filter();
-        elseif($filter == 'watched')
-            $topics->watched(Yii::app()->user->id);
-        if(!empty($node))
-        {
-            $node = Node::findByAlias($node);
-            if($node)
-                $topics->node($node->id);
-        }
-
-        $dataProvider = $topics->createDataProvider();
-        $this->response($dataProvider->data);
+        $models = new Topic();
+        $dataProvider = $models->createDataProvider($node_alias, $tab);
+        Response::ok($dataProvider->data);
     }
 
     /**
@@ -43,27 +33,26 @@ class TopicController extends Controller
      * uri: /topics
      * method: POST
      *
-     * @param integer $node
+     * @param integer $node_id
      * @param string $title
      * @param string $content
      */
-    public function actionCreate($node, $title, $content)
+    public function actionCreate($node_id, $title, $content)
     {
-        if(!Yii::app()->user->checkAccess('createTopic'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
+        Yii::app()->user->requirePermission('createTopic');
 
-        $topic = new Topic('create');
-        $topic->setAttributes(array(
-            'node_id' => $node,
+        $model = new Topic('create');
+        $model->setAttributes(array(
+            'node_id' => $node_id,
             'title' => $title,
             'content' => $content,
             'creator_id' => Yii::app()->user->id,
             'created_by' => Yii::app()->user->name,
         ));
 
-        if($topic->save())
-            $this->response($topic, Response::CREATED);
-        $this->response($topic->getErrorMessage(), Response::BAD_REQUEST);
+        if($model->save())
+            Response::created($model);
+        Response::badRequest($model->getFirstError());
     }
 
     /**
@@ -78,16 +67,13 @@ class TopicController extends Controller
      */
     public function actionUpdate($id, $title, $content)
     {
-        $topic = Topic::model()->findByPk($id);
-        if($topic === null)
-            $this->response('Invalid Topic', Response::BAD_REQUEST);
-        if(!Yii::app()->user->checkAccess('updateTopic', array('topic' => $topic)))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
-        $topic->title = $title;
-        $topic->content = $content;
-        if($topic->save())
-            $this->response($topic, Response::UPDATED);
-        $this->response($topic->getErrorMessage(), Response::BAD_REQUEST);
+        $model = $this->loadModel($id);
+        Yii::app()->user->requirePermission('updateTopic', array('topic' => $model));
+        $model->title = $title;
+        $model->content = $content;
+        if($model->save())
+            Response::updated($model);
+        Response::badRequest($model->getFirstError());
     }
 
     /**
@@ -100,10 +86,8 @@ class TopicController extends Controller
      */
     public function actionRead($id)
     {
-        $topic = Topic::model()->findByPk($id);
-        if($topic === null)
-            $this->response('Invalid Topic', Response::NOT_FOUND);
-        $this->response($topic);
+        $model = $this->loadModel($id);
+        Response::ok($model);
     }
 
     /**
@@ -116,11 +100,12 @@ class TopicController extends Controller
      */
     public function actionDelete($id)
     {
-        if(!Yii::app()->user->checkAccess('deleteTopic'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
-        if(Topic::model()->deleteAllByAttributes(array('id' =>$id, 'creator_id' => Yii::app()->user->id)))
-            $this->response('Deleted', Response::DELETED);
-        $this->response('Invalid Topic', Response::NOT_FOUND);
+        $model = $this->loadModel($id);
+        Yii::app()->user->requirePermission('deleteTopic', array('topic' => $model));
+
+        if($model->delete())
+            Response::deleted();
+        Response::serverError();
     }
 
     /**
@@ -133,13 +118,12 @@ class TopicController extends Controller
      */
     public function actionWatch($id)
     {
-        if(!Yii::app()->user->checkAccess('watchTopic'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
+        Yii::app()->user->requirePermission('watchTopic');
         if(TopicWatch::hasWatched(Yii::app()->user->id, $id))
-            $this->response('Watched', Response::BAD_REQUEST);
+            Response::badRequest('watched');
         if(TopicWatch::watch(Yii::app()->user->id, $id))
-            $this->response('Created', Response::CREATED);
-        $this->response('BAFailed', 500);
+            Response::created();
+        Response::serverError();
     }
 
     /**
@@ -152,10 +136,24 @@ class TopicController extends Controller
      */
     public function actionUnwatch($id)
     {
-        if(!Yii::app()->user->checkAccess('unWatchTopic'))
-            $this->response('Permission Denied', Response::BAD_REQUEST);
+        Yii::app()->user->requirePermission('unWatchTopic');
+
         if(TopicWatch::unwatch(Yii::app()->user->id, $id))
-            $this->response('Deleted', Response::DELETED);
-        $this->response('Failed', 500);
+            Response::deleted();
+        Response::serverError();
+    }
+
+    /**
+     * 加载主题模型
+     *
+     * @param integer $id
+     * @return Topic
+     */
+    public function loadModel($id)
+    {
+        $model = Topic::model()->findByPk($id);
+        if($model === null)
+            Response::notFound('The topic does not exist');
+        return $model;
     }
 }
