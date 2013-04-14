@@ -14,19 +14,6 @@
  */
 class Controller extends CController
 {
-    protected $format = Formatter::JSON;
-
-    protected function response($data = null, $status = Response::OK, $format = null)
-    {
-        $format === null && $format = $this->format;
-        return new Response($status, $data, $format);
-    }
-
-    protected function error($message, $status = Response::BAD_REQUEST)
-    {
-        $this->response(Yii::t('error', $message), $status);
-    }
-
 	/**
 	 * Returns the request parameters that will be used for action parameter binding.
 	 * By default, this method will return $_GET. You may override this method if you
@@ -40,7 +27,7 @@ class Controller extends CController
         if($params === null)
         {
             if(strpos($_SERVER['CONTENT_TYPE'], 'json'))
-                $params = (array)json_decode(Yii::app()->request->getRawBody());
+                $params = (array)CJSON::decode(Yii::app()->request->getRawBody());
             else
             {
                 if($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -76,10 +63,10 @@ class Controller extends CController
                 $name = $param->getName();
                 if(!isset($params[$name]) && !$param->isDefaultValueAvailable())
                 {
-                    $this->response(Yii::t('error', 'Invalid parameters {attribute}', array('{attribute}' => $name)), Response::BAD_REQUEST);
+                    Response::badRequest(Yii::t('error', 'Invalid parameters {attribute}', array('{attribute}' => $name)));
                 }
             }
         }
-        $this->response(Yii::t('yii', 'Your request is invalid.'), Response::BAD_REQUEST);
+        Response::badRequest(Yii::t('yii', 'Your request is invalid.'));
 	}
 }

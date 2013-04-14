@@ -11,7 +11,6 @@
  * @property string $describe
  * @property string $listorder
  * @property string $created_at
- * @property string $updated_at
  * @property string $topics_count
  */
 class Node extends ActiveRecord
@@ -30,12 +29,12 @@ class Node extends ActiveRecord
 	public function rules()
 	{
 		return array(
-			array('section_id, listorder, created_at, updated_at, topics_count', 'length', 'max'=>11),
+			array('section_id, listorder, created_at, topics_count', 'length', 'max'=>11),
 			array('name, alias, describe', 'length', 'max'=>255),
 
             array('name, alias', 'unique'),
 
-			array('id, section_id, name, alias, describe, listorder, created_at, updated_at, topics_count', 'safe', 'on'=>'search'),
+			array('id, section_id, name, alias, describe, listorder, created_at, topics_count', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,7 +60,6 @@ class Node extends ActiveRecord
 			'describe' => '描述',
 			'listorder' => '排序',
 			'created_at' => '创建时间',
-			'updated_at' => '最后修改时间',
 			'topics_count' => '主题总数',
 		);
 	}
@@ -84,10 +82,10 @@ class Node extends ActiveRecord
         );
     }
 
-    public static function findByAlias($alias)
+    public static function findByAlias($value)
     {
         return self::model()->findByAttributes(array(
-            'alias' => $alias,
+            'alias' => $value,
         ));
     }
 

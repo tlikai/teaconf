@@ -12,9 +12,9 @@ class PostController extends Controller
      */
 	public function actionList($topic_id)
 	{
-        $posts = new Post();
-        $posts->topic_id = $topic_id;
-        $dataProvider = $posts->createDataProvider();
+        $model = new Post();
+        $model->topic_id = $topic_id;
+        $dataProvider = $model->createDataProvider();
         Response::ok($dataProvider->data);
     }
 
@@ -25,22 +25,24 @@ class PostController extends Controller
      * method: POST
      *
      * @param integer $topic_id
+     * @param integer $reply_id
      * @param string $content
      */
-    public function actionCreate($topic_id, $content)
+    public function actionCreate($topic_id, $content, $reply_id = null)
     {
         Yii::app()->user->requirePermission('createPost');
 
-        $topic = Topic::model()->findByPk($topic_id);
-        if($topic === null)
-            Response::notFound('The topic does not exist');
-
         $model = new Post();
+        $model->topic_id = $topic_id;
         $model->content = $content;
-        $model->topic_id = $topic->id;
-        $model->created_at = time();
         $model->creator_id = Yii::app()->user->id;
         $model->created_by = Yii::app()->user->name;
+
+        if(!empty($reply_id))
+        {
+            $this->loadModel($reply_id);
+            $model->reply_id = $reply_id;
+        }
 
         if($model->save())
             Response::created($model);

@@ -29,12 +29,26 @@ class Post extends ActiveRecord
 	public function rules()
 	{
 		return array(
-			array('topic_id, reply_id, created_at, creator_id, likes_count', 'length', 'max'=>11),
-			array('created_by', 'length', 'max'=>20),
-			array('content', 'safe'),
-			array('id, topic_id, reply_id, created_at, created_by, creator_id, content, likes_count', 'safe', 'on'=>'search'),
+            array('topic_id, content', 'required', 'on' => array('insert', 'update')),
+            array('topic_id', 'exist', 'className' => 'Topic', 'attributeName' => 'id', 'on' => array('insert', 'update')),
+            array('content', 'filter', 'filter' => 'strip_tags', 'on' => array('insert', 'update')),
+
+			array('topic_id, reply_id, created_at, creator_id, likes_count', 'length', 'max' => 11),
+			array('created_by', 'length', 'max' => 20),
 		);
 	}
+
+    public function behaviors()
+    {
+        return array(
+            'timestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => null,
+                'timestampExpression' => 'time()',
+            ),
+        );
+    }
 
 	/**
 	 * @return array relational rules.
@@ -42,6 +56,7 @@ class Post extends ActiveRecord
 	public function relations()
 	{
 		return array(
+            'topic' => array(self::BELONGS_TO, 'Topic', 'topic_id'),
             'author' => array(self::HAS_ONE, 'User', 'creator_id'),
 		);
 	}
@@ -54,7 +69,7 @@ class Post extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'topic_id' => '所属话题',
-			'reply_id' => '父级ID',
+			'reply_id' => '所属回复',
 			'created_at' => '创建时间',
 			'created_by' => '创建人',
 			'creator_id' => '创建人ID',
@@ -62,6 +77,18 @@ class Post extends ActiveRecord
 			'likes_count' => 'Likes Count',
 		);
 	}
+
+    public function behaviors()
+    {
+        return array(
+            'timestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'timestampExpression' => 'time()',
+            ),
+        );
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -73,6 +100,22 @@ class Post extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    protected function afterSave()
+    {
+        if($this->isNewRecord)
+        {
+            // 更新关联主题数据
+            Topic::model()->updateByPk($this->topic_id, array(
+                'posts_count' => new CDbExpression('posts_count + 1'),
+                'last_posted_at' => $this->created_at,
+                'last_posted_by' => $this->created_by,
+                'last_poster_id' => $this->creator_id,
+            ));
+
+            User::updateLastPostedAt($this->creator_id);
+        }
+    }
 
 	public function createDataProvider()
 	{

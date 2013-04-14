@@ -5,8 +5,8 @@ define([
 ], function($, _, Backbone){
     return Backbone.Router.extend({
         initialize: function(){
-            this.route(/(popular|recent|watch|suggest)\/*(\d+)*/, 'index');
-            this.route(/node\/(\w+)\/*(popular|recent|watch|suggest)*\/*(\d+)*/, 'node');
+            this.route(/(popular|latest|watch|suggest)\/*(\d+)*/, 'index');
+            this.route(/node\/(\w+)\/*(popular|latest|watch|suggest)*\/*(\d+)*/, 'node');
         },
         routes: {
             '': 'index',

@@ -133,6 +133,24 @@ class User extends ActiveRecord
 		return parent::model($className);
 	}
 
+    public function getIteratorAttributes()
+    {
+        $attributes = parent::getIteratorAttributes();
+        unset($attributes['email']);
+        unset($attributes['password']);
+        unset($attributes['weibo']);
+        unset($attributes['qq']);
+        unset($attributes['created_at']);
+        unset($attributes['updated_at']);
+        unset($attributes['last_posted_at']);
+        return $attributes;
+    }
+
+    public static function generateSecureCode()
+    {
+        return md5(StrUtil::random(10));
+    }
+
     /**
      * Find user by name or email
      *
@@ -150,21 +168,10 @@ class User extends ActiveRecord
         return $this->find("{$attribute} = :id", array(':id' => $id));
     }
 
-    public function getIteratorAttributes()
+    public static function updateLastPostedAt($id)
     {
-        $attributes = parent::getIteratorAttributes();
-        unset($attributes['email']);
-        unset($attributes['password']);
-        unset($attributes['weibo']);
-        unset($attributes['qq']);
-        unset($attributes['created_at']);
-        unset($attributes['updated_at']);
-        unset($attributes['last_posted_at']);
-        return $attributes;
-    }
-
-    public static function generateSecureCode()
-    {
-        return md5(StrUtil::random(10));
+        self::model()->updateByPk(array(
+            'last_posted_at' => time(),
+        ));
     }
 }

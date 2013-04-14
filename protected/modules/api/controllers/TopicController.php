@@ -22,8 +22,8 @@ class TopicController extends Controller
      */
 	public function actionList($node_alias = null, $tab = 'popular')
 	{
-        $models = new Topic();
-        $dataProvider = $models->createDataProvider($node_alias, $tab);
+        $model = new Topic();
+        $dataProvider = $model->createDataProvider($node_alias, $tab);
         Response::ok($dataProvider->data);
     }
 
@@ -41,7 +41,7 @@ class TopicController extends Controller
     {
         Yii::app()->user->requirePermission('createTopic');
 
-        $model = new Topic('create');
+        $model = new Topic();
         $model->setAttributes(array(
             'node_id' => $node_id,
             'title' => $title,

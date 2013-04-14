@@ -109,48 +109,60 @@ class TopicWatch extends ActiveRecord
         );
     }
 
+    protected function afterSave()
+    {
+        if($this->isNewRecord)
+            Topic::model()->updateCounters(array('watch_count' => 1), 'id =? ', array($this->topic_id));
+    }
+
     /**
      * create topic watch
      *
-     * @param integer $userId
-     * @param integer $topicId
+     * @param integer $user_id
+     * @param integer $topic_id
      * @return boolean
      */
-    public static function watch($userId, $topicId)
+    public static function watch($user_id, $topic_id)
     {
         $model = new self();
-        $model->user_id = $userId;
-        $model->topic_id = $topicId;
+        $model->user_id = $user_id;
+        $model->topic_id = $topic_id;
         return $model->save();
     }
 
     /**
      * delete topic watch
      *
-     * @param integer $userId
-     * @param integer $topicId
+     * @param integer $user_id
+     * @param integer $topic_id
      * @return boolean
      */
-    public static function unwatch($userId, $topicId)
+    public static function unwatch($user_id, $topic_id)
     {
-        return self::model()->deleteAllByAttributes(array(
-            'user_id' => $userId,
-            'topic_id' => $topicId,
+        $status = self::model()->deleteAllByAttributes(array(
+            'user_id' => $user_id,
+            'topic_id' => $topic_id,
         ));
+        if($status)
+        {
+            Topic::model()->updateCounters(array('watch_count' => -1), 'id =? ', array($topic_id));
+            return $status;
+        }
+        return false;
     }
 
     /**
      * has watched 
      *
-     * @param integer $userId
-     * @param integer $topicId
+     * @param integer $user_id
+     * @param integer $topic_id
      * @return boolean
      */
-    public static function hasWatched($userId, $topicId)
+    public static function hasWatched($user_id, $topic_id)
     {
-        return self::model()->findByAttributes(array(
-            'user_id' => $userId,
-            'topic_id' => $topicId,
+        return self::model()->exists(array(
+            'user_id' => $user_id,
+            'topic_id' => $topic_id,
         ));
     }
 }

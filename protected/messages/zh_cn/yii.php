@@ -51,7 +51,7 @@ return array (
   'Unable to resolve the request "{route}".' => '无法解析请求 "{route}"。',
   'Unknown type "{type}".' => '未知类型 "{type}"。',
   'Your request is invalid.' => '您的请求无效。',
-  '{attribute} "{value}" is invalid.' => '{attribute} "{value}" 无效。',
+  '{attribute} "{value}" is invalid.' => '{attribute}不存在。',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} 仅接受 {limit} 个以内的文件。',
   '{attribute} is in the list.' => '{attribute} 在列表中',
   '{attribute} must be either {true} or {false}.' => '{attribute} 必须为{true}或者{false}',

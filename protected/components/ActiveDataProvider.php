@@ -20,7 +20,6 @@ class ActiveDataProvider extends CActiveDataProvider
     {
         $data = parent::fetchData();
         return array(
-            'page' => intval($this->pagination->currentPage),
             'limit' => intval($this->pagination->pageSize),
             'total' => intval($this->pagination->itemCount),
             'data' => $data,

@@ -21,6 +21,11 @@
  */
 class Topic extends ActiveRecord
 {
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -35,8 +40,9 @@ class Topic extends ActiveRecord
 	public function rules()
 	{
 		return array(
-            array('node_id', 'exist', 'className' => 'Node', 'attributeName' => 'id', 'message' => 'Invalid node', 'on' => array('create', 'update')),
-            array('node_id, title, content', 'required', 'on' => array('create', 'update')),
+            array('node_id', 'exist', 'className' => 'Node', 'attributeName' => 'id', 'on' => array('insert', 'update')),
+            array('node_id, title, content', 'required', 'on' => array('insert', 'update')),
+            array('content', 'filter', 'filter' => 'strip_tags', 'on' => array('insert', 'update')),
 
             array('content', 'length', 'min' => 10),
 			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'length', 'max'=>11),
@@ -45,13 +51,23 @@ class Topic extends ActiveRecord
 		);
 	}
 
+    public function behaviors()
+    {
+        return array(
+            'timestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => null,
+                'timestampExpression' => 'time()',
+            ),
+        );
+    }
+
 	/**
 	 * @return array relational rules.
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
             'node' => array(self::BELONGS_TO, 'Node', 'node_id'),
             'posts' => array(self::HAS_MANY, 'Post', 'topic_id'),
@@ -83,26 +99,21 @@ class Topic extends ActiveRecord
 		);
 	}
 
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
     protected function beforeSave()
     {
         $return = parent::beforeSave();
-        if($this->getIsNewRecord())
+        if($this->isNewRecord)
         {
-            $this->last_poster_id = $this->creator_id;
-            $this->last_posted_at = $this->created_at;
-            $this->last_posted_by = $this->created_by;
+            empty($this->last_poster_id) && $this->last_poster_id = $this->creator_id;
+            empty($this->last_posted_at) && $this->last_posted_at = $this->created_at;
+            empty($this->last_posted_by) && $this->last_posted_by = $this->created_by;
         }
         return $return;
     }
 
     protected function afterSave()
     {
-        $this->node->updateCounters(array('topics_count' => 1));
+        $this->node->updateCounters(array('topics_count' => 1), 'id = ?', array($this->node_id));
         return parent::afterSave();
     }
 

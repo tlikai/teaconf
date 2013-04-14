@@ -23,6 +23,12 @@ return array(
     ),
     
     'components' => array(
+        'redis' => array(
+            'class' => 'ext.YiiRedis.ARedisConnection',
+            'hostname' => '127.0.0.1',
+            'port' => 6379,
+        ),
+
         'coreMessages' => array(
             'basePath' => null,
         ),
