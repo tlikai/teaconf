@@ -2,14 +2,14 @@
     <div class="main">
         <section class="box topic">
             <div class="inner topic-meta">
-                <a href="#" class="pull-right"><img src="http://cdn.v2ex.com/avatar/51da/85a3/3557_normal.png?m=1330351261" alt="" width="48" height="48" class="avatar" /></a>
+                <a href="#/user/{{ topic.author.id}}" class="pull-right"><img src="{{topic.author.avatar_middle}}" alt="" width="48" height="48" class="avatar" /></a>
                 <h1 class="topic-title">
                     <a href="#/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
                     <span class="sep">•</span>
-                    <a href="#node" class="node topic-node">问与答</a>
+                    <a href="#/node/{{ topic.node.alias}}" class="node topic-node">{{ topic.node.name }}</a>
                 </h1>
                 <div class="topic-info">
-                    <a href="#/user/{{ topic.author.id }}" class="topic-author">{{ topic.author.name }}</a> 发表于<time>{{ topic.created_at }}</time>
+                    <a href="#/user/{{ topic.author.id }}" class="topic-author">{{ topic.author.name }}</a> 发表于 <time>{{timeago topic.created_at }}</time>
                     <span class="sep">•</span>
                     最后回复 <a href="#/user/{{ topic.lastPoster.id }}" class="topic-author">{{ topic.lastPoster.name }}</a>
                     <span class="sep">•</span>
@@ -19,11 +19,11 @@
             <div class="inner topic-body">{{ topic.content }}</div>
             <div class="inner topic-toolbar clearfix">
                 <div class="pull-right topic-action">
-                    <a href="#">回复</a>
+                    <a href="javascript:;" class="action-reply" topic="{{topic.id}}">回复({{topic.posts_count}})</a>
                     <span class="sep">•</span>
-                    <a href="#">关注(10)</a>
+                    <a href="javascript:;" class="action-watch" topic="{{topic.id}}">关注({{topic.watch_count}})</a>
                     <span class="sep">•</span>
-                    <a href="#">喜欢(0)</a>
+                    <a href="javascript:;" class="action-like" topic="{{topic.id}}">喜欢({{topic.likes_count}})</a>
                 </div>
                 <div class="topic-share">
                     share
@@ -35,7 +35,9 @@
             <div class="inner posts-header">
                 共有 <span class="count">{{ topic.posts_count }}</span> 次回复
                 <span class="sep">•</span>
-                最后回复来自于 <a href="#" class="last-poster">李恺</a> <time>一小时前</time>
+                最后回复来自于
+                <a href="#/user/{{ topic.author.id}}" class="last-poster">{{topic.last_posted_by}}</a>
+                <time>{{timeago topic.last_posted_at}}</time>
             </div>
             <div class="posts"></div>
         </section>

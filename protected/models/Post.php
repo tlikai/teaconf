@@ -45,7 +45,7 @@ class Post extends ActiveRecord
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'updateAttribute' => null,
-                'timestampExpression' => 'time()',
+                'timestampExpression' => time(),
             ),
         );
     }

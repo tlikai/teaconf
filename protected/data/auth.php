@@ -78,4 +78,12 @@ return array(
         'description' => 'delete a topic',
         'data' => null,
     ),
+
+    // user
+    'updateAvatar' => array(
+        'type' => CAuthItem::TYPE_OPERATION,
+        'bizRule' => 'return !Yii::app()->user->getIsGuest();',
+        'description' => 'update avatar',
+        'data' => null,
+    ),
 );

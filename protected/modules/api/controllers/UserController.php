@@ -14,6 +14,48 @@ class UserController extends Controller
 {
     const RESET_PASSWORD_EXPIRES = 7200;
 
+    public function actionUpdateAvatar()
+    {
+        Yii::app()->user->requirePermission('updateAvatar');
+
+        Yii::import('ext.file.Upload');
+        $upload = new Upload('user_file[0]', array(
+            'savePath' => ROOT_PATH . '/uploads/avatar',
+            'allowTypes' => array('image/jpeg', 'image/png'),
+            'maxSize' => 1048576, // 1MB
+        ));
+
+        if($upload->validate())
+        {
+            $upload->save();
+
+            // create large thumbnail
+            Yii::import('ext.image.Image');
+            $image = Image::factory($upload->file, Image::GD);
+            $path = pathinfo($upload->file, PATHINFO_DIRNAME);
+            $name = pathinfo($upload->file, PATHINFO_FILENAME);
+            $ext = pathinfo($upload->file, PATHINFO_EXTENSION);
+
+            $large = $path . '/' . $name . '!' . AvatarUtil::LARGE . '.' . $ext;
+            $middle = $path . '/' . $name . '!' . AvatarUtil::MIDDLE. '.' . $ext;
+            $small = $path . '/' . $name . '!' . AvatarUtil::SMALL . '.' . $ext;
+            $image->resize(AvatarUtil::LARGE_SIZE, Image::AUTO)->crop(AvatarUtil::LARGE_SIZE, AvatarUtil::LARGE_SIZE)->saveAs($large);
+            $image->resize(AvatarUtil::MIDDLE_SIZE, Image::AUTO)->crop(AvatarUtil::MIDDLE_SIZE, AvatarUtil::MIDDLE_SIZE)->saveAs($middle);
+            $image->resize(AvatarUtil::SMALL_SIZE, Image::AUTO)->crop(AvatarUtil::SMALL_SIZE, AvatarUtil::SMALL_SIZE)->saveAs($small);
+
+            unlink($upload->file);
+            $attributes = array(
+                'avatar_large' => str_replace(ROOT_PATH, '', $large),
+                'avatar_middle' => str_replace(ROOT_PATH, '', $middle),
+                'avatar_small' => str_replace(ROOT_PATH, '', $small),
+            );
+            if(User::model()->updateByPk(Yii::app()->user->id, $attributes))
+                Response::ok($attributes);
+        }
+
+        Response::badRequest($upload->error);
+    }
+
     /**
      * 用户注册
      *
@@ -30,7 +72,7 @@ class UserController extends Controller
             Response::forbidden('Has logged');
 
         $passwordHash = Bcrypt::hash(trim($password));
-        $user = new User('create');
+        $user = new User();
         $user->email = strtolower(trim($email));
         $user->name = trim($name);
         $user->password = $password;
@@ -71,7 +113,7 @@ class UserController extends Controller
             Yii::app()->user->login($identity, $duration);
             Response::ok($this->loadModel($identity->id));
         }
-        Response::badRequest('Invalid ID or password');
+        Response::badRequest(Yii::t('error', 'Invalid ID or password'));
 	}
 
     /**
@@ -150,6 +192,46 @@ class UserController extends Controller
         if($user->save())
             Response::ok('Reset password success');
         Response::serverError('Reset password failed');
+    }
+
+    /**
+     * 修改用户资料
+     *
+     * uri: /user/{id}
+     * method: PUT
+     *
+     * @param integer $id
+     */
+    public function actionUpdate($id, $weibo, $wechat, $signature)
+    {
+        if(Yii::app()->user->isGuest)
+            Response::forbidden();
+        if(Yii::app()->user->id != $id)
+            Response::unAuthorized();
+        $model = $this->loadModel($id);
+        $model->weibo = $weibo;
+        $model->qq = $wechat;
+        $model->signature = $signature;
+        if($model->save())
+            Response::ok($model);
+        Response::serverError();
+    }
+
+    public function actionChangePassword($id, $password, $newPassword, $confirmPassword)
+    {
+        $model = $this->loadModel($id);
+        $model->scenario = 'changePassword';
+        if(!Bcrypt::verify($password, $model->password))
+            Response::badRequest('Current password is invalid');
+        $model->newPassword = $newPassword;
+        $model->confirmPassword = $confirmPassword;
+        if($model->validate())
+        {
+            $model->password = Bcrypt::hash($newPassword);
+            if($model->save())
+                Response::ok($model);
+        }
+        Response::badRequest($model->getFirstError());
     }
 
     /**

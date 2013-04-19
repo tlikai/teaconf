@@ -4,4 +4,6 @@
 .settings/
 tags
 document
+uploads/avatar/*
+uploads/files/*
 protected/runtime/*

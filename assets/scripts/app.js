@@ -30,8 +30,8 @@ define([
         },
         initEvents: function(){
             $(document.body).on('click', '*[modal]', function(e){
-                var target = $(e.currentTarget);
-                var view = target.attr('modal');
+                var $target = $(e.currentTarget);
+                var view = $target.attr('modal');
                 require([
                     'views/' + view
                 ], function(View){
@@ -41,19 +41,29 @@ define([
             });
         },
         initComponents: function(){
+            var self = this;
             $.ajaxSetup({
-                dataType: 'json'
-            }, true);
+                global: true,
+                dataType: 'json',
+                statusCode: {
+                    404: function(xhr){
+                        //self.triggerError(404, xhr);
+                    }
+                }
+            });
 
             // register handlebars helpers
             require([
                 'handlebars',
-            ], function(Handlebars){
+                'libs/timeago/timeago'
+            ], function(Handlebars, timeago){
                 Handlebars.registerHelper('loginRequire', function(route){
                     if(!App.user.get('isGuest'))
                         return route;
                     return 'site/login';
                 });
+
+                Handlebars.registerHelper('timeago', timeago);
             });
         }
     };

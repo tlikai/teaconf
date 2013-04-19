@@ -8,7 +8,7 @@
 
 class WebUser extends CWebUser
 {
-	public function requirePermission($operation, $params=array(), $allowCaching = true)
+	public function requirePermission($operation, $params = array(), $allowCaching = true)
     {
         if(!$this->checkAccess($operation, $params, $allowCaching))
             Response::unAuthorized();

@@ -58,7 +58,7 @@ class Topic extends ActiveRecord
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
                 'updateAttribute' => null,
-                'timestampExpression' => 'time()',
+                'timestampExpression' => time(),
             ),
         );
     }
@@ -113,7 +113,11 @@ class Topic extends ActiveRecord
 
     protected function afterSave()
     {
-        $this->node->updateCounters(array('topics_count' => 1), 'id = ?', array($this->node_id));
+        if($this->isNewRecord)
+        {
+            TopicWatch::watch($this->creator_id, $this->id);
+            $this->node->updateCounters(array('topics_count' => 1), 'id = ?', array($this->node_id));
+        }
         return parent::afterSave();
     }
 
@@ -141,12 +145,10 @@ class Topic extends ActiveRecord
         // order
         if($tab == 'popular')
             ; // TODO implement me
-        elseif($tab == 'suggest')
-            ; // TODO implement me
         elseif($tab == 'latest')
             $criteria->order = 'id DESC';
-        elseif($tab == 'watched')
-            $this->watched(Yii::app()->user->id);
+        elseif($tab == 'watch')
+            $this->watchScope(Yii::app()->user->id);
 
 		return new ActiveDataProvider($this, array(
 			'criteria' => $criteria,
@@ -154,17 +156,20 @@ class Topic extends ActiveRecord
 	}
 
     /**
-     * set watched filter
+     * watch filter
      *
-     * @param integer $userId
+     * @param integer $user_id
      * @reurn ActiveRecord
      */
-    public function watched($userId)
+    public function watchScope($user_id)
     {
+        if(Yii::app()->user->isGuest)
+            return $this;
+
         $watched = TopicWatch::model()->findAll(array(
             'index' => 'topic_id',
             'condition' => 'user_id = ?',
-            'params' => array($userId),
+            'params' => array($user_id),
         ));
         $this->getDbCriteria()->addInCondition('id', array_keys($watched));
         return $this;

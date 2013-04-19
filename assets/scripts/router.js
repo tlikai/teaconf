@@ -3,11 +3,13 @@ define([
     'underscore',
     'backbone',
     'routers/site',
+    'routers/user',
     'routers/topic'
-], function($, _, Backbone, SiteRouter, TopicRouter){
+], function($, _, Backbone, SiteRouter, UserRouter, TopicRouter){
     return {
         start: function() {
             var siteRouter = new SiteRouter();
+            var userRouter = new UserRouter();
             var topicRouter = new TopicRouter();
             Backbone.history.start({pushState: true, root: URL_ROOT});
 

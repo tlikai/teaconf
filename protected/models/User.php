@@ -21,6 +21,9 @@
  */
 class User extends ActiveRecord
 {
+    public $newPassword;
+    public $confirmPassword;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -43,10 +46,13 @@ class User extends ActiveRecord
 			array('created_at, updated_at, last_posted_at', 'length', 'max'=>11),
 			array('email, password, secure_code, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max'=>255),
 
-            // on create
-            array('email', 'required', 'on' => 'create'),
-            array('name', 'unique', 'className' => 'User', 'message' => '{attribute}已被使用', 'on' => 'create'),
-            array('email', 'unique', 'className' => 'User', 'message' => '{attribute}已被使用', 'on' => 'create'),
+            // register
+            array('name, email', 'unique', 'className' => 'User', 'on' => 'insert'),
+
+            // changePassword
+            array('newPassword, confirmPassword', 'required', 'on' => 'changePassword'),
+            array('newPassword', 'compare', 'compareAttribute' => 'confirmPassword', 'on' => 'changePassword'),
+            array('newPassword', 'length', 'min' => 6, 'on' => 'changePassword'),
 		);
 	}
 
@@ -71,6 +77,8 @@ class User extends ActiveRecord
 			'name' => '用户名',
 			'email' => '邮箱',
 			'password' => '密码',
+            'newPassword' => '新密码',
+            'confirmPassword' => '确认新密码',
 			'secure_code' => '重要操作安全码',
 			'signature' => '签名',
 			'avatar_small' => '小头像',
@@ -136,10 +144,10 @@ class User extends ActiveRecord
     public function getIteratorAttributes()
     {
         $attributes = parent::getIteratorAttributes();
-        unset($attributes['email']);
+        $attributes['avatar_large'] = AvatarUtil::absoluteUrl($attributes['avatar_large']);
+        $attributes['avatar_middle'] = AvatarUtil::absoluteUrl($attributes['avatar_middle']);
+        $attributes['avatar_small'] = AvatarUtil::absoluteUrl($attributes['avatar_small']);
         unset($attributes['password']);
-        unset($attributes['weibo']);
-        unset($attributes['qq']);
         unset($attributes['created_at']);
         unset($attributes['updated_at']);
         unset($attributes['last_posted_at']);

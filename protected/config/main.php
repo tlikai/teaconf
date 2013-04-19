@@ -59,19 +59,20 @@ return array(
                 array('api/user/authenticate', 'pattern' => 'api/authenticate', 'verb' => 'GET'),
                 array('api/user/logout', 'pattern' => 'api/logout', 'verb' => 'DELETE'),
                 array('api/user/register', 'pattern' => 'api/register', 'verb' => 'POST'),
-                array('api/user/resetPassword', 'pattern' => 'api/resetPassword', 'verb' => 'PUT'),
+                array('api/user/resetPassword', 'pattern' => 'api/user/resetPassword', 'verb' => 'PUT'),
+                array('api/user/changePassword', 'pattern' => 'api/user/changePassword', 'verb' => 'PUT'),
+                array('api/user/avatar', 'pattern' => 'api/user/avatar', 'verb' => 'GET'),
+                array('api/user/updateAvatar', 'pattern' => 'api/user/updateAvatar', 'verb' => 'POST'),
 
 
                 // topic services
-                array('topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
-                array('topic/unwatch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'DELETE'),
+                array('api/topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
+                array('api/topic/unwatch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'DELETE'),
 
                 '<action:.*>' => 'site/index',
-                /*
-                '<controller:\w+>/<id:\d+>'=>'<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-                 */
+                //'<controller:\w+>/<id:\d+>'=>'<controller>/view',
+                //'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+                //'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
             ),
         ),
 

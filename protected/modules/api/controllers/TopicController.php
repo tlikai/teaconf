@@ -119,6 +119,7 @@ class TopicController extends Controller
     public function actionWatch($id)
     {
         Yii::app()->user->requirePermission('watchTopic');
+
         if(TopicWatch::hasWatched(Yii::app()->user->id, $id))
             Response::badRequest('watched');
         if(TopicWatch::watch(Yii::app()->user->id, $id))
@@ -136,9 +137,45 @@ class TopicController extends Controller
      */
     public function actionUnwatch($id)
     {
-        Yii::app()->user->requirePermission('unWatchTopic');
+        Yii::app()->user->requirePermission('unwatchTopic');
 
         if(TopicWatch::unwatch(Yii::app()->user->id, $id))
+            Response::deleted();
+        Response::serverError();
+    }
+
+    /**
+     * 喜欢主题
+     *
+     * uri: /topic/watch/id
+     * method: POST
+     *
+     * @param integer $id
+     */
+    public function actionLike($id)
+    {
+        Yii::app()->user->requirePermission('likeTopic');
+
+        if(TopicLike::hasWatched(Yii::app()->user->id, $id))
+            Response::badRequest('liked');
+        if(TopicWatch::watch(Yii::app()->user->id, $id))
+            Response::created();
+        Response::serverError();
+    }
+
+    /**
+     * 取消喜欢主题
+     *
+     * uri: /topic/like/id
+     * method: POST
+     *
+     * @param integer $id
+     */
+    public function actionUnlike($id)
+    {
+        Yii::app()->user->requirePermission('unlikeTopic');
+
+        if(TopicLike::unlik(Yii::app()->user->id, $id))
             Response::deleted();
         Response::serverError();
     }

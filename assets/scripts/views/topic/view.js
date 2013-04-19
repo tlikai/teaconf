@@ -7,6 +7,11 @@ define([
 ], function($, _, Backbone, Handlebars, template){
     return Backbone.View.extend({
         el: $('#container'),
+        events: {
+            'click .action-watch': 'watch',
+            'click .action-like': 'like',
+            'click .action-reply': 'reply'
+        },
         initialize: function(){
             this.model.bind('change', this.render);
         },
@@ -40,6 +45,24 @@ define([
                     }
                 });
             });
+        },
+        watch: function(e){
+            e.preventDefault();
+            var $target = $(e.currentTarget);
+            var id = $target.attr('topic');
+            $.ajax({
+                url: API_URL + '/topic/watch/' + id,
+                method: 'POST',
+                success: function(data){
+                    $target.html('已关注').addClass('watched');
+                }
+            });
+        },
+        like: function(){
+        
+        },
+        reply: function(){
+        
         }
     });
 });

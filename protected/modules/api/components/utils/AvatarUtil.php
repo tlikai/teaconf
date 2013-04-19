@@ -14,7 +14,7 @@ class AvatarUtil
 
     const LARGE_SIZE = '100';
     const MIDDLE_SIZE = '48';
-    const SMALL_SIZE = '48';
+    const SMALL_SIZE = '24';
 
     public static function gavatar($email)
     {
@@ -28,4 +28,10 @@ class AvatarUtil
         );
     }
 
+    public static function absoluteUrl($url)
+    {
+        if(strncmp($url, 'http://', 7) == 0)
+            return $url;
+        return Yii::app()->createAbsoluteUrl($url);
+    }
 }
