@@ -8,7 +8,7 @@
             <a href="#/users/{{ post.created_by }}">{{ post.created_by }}</a> 回复于 <time>{{ post.created_at }}</time>
         </div>
         <div class="sep5"></div>
-        <div class="post-body">{{ post.content }}</div>
+        <div class="post-body">{{markdown post.content}}</div>
         <div class="post-action">
             <a href="#">回复</a>
             <span class="sep">•</span>

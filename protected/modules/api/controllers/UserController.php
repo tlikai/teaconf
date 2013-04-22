@@ -14,6 +14,11 @@ class UserController extends Controller
 {
     const RESET_PASSWORD_EXPIRES = 7200;
 
+    /**
+     * 更新头像
+     * @uri user/updateAvatar
+     * @method POST
+     */
     public function actionUpdateAvatar()
     {
         Yii::app()->user->requirePermission('updateAvatar');
@@ -74,7 +79,7 @@ class UserController extends Controller
         $passwordHash = Bcrypt::hash(trim($password));
         $user = new User();
         $user->email = strtolower(trim($email));
-        $user->name = trim($name);
+        $user->name = strtolower(trim($name));
         $user->password = $password;
         list($user->avatar_small, $user->avatar_middle, $user->avatar_large) = AvatarUtil::gavatar($user->email);
         if($user->validate())
@@ -123,8 +128,11 @@ class UserController extends Controller
     {
         if(!Yii::app()->user->getIsGuest())
         {
-            $user = $this->loadModel(Yii::app()->user->id);
-            Response::ok($user);
+
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            if($user)
+                Response::ok($user);
+            Yii::app()->user->logout();
         }
         Response::unAuthorized();
     }

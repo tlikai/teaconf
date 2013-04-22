@@ -12,6 +12,11 @@ define([
         },
         render: function(){
             console.log('render: site/topPanel');
+            Handlebars.registerHelper('notifications', function(notifications){
+                if(notifications > 0)
+                    return new Handlebars.SafeString('<span class="red">(' + notifications + ')</span>');
+                return '';
+            });
             var ctemplate = Handlebars.compile(template);
             var data = {
                 user: App.user.toJSON()

@@ -18,7 +18,7 @@ class UserIdentity extends CUserIdentity
 
     public function __construct($id, $password)
     {
-        $this->id = $this->username = $id;
+        $this->id = $this->username = strtolower($id);
         $this->password = $password;
     }
 
@@ -32,7 +32,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-        $user = User::model()->findById($this->id);
+        $user = User::findById($this->id);
         if(!$user)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
         elseif(!Bcrypt::verify($this->password, $user->password))

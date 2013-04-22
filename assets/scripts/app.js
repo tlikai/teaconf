@@ -55,12 +55,17 @@ define([
             // register handlebars helpers
             require([
                 'handlebars',
-                'libs/timeago/timeago'
+                'libs/timeago/timeago',
+                'libs/markdown-js/markdown',
             ], function(Handlebars, timeago){
                 Handlebars.registerHelper('loginRequire', function(route){
                     if(!App.user.get('isGuest'))
                         return route;
                     return 'site/login';
+                });
+
+                Handlebars.registerHelper('markdown', function(content){
+                    return new Handlebars.SafeString(markdown.toHTML(content));
                 });
 
                 Handlebars.registerHelper('timeago', timeago);

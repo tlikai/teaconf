@@ -38,18 +38,6 @@ class Post extends ActiveRecord
 		);
 	}
 
-    public function behaviors()
-    {
-        return array(
-            'timestampBehavior' => array(
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => null,
-                'timestampExpression' => time(),
-            ),
-        );
-    }
-
 	/**
 	 * @return array relational rules.
 	 */
@@ -84,8 +72,8 @@ class Post extends ActiveRecord
             'timestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'timestampExpression' => 'time()',
+                'updateAttribute' => null,
+                'timestampExpression' => time(),
             ),
         );
     }
@@ -114,6 +102,23 @@ class Post extends ActiveRecord
             ));
 
             User::updateLastPostedAt($this->creator_id);
+
+            // 发送提醒
+            $watchers = TopicWatch::model()->findAll('topic_id = ?', array($this->topic_id));
+            foreach($watchers as $watch)
+            {
+                if($watch->user_id == $this->creator_id)
+                    continue;
+                Notification::add(array(
+                    'owner_id' => $watch->user_id,
+                    'replier_id' => $this->creator_id,
+                    'replied_by' => $this->created_by,
+                    'replied_at' => $this->created_by,
+                    'topic_id' => $this->topic_id,
+                    'topic_title' => $this->topic->title,
+                    'topic_quote' => $this->content, // TODO remove content format
+                ));
+            }
         }
     }
 

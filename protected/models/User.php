@@ -18,6 +18,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property string $last_posted_at
+ * @property string $notifications
  */
 class User extends ActiveRecord
 {
@@ -43,7 +44,7 @@ class User extends ActiveRecord
 			array('name', 'length', 'min' => 2, 'max' => 20),
             array('password', 'length', 'min' => 6),
             array('email', 'email'),
-			array('created_at, updated_at, last_posted_at', 'length', 'max'=>11),
+			array('created_at, updated_at, last_posted_at, notifications', 'length', 'max'=>11),
 			array('email, password, secure_code, signature, avatar_small, avatar_middle, avatar_large, weibo, qq', 'length', 'max'=>255),
 
             // register
@@ -89,6 +90,7 @@ class User extends ActiveRecord
 			'created_at' => '创建时间',
 			'updated_at' => '修改时间',
 			'last_posted_at' => '最后发帖时间',
+            'notifications' => '未读提醒数',
 		);
 	}
 
@@ -141,6 +143,26 @@ class User extends ActiveRecord
 		return parent::model($className);
 	}
 
+    public function behaviors()
+    {
+        return array(
+            'timestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'timestampExpression' => time(),
+            ),
+        );
+    }
+
+    protected function beforeSave()
+    {
+        $return = parent::beforeSave();
+        if($this->isNewRecord)
+            $this->updated_at = $this->last_posted_at = $this->created_at;
+        return $return;
+    }
+
     public function getIteratorAttributes()
     {
         $attributes = parent::getIteratorAttributes();
@@ -162,10 +184,11 @@ class User extends ActiveRecord
     /**
      * Find user by name or email
      *
+     * @static
      * @param string $id
      * @return User
      */
-    public function findById($id)
+    public static function findById($id)
     {
         $attribute = 'name';
         if(strpos($id, '@') !== false)
@@ -173,12 +196,20 @@ class User extends ActiveRecord
             $id = strtolower($id);
             $attribute = 'email';
         }
-        return $this->find("{$attribute} = :id", array(':id' => $id));
+
+        return self::model()->find("{$attribute} = :id", array(':id' => $id));
     }
 
+    /**
+     * Update user last action
+     *
+     * @static
+     * @param integer $id
+     * @return boolean
+     */
     public static function updateLastPostedAt($id)
     {
-        self::model()->updateByPk(array(
+        return self::model()->updateByPk($id, array(
             'last_posted_at' => time(),
         ));
     }

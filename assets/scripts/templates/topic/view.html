@@ -16,7 +16,7 @@
                     共 <span class="count">{{ topic.views }}</span> 次阅读
                 </div>
             </div>
-            <div class="inner topic-body">{{ topic.content }}</div>
+            <div class="inner topic-body">{{markdown topic.content}}</div>
             <div class="inner topic-toolbar clearfix">
                 <div class="pull-right topic-action">
                     <a href="javascript:;" class="action-reply" topic="{{topic.id}}">回复({{topic.posts_count}})</a>

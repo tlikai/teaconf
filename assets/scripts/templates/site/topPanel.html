@@ -5,7 +5,7 @@
 {{else}}
     <!--<li><img src="{{user.avatar_small}}" /></li>-->
     <li><a href="/u/{{user.name}}" class="name">{{user.name}}</a></li>
-    <li><a href="/messages">提醒</a></li>
+    <li><a href="/messages">提醒{{{notifications user.notifications}}}</a></li>
     <li><a href="/settings">设置</a></li>
     <li><a href="/logout">退出</a></li>
 {{/if}}
