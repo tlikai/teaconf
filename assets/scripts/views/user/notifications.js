@@ -3,27 +3,23 @@ define([
     'underscore',
     'backbone',
     'handlebars',
-    'text!templates/user/settings.html',
-    'libs/jquery-html5-upload/jquery.html5_upload'
+    'text!templates/user/notifications.html'
 ], function($, _, Backbone, Handlebars, template){
     return Backbone.View.extend({
         el: $('#container'),
         render: function(){
-            console.log('render: user/settings');
+            console.log('render: user/notifications');
             var self = this;
             var ctemplate = Handlebars.compile(template);
-            var data = {
-                user: this.model.toJSON(),
-            };
-            this.$el.html(ctemplate(data));
+            this.$el.html(ctemplate());
             this.setActive(this.page);
 
             require([
-                'views/user/settings/' + this.page
+                'views/user/notifications/' + this.page
             ], function(View){
                 var view = new View({
                     el: self.$('.span10 .box'),
-                    model: self.model
+                    collection: self.collection
                 });
                 view.render();
             });

@@ -1,0 +1,8 @@
+<div class="inner item" data-id="{{notification.id}}">
+    <a href="/user/{{notification.replier.name}}" class="pull-right"><img src="{{notification.replier.avatar_middle}}" width="48" height="48" /></a>
+    <div class="title">
+        <a href="#">{{notification.replier.name}}</a> 于 {{timeago notification.replied_at}} 回复了 <a href="#">{{notification.topic_title}}</a>     </div>
+    <blockquote>
+        {{notification.topic_quote}}
+    </blockquote>
+</div>

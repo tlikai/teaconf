@@ -64,10 +64,12 @@ return array(
                 array('api/user/avatar', 'pattern' => 'api/user/avatar', 'verb' => 'GET'),
                 array('api/user/updateAvatar', 'pattern' => 'api/user/updateAvatar', 'verb' => 'POST'),
 
-
                 // topic services
                 array('api/topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
                 array('api/topic/unwatch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'DELETE'),
+
+                // notification services
+                array('api/notification/read', 'pattern' => 'api/notification/read/<id:\d+>', 'verb' => 'POST'),
 
                 '<action:.*>' => 'site/index',
                 //'<controller:\w+>/<id:\d+>'=>'<controller>/view',

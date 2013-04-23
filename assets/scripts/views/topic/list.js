@@ -9,7 +9,7 @@ define([
     return Backbone.View.extend({
         el: $('#container'),
         initialize: function(){
-            this.listenTo(this.collection, 'change', this.render);
+            this.listenTo(this.collection, 'change', this.renderTopics);
         },
         render: function(){
             var ctemplate = Handlebars.compile(template);
@@ -41,7 +41,7 @@ define([
                     success: function(topics){
                         topics.each(function(topic){
                             var view = new View({
-                                el: this.$('.main .topics'),
+                                el: self.$('.main .topics'),
                                 model: topic 
                             });
                             view.render();

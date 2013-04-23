@@ -5,8 +5,8 @@ define([
     'handlebars',
     'collections/nodes',
     'text!templates/node/selector.html',
-    'css!libs/select2/select2',
-    'libs/select2/select2',
+    'css!libs/chosen/chosen',
+    'libs/chosen/chosen.jquery'
 ], function($, _, Backbone, Handlebars, Nodes, template){
     return Backbone.View.extend({
         render: function(){
@@ -20,7 +20,7 @@ define([
                         nodes: nodes.toJSON()
                     };
                     self.$el.html(ctemplate(data));
-                    this.$('.combobox').select2();
+                    this.$('.combobox').chosen();
                 }
             });
             return this;

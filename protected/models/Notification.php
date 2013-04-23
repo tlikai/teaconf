@@ -49,9 +49,9 @@ class Notification extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+            'replier' => array(self::BELONGS_TO, 'User', 'replier_id'),
+            'topic' => array(self::BELONGS_TO, 'Topic', 'topic_id'),
 		);
 	}
 
@@ -73,35 +73,21 @@ class Notification extends ActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
+    public function getIteratorAttributes()
+    {
+        $attributes = parent::getIteratorAttributes();
+        return array_merge($attributes, array(
+            'replier' => $this->replier,
+        ));
+    }
+
+	public function createDataProvider()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+		$criteria = new CDbCriteria();
+        $criteria->compare('owner_id', $this->owner_id);
+        $this->unread !== null && $criteria->compare('unread', $this->unread);
 
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('unread',$this->unread);
-		$criteria->compare('owner_id',$this->owner_id,true);
-		$criteria->compare('replier_id',$this->replier_id,true);
-		$criteria->compare('replied_by',$this->replied_by,true);
-		$criteria->compare('replied_at',$this->replied_at,true);
-		$criteria->compare('topic_id',$this->topic_id,true);
-		$criteria->compare('topic_title',$this->topic_title,true);
-		$criteria->compare('topic_quote',$this->topic_quote,true);
-
-		return new CActiveDataProvider($this, array(
+		return new ActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
