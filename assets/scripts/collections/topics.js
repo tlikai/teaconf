@@ -9,13 +9,13 @@ define([
         page: 0,
         node: null,
         tab: 'popular',
-        limit: null,
+        perpage: null,
         fetch: function(options){
             options || (options = {});
             options.data || (options.data = {});
             _.extend(options.data, {
                 page: this.page,
-                limit: this.limit,
+                perpage: this.perpage,
                 node_alias: this.node,
                 tab: this.tab
             });
@@ -23,7 +23,7 @@ define([
             return Backbone.Collection.prototype.fetch.call(this, options);
         },
         parse: function(data){
-            this.limit = data.limit;
+            this.perpage = data.perpage;
             this.total = data.total;
             this.totalPages = Math.ceil(this.total / this.limit);
             return data.data;

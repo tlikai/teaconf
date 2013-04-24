@@ -45,7 +45,7 @@ class Post extends ActiveRecord
 	{
 		return array(
             'topic' => array(self::BELONGS_TO, 'Topic', 'topic_id'),
-            'author' => array(self::HAS_ONE, 'User', 'creator_id'),
+            'author' => array(self::BELONGS_TO, 'User', 'creator_id'),
 		);
 	}
 
@@ -120,6 +120,14 @@ class Post extends ActiveRecord
                 ));
             }
         }
+    }
+
+    public function getIteratorAttributes()
+    {
+        $attributes = parent::getIteratorAttributes();
+        return array_merge($attributes, array(
+            'author' => $this->author
+        ));
     }
 
 	public function createDataProvider()

@@ -72,6 +72,20 @@ define([
                     callback.call(this, xhr.responseText, xhr.status);
                 }
             });
+        },
+        fetchTopics: function(callback){
+            $.ajax({
+                url: API_URL + '/user/' + this.get('id') + '/topics',
+                method: 'GET',
+                success: function(data){
+                    require([
+                        'collections/topics'
+                    ], function(Topics){
+                        callback.success && callback.success(new Topics(data));
+                    });
+                },
+                error: callback.error || null
+            });
         }
     });
     return User;

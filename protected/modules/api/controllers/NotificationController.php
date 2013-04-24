@@ -33,7 +33,10 @@ class NotificationController extends Controller
             Response::forbidden();
         $model->unread = 0;
         if($model->save())
+        {
+            User::model()->updateCounter(array('notifications' => -1), 'id = ?', $model->owner_id);
             Response::ok();
+        }
         Response::serverError();
     }
 

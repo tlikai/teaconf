@@ -35,10 +35,9 @@ define([
         },
         readOne: function(e){
             e.preventDefault();
-            var self = this;
             var $item = $(e.currentTarget);
             var id = $item.attr('data-id');
-            self.markRead(id);
+            this.markRead(id);
         },
         readAll: function(e){
             e.preventDefault();

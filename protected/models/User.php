@@ -62,9 +62,11 @@ class User extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+            'topics' => array(self::HAS_MANY, 'Topic', 'creator_id', 'order' => 'topics.created_at DESC'),
+            'posts' => array(self::HAS_MANY, 'Post', 'creator_id', 'order' => 'posts.created_at DESC'),
+            'likes' => array(self::HAS_MANY, 'TopicLike', 'user_id', 'order' => 'likes.created_at DESC'),
+            'watch' => array(self::HAS_MANY, 'TopicWatch', 'user_id', 'order' => 'watch.created_at DESC'),
 		);
 	}
 

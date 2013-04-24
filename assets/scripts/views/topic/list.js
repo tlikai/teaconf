@@ -12,6 +12,7 @@ define([
             this.listenTo(this.collection, 'change', this.renderTopics);
         },
         render: function(){
+            console.log('render: topic/list');
             var ctemplate = Handlebars.compile(template);
             var data = {
                 node: this.collection.node,

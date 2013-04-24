@@ -70,6 +70,9 @@ define([
 
                 Handlebars.registerHelper('timeago', timeago);
             });
+        },
+        setTitle: function(title){
+            console.log('Set title: ', title);
         }
     };
     return _.extend(app, Backbone.Events);

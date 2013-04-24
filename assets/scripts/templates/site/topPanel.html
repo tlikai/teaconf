@@ -4,7 +4,7 @@
     <li><a href="javascript:;" modal="site/register">注册</a></li>
 {{else}}
     <!--<li><img src="{{user.avatar_small}}" /></li>-->
-    <li><a href="/u/{{user.name}}" class="name">{{user.name}}</a></li>
+    <li><a href="/user/{{user.id}}" class="name">{{user.name}}</a></li>
     <li><a href="/notifications">提醒{{{notifications user.notifications}}}</a></li>
     <li><a href="/settings">设置</a></li>
     <li><a href="/logout">退出</a></li>

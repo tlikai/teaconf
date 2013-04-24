@@ -2,14 +2,14 @@
     <div class="main">
         <section class="box topic">
             <div class="inner topic-meta">
-                <a href="#/user/{{ topic.author.id}}" class="pull-right"><img src="{{topic.author.avatar_middle}}" alt="" width="48" height="48" class="avatar" /></a>
+                <a href="/user/{{ topic.author.id}}" class="avatar pull-right"><img src="{{topic.author.avatar_middle}}" width="48" height="48" /></a>
                 <h1 class="topic-title">
-                    <a href="#/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
+                    <a href="/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
                     <span class="sep">•</span>
                     <a href="#/node/{{ topic.node.alias}}" class="node topic-node">{{ topic.node.name }}</a>
                 </h1>
                 <div class="topic-info">
-                    <a href="#/user/{{ topic.author.id }}" class="topic-author">{{ topic.author.name }}</a> 发表于 <time>{{timeago topic.created_at }}</time>
+                    <a href="/user/{{ topic.author.id }}" class="topic-author">{{ topic.author.name }}</a> 发表于 <time>{{timeago topic.created_at }}</time>
                     <span class="sep">•</span>
                     最后回复 <a href="#/user/{{ topic.lastPoster.id }}" class="topic-author">{{ topic.lastPoster.name }}</a>
                     <span class="sep">•</span>

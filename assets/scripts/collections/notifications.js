@@ -6,7 +6,7 @@ define([
         url: API_URL + '/notifications',
         model: Node,
         parse: function(data){
-            this.limit = data.limit;
+            this.perpage = data.perpage;
             this.total = data.total;
             return data.data;
         }

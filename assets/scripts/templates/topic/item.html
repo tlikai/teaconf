@@ -1,7 +1,7 @@
 <div class="topic inner">
     <table width="100%">
         <tr>
-            <td class="avatar"><a href="/user/{{ topic.author.id }}"><img src="{{ topic.author.avatar_middle }}" alt="" /></a></td>
+            <td class="avatar"><a href="/user/{{ topic.author.id }}"><img src="{{ topic.author.avatar_middle }}"  width="48" /></a></td>
             <td class="summary">
                 <a href="/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
                 <div class="sep5"></div>
@@ -14,7 +14,7 @@
                 </div>
             </td>
             <td class="right">
-                <a href="/topic/{{ topic.posts_count }}" class="count likes">{{ topic.posts_count }}</a>
+                <a href="/topic/{{ topic.id }}" class="count likes">{{ topic.posts_count }}</a>
             </td>
         </tr>
     </table>

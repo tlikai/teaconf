@@ -61,8 +61,8 @@ return array(
                 array('api/user/register', 'pattern' => 'api/register', 'verb' => 'POST'),
                 array('api/user/resetPassword', 'pattern' => 'api/user/resetPassword', 'verb' => 'PUT'),
                 array('api/user/changePassword', 'pattern' => 'api/user/changePassword', 'verb' => 'PUT'),
-                array('api/user/avatar', 'pattern' => 'api/user/avatar', 'verb' => 'GET'),
                 array('api/user/updateAvatar', 'pattern' => 'api/user/updateAvatar', 'verb' => 'POST'),
+                array('api/user/<action>', 'pattern' => 'api/user/<id:\d+>/<action:\w+>', 'verb' => 'GET'),
 
                 // topic services
                 array('api/topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
@@ -71,7 +71,7 @@ return array(
                 // notification services
                 array('api/notification/read', 'pattern' => 'api/notification/read/<id:\d+>', 'verb' => 'POST'),
 
-                '<action:.*>' => 'site/index',
+                '<action:(?!api).*>' => 'site/index',
                 //'<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 //'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
                 //'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',

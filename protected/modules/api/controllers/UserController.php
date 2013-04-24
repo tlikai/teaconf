@@ -15,6 +15,68 @@ class UserController extends Controller
     const RESET_PASSWORD_EXPIRES = 7200;
 
     /**
+     * 获取用户主题
+     *
+     * @uri user/topics/{id}
+     * @method GET
+     * 
+     * @param integer $id
+     */
+    public function actionTopics($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user->topics);
+    }
+
+    /**
+     * 获取用户回复
+     *
+     * @uri user/replies/{id}
+     * @method GET
+     *
+     * @param integer $id
+     */
+    public function actionReplies($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user->posts);
+    }
+
+    /**
+     * 获取用户关注
+     *
+     * @uri user/watch/{id}
+     * @method GET
+     *
+     * @param integer $id
+     */
+    public function actionWatch($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user->watch);
+    }
+
+    /**
+     * 获取用户喜欢
+     *
+     * @uri user/likes/{id}
+     * @method GET
+     *
+     * @param integer $id
+     */
+    public function actionLikes($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user->likes);
+    }
+
+    public function actionRead($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user);
+    }
+
+    /**
      * 更新头像
      * @uri user/updateAvatar
      * @method POST

@@ -6,7 +6,7 @@ body{background: #eee; color: #555;}
 
 #container{}
 
-#footer{font-size: 12px; padding: 20px 0; background: #fff;}
+#footer{font-size: 12px; margin-top: 40px; padding: 20px 0; background: #fff;}
 #footer a{color: #000;}
 #footer .links a{margin-right: 20px;}
 
@@ -20,7 +20,8 @@ body{background: #eee; color: #555;}
 
 .sep5{height: 5px;}
 .sep10{height: 10px;}
-.avatar{overflow: hidden; width: 48px; height: 48px;}
+.avatar{overflow: hidden;}
+.avatar img{border-radius: 5px;}
 
 
 .toolbar{}
@@ -29,13 +30,14 @@ body{background: #eee; color: #555;}
 
 .main .topics{width: 100%;}
 .main .topics .topic{border-bottom: 1px solid #e6e6e6;}
-.main .topics .avatar{width: 48px; height: 48px; vertical-align: top;}
+.main .topics .avatar{width: 50px; height: 50px;}
 .main .topics .summary{padding: 0 10px; width: auto;}
 .main .topics .right{width: 50px; vertical-align: top; text-align: right;}
 .main .topics .info{font-size: 12px; color: #999;}
 .main .topics .info a{color: #666;}
-.main .topics .count{padding: 2px 5px; background: #e6e6e6; border-radius: 5px;}
-.main .topics .count:hover{background: #d5d6d5; text-decoration: none;}
+.main .topics .count{font-size: 12px; padding: 2px 4px; background: #e6e6e6; border-radius: 5px;}
+.main .topics .count:hover{background: #d5d6d5; text-decoration: none; color: #555;}
+.main .topics .likes{background: #f0f0f0; color: #999;}
 
 .sidebar .box{font-size: 12px;}
 .sidebar .box .subject{margin: 0; font-size: 14px; line-height: 100%; border-bottom: 1px solid #e6e6e6;}
@@ -84,6 +86,7 @@ body{background: #eee; color: #555;}
 
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]{-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; height: auto;}
 .btn, .btn-group, .dropdown-menu, .label, .badge, .pre, .popover, .alert, .uneditable-input, .form-search .input-append .search-query, .form-search .input-prepend .search-query, .table-bordered, .typeahead, .well, .breadcrumb, .pagination ul, .thumbnail, .progress, div.subnav, .nav-tabs > li > a, .input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child>.dropdown-toggle, .input-prepend .add-on:first-child, .input-prepend .btn:first-child, .btn-group>.btn:first-child{-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;}
+.nav-pills .active a{box-shadow: 0 1px 3px #bebebe;}
 
 .sidenav{font-size: 14px;}
 .sidenav .nav-header{font-size: 14px; padding: 10px 10px; color: #555;}
@@ -93,6 +96,15 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .notifications{}
 .notifications .item{border-bottom: 1px solid #e6e6e6; min-height: 48px;}
 .notifications .item blockquote{margin: 5px 0 0; padding: 0 0 0 5px; color: #999;}
+
+.user-home{}
+.user-home .info{height: 100px; margin-bottom: 20px;}
+.user-home .info .avatar{float: left; margin-right: 20px;}
+.user-home .name{line-height: 60px;}
+
+.user-home .list{margin: 0;}
+.user-home .list .inner{border-bottom: 1px solid #e6e6e6;}
+.user-home .list blockquote{margin: 0; padding: 0 0 0 5px;}
 
 .node-section dd a{margin-right: 10px;}
 
