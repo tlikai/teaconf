@@ -26,7 +26,7 @@ class Controller extends CController
         static $params = null;
         if($params === null)
         {
-            if(strpos($_SERVER['CONTENT_TYPE'], 'json'))
+            if(isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'json'))
                 $params = (array)CJSON::decode(Yii::app()->request->getRawBody());
             else
             {
