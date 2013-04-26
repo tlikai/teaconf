@@ -148,4 +148,17 @@ class TopicLike extends ActiveRecord
             'topic_id' => $topic_id,
         ));
     }
+
+    protected function afterSave()
+    {
+        if($this->isNewRecord)
+        {
+            // update related topic watch count
+            $topic = Topic::model()->findByPk($this->topic_id);
+            $topic->likes_count++;
+            $topic->setScore();
+            $topic->save();
+        }
+    }
+
 }

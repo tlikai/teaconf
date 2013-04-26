@@ -112,7 +112,13 @@ class TopicWatch extends ActiveRecord
     protected function afterSave()
     {
         if($this->isNewRecord)
-            Topic::model()->updateCounters(array('watch_count' => 1), 'id =? ', array($this->topic_id));
+        {
+            // update related topic watch count
+            $topic = Topic::model()->findByPk($this->topic_id);
+            $topic->watch_count++;
+            $topic->setScore();
+            $topic->save();
+        }
     }
 
     /**

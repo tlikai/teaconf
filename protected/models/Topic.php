@@ -14,10 +14,10 @@
  * @property string $last_posted_at
  * @property string $last_posted_by
  * @property string $last_poster_id
- * @property string $views
  * @property string $posts_count
  * @property string $watch_count
  * @property string $likes_count
+ * @property string $score
  */
 class Topic extends ActiveRecord
 {
@@ -45,7 +45,7 @@ class Topic extends ActiveRecord
             array('content', 'filter', 'filter' => 'strip_tags', 'on' => array('insert', 'update')),
 
             array('content', 'length', 'min' => 10),
-			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, views, posts_count, watch_count, likes_count', 'length', 'max'=>11),
+			array('node_id, created_at, creator_id, last_posted_at, last_poster_id, score, posts_count, watch_count, likes_count', 'length', 'max'=>11),
 			array('title', 'length', 'max'=>255),
 			array('created_by, last_posted_by', 'length', 'max' => 20),
 		);
@@ -92,10 +92,10 @@ class Topic extends ActiveRecord
 			'last_posted_at' => '最后回复时间',
 			'last_posted_by' => '最后回复人',
 			'last_poster_id' => '最后回复人ID',
-			'views' => '查看数',
 			'posts_count' => '回复数',
 			'watch_count' => '关注数',
 			'likes_count' => 'Likes Count',
+			'score' => '得分',
 		);
 	}
 
@@ -107,6 +107,7 @@ class Topic extends ActiveRecord
             empty($this->last_poster_id) && $this->last_poster_id = $this->creator_id;
             empty($this->last_posted_at) && $this->last_posted_at = $this->created_at;
             empty($this->last_posted_by) && $this->last_posted_by = $this->created_by;
+            $this->setScore();
         }
         return $return;
     }
@@ -142,11 +143,10 @@ class Topic extends ActiveRecord
             $node && $criteria->compare('node_id', $node->id);
         }
 
-        // order
         if($tab == 'popular')
-            ; // TODO implement me
+            $criteria->order = 'score DESC, posts_count DESC';
         elseif($tab == 'latest')
-            $criteria->order = 'id DESC';
+            $criteria->order = 'created_at DESC';
         elseif($tab == 'watch')
             $this->watchScope(Yii::app()->user->id);
 
@@ -173,5 +173,20 @@ class Topic extends ActiveRecord
         ));
         $this->getDbCriteria()->addInCondition('id', array_keys($watched));
         return $this;
+    }
+
+    /**
+     * set topic scores
+     *
+     * @return topic scores
+     */
+    public function setScore()
+    {
+        $watch = sqrt($this->watch_count - 1);
+        $likes = log(max($this->likes_count, 1), 2);
+        $week = ($this->created_at - 1328976000) / 604800;
+        $this->score = round($watch + $likes + $week);
+
+        return $this->score;
     }
 }

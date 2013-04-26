@@ -6,7 +6,7 @@
                 <a href="/topic/{{ topic.id }}" class="title">{{ topic.title }}</a>
                 <div class="sep5"></div>
                 <div class="info">
-                    <a href="/node/{{ topic.node.id }}" class="node">{{ topic.node.name }}</a>
+                    <a href="/node/{{ topic.node.alias }}" class="node">{{ topic.node.name }}</a>
                     <a href="/user/{{ topic.author.id }}" class="author">{{ topic.author.name }}</a>
                     最后由
                     <a href="/user/{{ topic.last_poster_id }}">{{ topic.last_posted_by }}</a>
