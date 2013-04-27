@@ -182,7 +182,7 @@ class Topic extends ActiveRecord
      */
     public function setScore()
     {
-        $watch = sqrt($this->watch_count - 1);
+        $watch = sqrt(max($this->watch_count - 1, 1));
         $likes = log(max($this->likes_count, 1), 2);
         $week = ($this->created_at - 1328976000) / 604800;
         $this->score = round($watch + $likes + $week);
