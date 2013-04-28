@@ -12,8 +12,6 @@
 
 class UserController extends Controller
 {
-    const RESET_PASSWORD_EXPIRES = 7200;
-
     /**
      * 获取用户主题
      *
@@ -212,57 +210,6 @@ class UserController extends Controller
 		Yii::app()->user->logout();
         Response::ok();
 	}
-
-    /**
-     * 重置密码预约
-     *
-     * uri: /user/resetPassword
-     * method: POST
-     *
-     * @param string $email
-     */
-    public function actionReserveRestPassword($email)
-    {
-        $user = $this->loadModel($userId);
-        $code = User::generateSecureCode();
-        $expires = time() + self::RESET_PASSWORD_EXPIRES;
-        $url = Yii::app()->createAbsoluteUrl('user/actionRestPassword') . '?' . http_build_query(array( 
-            'userId' => $user->id,
-            'code' => $code,
-            'expires' => $expires,
-            'sign' => md5($user->id . $code . $expires),
-        ));
-        $user->secure_code = $code;
-        if($user->save())
-            echo $url;
-            // TODO send mail
-        else
-            Response::serverError();
-    }
-
-    /**
-     * 重置密码
-     *
-     * uri: /user/resetPassword
-     * method: PUT
-     *
-     * @param integer $userId
-     * @param string $code
-     * @param integer $expires
-     * @param string $sign
-     * @param string $password
-     */
-    public function actionResetPassword($userId, $code, $expires, $sign, $password)
-    {
-        $user = $this->loadModel($userId);
-        if(md5($userId . $code . $expires) != $sign || time() - $expires > self::RESET_PASSWORD_EXPIRES  || $code != $user->secure_code)
-            Response::badRequest('Token failed or expired');
-        $password = Bcrypt::hash($password);
-        $user->password = $password;
-        if($user->save())
-            Response::ok('Reset password success');
-        Response::serverError('Reset password failed');
-    }
 
     /**
      * 修改用户资料

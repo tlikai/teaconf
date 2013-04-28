@@ -54,12 +54,15 @@ return array(
                 array('api/<controller>/update', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'PUT'),
                 array('api/<controller>/delete', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'DELETE'),
 
-                // user services
+                // site services
                 array('api/user/login', 'pattern' => 'api/login', 'verb' => 'POST'),
                 array('api/user/authenticate', 'pattern' => 'api/authenticate', 'verb' => 'GET'),
                 array('api/user/logout', 'pattern' => 'api/logout', 'verb' => 'DELETE'),
                 array('api/user/register', 'pattern' => 'api/register', 'verb' => 'POST'),
-                array('api/user/resetPassword', 'pattern' => 'api/user/resetPassword', 'verb' => 'PUT'),
+                array('api/site/reserveRestPassword', 'pattern' => 'api/resetPassword', 'verb' => 'POST'),
+                array('api/site/resetPassword', 'pattern' => 'api/resetPassword', 'verb' => 'PUT'),
+
+                // user services
                 array('api/user/changePassword', 'pattern' => 'api/user/changePassword', 'verb' => 'PUT'),
                 array('api/user/updateAvatar', 'pattern' => 'api/user/updateAvatar', 'verb' => 'POST'),
                 array('api/user/<action>', 'pattern' => 'api/user/<id:\d+>/<action:\w+>', 'verb' => 'GET'),

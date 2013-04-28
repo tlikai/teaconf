@@ -71,6 +71,9 @@ define([
                 Handlebars.registerHelper('timeago', timeago);
             });
         },
+        redirect: function(route){
+            Backbone.history.navigate(route, true);
+        },
         setTitle: function(title){
             console.log('Set title: ', title);
         }
