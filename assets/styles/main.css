@@ -1,15 +1,11 @@
 ul{list-style: none;}
-body{background: #eee; color: #555;}
+body{color: #555;}
 .container, .navbar .container{width: 960px;}
 
-#header{height: 60px;}
+#header{}
 
+#wrapper{padding-top: 60px; background: #eee;}
 #container{}
-
-#footer{font-size: 12px; margin-top: 40px; padding: 20px 0; background: #fff;}
-#footer a{color: #000;}
-#footer .links a{margin-right: 20px;}
-
 
 .wrap{}
 .main{float: left; margin-left: 20px; width: 680px; min-height: 1px;}
@@ -73,7 +69,11 @@ body{background: #eee; color: #555;}
 
 
 
-.modal form{margin: 0;}
+form{margin: 0;}
+form .alert{margin: 0 10px 20px;}
+form .form-actions{margin-bottom: 0;}
+form legend{text-indent: 10px; font-size: 14px; font-weight: bold;}
+form.form .control-group{padding-left: 20px;}
 .modal-header h3{font-size: 20px; line-height: 20px;}
 .modal-body .control-group:last-child{margin-bottom: 0;}
 
@@ -106,7 +106,12 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .user-home .list .inner{border-bottom: 1px solid #e6e6e6;}
 .user-home .list blockquote{margin: 0; padding: 0 0 0 5px;}
 
+.node-section{padding: 0 20px;}
 .node-section dd a{margin-right: 10px;}
 
 .muted{color: #999}
 a.muted{color: #777;}
+
+#footer{font-size: 12px; padding: 20px 0; background: #fff;}
+#footer a{color: #000;}
+#footer .links a{margin-right: 20px;}

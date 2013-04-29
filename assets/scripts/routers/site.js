@@ -4,20 +4,22 @@ define([
     'backbone',
 ], function($, _, Backbone){
     return Backbone.Router.extend({
+        initialize: function(){
+            this.route(/(login|register|resetPassword|create|nodes)/, 'loadView');
+        },
         routes: {
             'logout': 'logout',
-            'resetPassword': 'resetPassword',
             '*action': 'default'
         },
         logout: function(){
             App.user.logout();
         },
-        resetPassword: function(){
+        loadView: function(view){
+            view = view || 'login';
             require([
-                'views/site/resetPassword',
+                'views/site/' + view,
             ], function(View){
-                var view = new View();
-                view.render();
+                new View().render();
             });
         },
         default: function(action) {

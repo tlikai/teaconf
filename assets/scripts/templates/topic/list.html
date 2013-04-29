@@ -7,9 +7,9 @@
         <li class="latest"><a href="{{nodePath node}}/latest">最新</a></li>
         <li class="suggest"><a href="{{nodePath node}}/suggest">推荐</a></li>
         <li class="watch"><a href="{{nodePath node}}/watch">关注</a></li>
-        <li><a href="javascript:;" modal="node/list">节点</a></li>
+        <li><a href="/nodes">节点</a></li>
     </ul>
-    <button class="btn btn-default pull-right" modal="{{loginRequire 'topic/create'}}"><i class="icon icon-plus"></i>创建主题</button>
+    <a href="{{{loginRequire '/create'}}}" class="btn pull-right"><i class="icon icon-plus"></i>创建主题</a>
 </div>
 <div class="row">
     <div class="main">

@@ -10,7 +10,6 @@ define([
         },
         routes: {
             '': 'index',
-            'topic/create': 'create',
             'topic/:id': 'view'
         },
         index: function(tab, page){
@@ -49,6 +48,6 @@ define([
                     }
                 });
             });
-        }
+        },
     });
 });

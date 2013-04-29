@@ -7,7 +7,7 @@ define([
     'text!templates/site/register.html'
 ], function($, _, Backbone, Handlebars, User, template){
     return Backbone.View.extend({
-        id: '#registerModal',
+        el: $('#container'),
         events: {
             'click .submit': function(e){
                 e.preventDefault();
@@ -37,12 +37,7 @@ define([
             console.log('render: site/login');
             var ctemplate = Handlebars.compile(template);
             var data = {};
-            this.$el.append(ctemplate(data));
-            $(document.body).append(this.$el);
-            var self = this;
-            this.$el.find('.modal').modal().on('hidden', function(){
-                self.$el.remove();
-            });
+            this.$el.html(ctemplate(data));
             return this;
         }
     });

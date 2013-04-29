@@ -29,16 +29,6 @@ define([
             });
         },
         initEvents: function(){
-            $(document.body).on('click', '*[modal]', function(e){
-                var $target = $(e.currentTarget);
-                var view = $target.attr('modal');
-                require([
-                    'views/' + view
-                ], function(View){
-                    var view = new View();
-                    view.render();
-                });
-            });
         },
         initComponents: function(){
             var self = this;
@@ -61,7 +51,7 @@ define([
                 Handlebars.registerHelper('loginRequire', function(route){
                     if(!App.user.get('isGuest'))
                         return route;
-                    return 'site/login';
+                    return '/login';
                 });
 
                 Handlebars.registerHelper('markdown', function(content){

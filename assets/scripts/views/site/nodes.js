@@ -4,17 +4,12 @@ define([
     'backbone',
     'handlebars',
     'collections/nodes',
-    'text!templates/node/list.html'
+    'text!templates/site/nodes.html'
 ], function($, _, Backbone, Handlebars, Nodes, template){
     return Backbone.View.extend({
-        id: 'nodeListModal',
-        events: {
-            'click .node-section a': function(e){
-                this.$el.find('.modal').modal('hide');
-            }
-        },
+        el: $('#container'),
         render: function(){
-            console.log('render: node/list');
+            console.log('render: site/nodes');
             var self = this;
             var ctemplate = Handlebars.compile(template);
             var nodes = new Nodes();
@@ -24,11 +19,7 @@ define([
                         nodes: nodes.toJSON()
                     };
                     console.log(data.nodes);
-                    self.$el.append(ctemplate(data));
-                    $(document.body).append(self.$el);
-                    self.$el.find('.modal').modal().on('hidden', function(){
-                        self.$el.remove();
-                    });
+                    self.$el.html(ctemplate(data));
                 }
             });
             return this;

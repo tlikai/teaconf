@@ -1,7 +1,7 @@
 <ul class="nav pull-right">
 {{#if user.isGuest}}
-    <li><a href="javascript:;" modal="site/login">登录</a></li>
-    <li><a href="javascript:;" modal="site/register">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li><a href="/register">注册</a></li>
 {{else}}
     <!--<li><img src="{{user.avatar_small}}" /></li>-->
     <li><a href="/user/{{user.id}}" class="name">{{user.name}}</a></li>

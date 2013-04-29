@@ -3,16 +3,15 @@ define([
     'underscore',
     'backbone',
     'handlebars',
-    'text!templates/topic/create.html'
+    'text!templates/site/create.html'
 ], function($, _, Backbone, Handlebars, template){
     return Backbone.View.extend({
-        id: '#createTopic',
+        el: $('#container'),
         events: {
             'click .submit': function(e){
                 var self = this;
                 var $submit = $(e.currentTarget);
                 var $alert = this.$('.alert');
-                var $modal = this.$('.modal');
                 var attrs = {
                     node_id: this.$('select[name=node]').val(),
                     title: this.$('input[name=title]').val(),
@@ -44,12 +43,7 @@ define([
             console.log('render: topic/create');
             var ctemplate = Handlebars.compile(template);
             var data = {};
-            this.$el.append(ctemplate(data));
-            $(document.body).append(this.$el);
-            var self = this;
-            this.$el.find('.modal').modal({keyboard: false, backdrop: 'static'}).on('hidden', function(){
-                self.$el.remove();
-            });
+            this.$el.html(ctemplate(data));
 
             require([
                 'views/node/selector',
