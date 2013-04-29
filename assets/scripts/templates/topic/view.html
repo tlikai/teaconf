@@ -31,6 +31,7 @@
             </div>
         </section>
 
+        {{#if haveReply}}
         <section class="box">
             <div class="inner posts-header">
                 共有 <span class="count">{{ topic.posts_count }}</span> 次回复
@@ -40,6 +41,19 @@
                 <time>{{timeago topic.last_posted_at}}</time>
             </div>
             <div class="posts"></div>
+        </section>
+        {{/if}}
+
+        <section class="box">
+            <form action="javascript:;" class="form reply-form">
+                <div class="inner posts-header">创建回复</div>
+                <div class="inner">
+                    <div class="alert hide"></div>
+                    <textarea name="content" rows="10" class="input-xxlarge"></textarea>
+                    <div class="sep5"></div>
+                    <button type="submit" class="btn btn-primary submit">提交</button>
+                </div>
+            </form>
         </section>
     </div>
 

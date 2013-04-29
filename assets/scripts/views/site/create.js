@@ -28,7 +28,6 @@ define([
                     topic.save(attrs, {
                         success: function(topic){
                             $alert.hide();
-                            $modal.modal('hide');
                             Backbone.history.navigate('topic/' + topic.id, true);
                         },
                         error: function(model, xhr){
