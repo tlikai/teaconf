@@ -1,9 +1,15 @@
 <?php
+/**
+ * Topic model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "topic".
  *
- * The followings are the available columns in table 'topic':
  * @property string $id
  * @property string $node_id
  * @property string $title

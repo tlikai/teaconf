@@ -1,9 +1,15 @@
 <?php
+/**
+ * Node model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "node".
  *
- * The followings are the available columns in table 'node':
  * @property string $id
  * @property string $section_id
  * @property string $name

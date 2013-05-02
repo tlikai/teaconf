@@ -1,17 +1,51 @@
 <?php
 /**
- * UserController class file
+ * UserController
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
- */
-
-/**
- * User controller class
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
 class UserController extends Controller
 {
+    /**
+     * 读取用户信息
+     *
+     * uri: /user/{id}
+     * method: GET
+     *
+     * @param integer $id
+     */
+    public function actionRead($id)
+    {
+        $user = $this->loadModel($id);
+        Response::ok($user);
+    }
+
+    /**
+     * 修改用户资料
+     *
+     * uri: /user/{id}
+     * method: PUT
+     *
+     * @param integer $id
+     */
+    public function actionUpdate($id, $weibo, $wechat, $signature)
+    {
+        if(Yii::app()->user->isGuest)
+            Response::forbidden();
+        if(Yii::app()->user->id != $id)
+            Response::unAuthorized();
+        $model = $this->loadModel($id);
+        $model->weibo = $weibo;
+        $model->qq = $wechat;
+        $model->signature = $signature;
+        if($model->save())
+            Response::ok($model);
+        Response::serverError();
+    }
+
     /**
      * 获取用户主题
      *
@@ -68,12 +102,6 @@ class UserController extends Controller
         Response::ok($user->likes);
     }
 
-    public function actionRead($id)
-    {
-        $user = $this->loadModel($id);
-        Response::ok($user);
-    }
-
     /**
      * 更新头像
      * @uri user/updateAvatar
@@ -122,118 +150,13 @@ class UserController extends Controller
     }
 
     /**
-     * 用户注册
-     *
-     * @uri site/register
-     * @method POST
-     *
-     * @param string $email
-     * @param string $name
-     * @param string $password
-     */
-    public function actionRegister($email, $name, $password)
-    {
-        if(!Yii::app()->user->getIsGuest())
-            Response::forbidden('Has logged');
-
-        $passwordHash = Bcrypt::hash(trim($password));
-        $user = new User();
-        $user->email = strtolower(trim($email));
-        $user->name = strtolower(trim($name));
-        $user->password = $password;
-        list($user->avatar_small, $user->avatar_middle, $user->avatar_large) = AvatarUtil::gavatar($user->email);
-        if($user->validate())
-        {
-            $user->password = $passwordHash;
-            if($user->save())
-            {
-                $identity = new UserIdentity($user->id, $user->password);
-                $identity->username = $user->name;
-                Yii::app()->user->login($identity);
-                Response::ok($user);
-            }
-        }
-        Response::badRequest($user->getFirstError());
-    }
-
-    /**
-     * 用户登录
-     *
-     * @uri site/login
-     * @method POST
-     *
-     * @param string $id name or email
-     * @param string $password
-     * @param boolean $rememberMe
-     */
-	public function actionLogin($id, $password, $rememberMe = false)
-	{
-        if(!Yii::app()->user->getIsGuest())
-            Response::forbidden('Has logged');
-
-        $identity = new UserIdentity($id, $password);
-        if($identity->authenticate())
-        {
-			$duration = $rememberMe ? 3600 * 24 * 30 : 0; // 30 days
-            Yii::app()->user->login($identity, $duration);
-            Response::ok($this->loadModel($identity->id));
-        }
-        Response::badRequest(Yii::t('error', 'Invalid ID or password'));
-	}
-
-    /**
-     * 用户验证
-     */
-    public function actionAuthenticate()
-    {
-        if(!Yii::app()->user->getIsGuest())
-        {
-
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            if($user)
-                Response::ok($user);
-            Yii::app()->user->logout();
-        }
-        Response::unAuthorized();
-    }
-
-    /**
-     * 用户退出
-     *
-     * @uri site/logout
-     * @method PUT
-     */
-	public function actionLogout()
-	{
-        if(Yii::app()->user->getIsGuest())
-            Response::unAuthorized();
-		Yii::app()->user->logout();
-        Response::ok();
-	}
-
-    /**
-     * 修改用户资料
-     *
-     * uri: /user/{id}
-     * method: PUT
+     * 修改密码
      *
      * @param integer $id
+     * @param string $password current password
+     * @param string $newPassword
+     * @param string $confirmPassword
      */
-    public function actionUpdate($id, $weibo, $wechat, $signature)
-    {
-        if(Yii::app()->user->isGuest)
-            Response::forbidden();
-        if(Yii::app()->user->id != $id)
-            Response::unAuthorized();
-        $model = $this->loadModel($id);
-        $model->weibo = $weibo;
-        $model->qq = $wechat;
-        $model->signature = $signature;
-        if($model->save())
-            Response::ok($model);
-        Response::serverError();
-    }
-
     public function actionChangePassword($id, $password, $newPassword, $confirmPassword)
     {
         $model = $this->loadModel($id);

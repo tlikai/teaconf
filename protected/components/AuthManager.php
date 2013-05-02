@@ -1,9 +1,12 @@
 <?php
 /**
- * AuthManager class file
+ * AuthManager
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * Basedon file auth manager
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
 class AuthManager

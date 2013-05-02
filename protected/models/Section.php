@@ -1,9 +1,15 @@
 <?php
+/**
+ * Section model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "section".
  *
- * The followings are the available columns in table 'section':
  * @property string $id
  * @property string $name
  * @property string $listorder

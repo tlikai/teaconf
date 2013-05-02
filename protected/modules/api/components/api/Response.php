@@ -1,27 +1,14 @@
 <?php
 /**
- * Response class file
+ * Response
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * Response class
- */
 class Response extends CComponent
 {
-    /*
-    const OK = 200;
-    const CREATED = 201;
-    const BAD_REQUEST = 400;
-    const UNAUTHORIZED = 401;
-    const NOT_FOUND = 404;
-    const SERVER_ERROR = 500;
-    const UPDATED = 200;
-    const DELETED = 204;
-     */
-
     public static $statusLabels = array(
         100 => 'Continue',
         101 => 'Switching Protocols',

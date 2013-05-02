@@ -1,14 +1,12 @@
 <?php
 /**
- * Application class file
+ * Application
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * Application class
- */
 class Application extends CWebApplication
 {
 }

@@ -1,4 +1,11 @@
 <?php
+/**
+ * PostController
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 class PostController extends Controller
 {
@@ -101,6 +108,12 @@ class PostController extends Controller
         Response::serverError();
     }
 
+    /**
+     * 加载回复模型
+     *
+     * @param integer $id
+     * @return Node
+     */
     public function loadModel($id)
     {
         $model = Post::model()->findByPk($id);

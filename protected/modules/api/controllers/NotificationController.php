@@ -1,4 +1,11 @@
 <?php
+/**
+ * NotificationController
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 class NotificationController extends Controller
 {
@@ -31,7 +38,7 @@ class NotificationController extends Controller
         $model = $this->loadModel($id);
         if(Yii::app()->user->id != $model->owner_id)
             Response::forbidden();
-        $model->unread = 0;
+        $model->unread = Notification::READ;
         if($model->save())
         {
             User::model()->updateCounter(array('notifications' => -1), 'id = ?', $model->owner_id);

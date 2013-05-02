@@ -1,14 +1,12 @@
 <?php
 /**
- * description
+ * Formatter
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * Formatter class
- */
 abstract class Formatter
 {
     const XML = 'xml';

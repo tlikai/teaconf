@@ -1,9 +1,15 @@
 <?php
+/**
+ * TopicWatch model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "topic_watch".
  *
- * The followings are the available columns in table 'topic_watch':
  * @property string $id
  * @property string $topic_id
  * @property string $user_id

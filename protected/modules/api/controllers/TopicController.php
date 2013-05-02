@@ -1,14 +1,12 @@
 <?php
 /**
- * TopicController class file
+ * TopicController
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * Topic controller class
- */
 class TopicController extends Controller
 {
     /**

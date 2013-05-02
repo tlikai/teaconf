@@ -4,6 +4,7 @@
 .settings/
 tags
 document
+theme-src
 uploads/avatar/*
 uploads/files/*
 protected/runtime/*

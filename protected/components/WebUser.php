@@ -1,9 +1,10 @@
 <?php
 /**
- * WebUser class
+ * UserIdentity
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
 class WebUser extends CWebUser

@@ -1,14 +1,12 @@
 <?php
 /**
- * OpenIdController class file
+ * OpenIdController
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * openid controller class
- */
 class OpenIdController extends Controller
 {
     protected $oAuthChina;

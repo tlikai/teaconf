@@ -1,9 +1,15 @@
 <?php
+/**
+ * Notification model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "notification".
  *
- * The followings are the available columns in table 'notification':
  * @property string $id
  * @property integer $unread
  * @property string $owner_id
@@ -16,6 +22,7 @@
  */
 class Notification extends ActiveRecord
 {
+    const READ = 0;
     const UNREAD = 1;
 
 	/**

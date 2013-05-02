@@ -1,17 +1,12 @@
 <?php
 /**
- * UserIdentity class file.
+ * UserIdentity
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- UserIdentity
- *
- * @author likai<youyuge@gmail.com>
- * @version $Id$
- */
 class UserIdentity extends CUserIdentity
 {
     public $id;

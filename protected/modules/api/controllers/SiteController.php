@@ -1,4 +1,11 @@
 <?php
+/**
+ * SiteController
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 class SiteController extends Controller
 {
@@ -68,4 +75,92 @@ class SiteController extends Controller
         Response::badRequest($user->getFirstError());
     }
 
+    /**
+     * 用户注册
+     *
+     * @uri site/register
+     * @method POST
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $password
+     */
+    public function actionRegister($email, $name, $password)
+    {
+        if(!Yii::app()->user->getIsGuest())
+            Response::forbidden('Has logged');
+
+        $passwordHash = Bcrypt::hash(trim($password));
+        $user = new User();
+        $user->email = strtolower(trim($email));
+        $user->name = strtolower(trim($name));
+        $user->password = $password;
+        list($user->avatar_small, $user->avatar_middle, $user->avatar_large) = AvatarUtil::gavatar($user->email);
+        if($user->validate())
+        {
+            $user->password = $passwordHash;
+            if($user->save())
+            {
+                $identity = new UserIdentity($user->id, $user->password);
+                $identity->username = $user->name;
+                Yii::app()->user->login($identity);
+                Response::ok($user);
+            }
+        }
+        Response::badRequest($user->getFirstError());
+    }
+
+    /**
+     * 用户登录
+     *
+     * @uri site/login
+     * @method POST
+     *
+     * @param string $id name or email
+     * @param string $password
+     * @param boolean $rememberMe
+     */
+	public function actionLogin($id, $password, $rememberMe = false)
+	{
+        if(!Yii::app()->user->getIsGuest())
+            Response::forbidden('Has logged');
+
+        $identity = new UserIdentity($id, $password);
+        if($identity->authenticate())
+        {
+			$duration = $rememberMe ? 3600 * 24 * 30 : 0; // 30 days
+            Yii::app()->user->login($identity, $duration);
+            Response::ok(User::model()->findByPk($identity->id));
+        }
+        Response::badRequest(Yii::t('error', 'Invalid ID or password'));
+	}
+
+    /**
+     * 用户验证
+     */
+    public function actionAuthenticate()
+    {
+        if(!Yii::app()->user->getIsGuest())
+        {
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            if($user)
+                Response::ok($user);
+            Yii::app()->user->logout();
+        }
+        Response::unAuthorized();
+    }
+
+    /**
+     * 用户退出
+     *
+     * @uri site/logout
+     * @method PUT
+     */
+	public function actionLogout()
+	{
+        if(Yii::app()->user->getIsGuest())
+            Response::unAuthorized();
+		Yii::app()->user->logout();
+        Response::ok();
+	}
 }

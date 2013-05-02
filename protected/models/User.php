@@ -1,9 +1,15 @@
 <?php
+/**
+ * User model
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 /**
  * This is the model class for table "user".
  *
- * The followings are the available columns in table 'user':
  * @property string $id
  * @property string $name
  * @property string $email

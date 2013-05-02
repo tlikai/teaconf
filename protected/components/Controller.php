@@ -1,17 +1,14 @@
 <?php
 /**
- * Controller class file.
+ * Controller
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * Based controller class, support action param from PUT, DELETE method
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
 
-/**
- * Controller based class
- *
- * @author likai<youyuge@gmail.com>
- * @version $Id$
- */
 class Controller extends CController
 {
 	/**

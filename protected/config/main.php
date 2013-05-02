@@ -55,10 +55,10 @@ return array(
                 array('api/<controller>/delete', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'DELETE'),
 
                 // site services
-                array('api/user/login', 'pattern' => 'api/login', 'verb' => 'POST'),
-                array('api/user/authenticate', 'pattern' => 'api/authenticate', 'verb' => 'GET'),
-                array('api/user/logout', 'pattern' => 'api/logout', 'verb' => 'DELETE'),
-                array('api/user/register', 'pattern' => 'api/register', 'verb' => 'POST'),
+                array('api/site/login', 'pattern' => 'api/login', 'verb' => 'POST'),
+                array('api/site/authenticate', 'pattern' => 'api/authenticate', 'verb' => 'GET'),
+                array('api/site/logout', 'pattern' => 'api/logout', 'verb' => 'DELETE'),
+                array('api/site/register', 'pattern' => 'api/register', 'verb' => 'POST'),
                 array('api/site/reserveRestPassword', 'pattern' => 'api/resetPassword', 'verb' => 'POST'),
                 array('api/site/resetPassword', 'pattern' => 'api/resetPassword', 'verb' => 'PUT'),
 
@@ -108,7 +108,16 @@ return array(
                 ),
                 */
             )
-        )
+        ),
+
+        'mailer' => array(
+            'class' => 'ext.mailer.SmtpMailer',
+            'server' => 'smtp.163.com',
+            'port' => '25',
+            'username' => '601200376@163.com',
+            'password' => 'qw8120043',
+            'timeout' => 10,
+        ),
     ),
     
     'params' => array(

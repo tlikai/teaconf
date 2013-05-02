@@ -1,10 +1,12 @@
 <?php
 /**
- * description
+ * ActiveDataProvider
  *
- * @author likai<youyuge@gmail.com>
- * @link http://www.youyuge.com/
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
  */
+
 class ActiveDataProvider extends CActiveDataProvider
 {
     public function getPagination($className = 'CPagination')

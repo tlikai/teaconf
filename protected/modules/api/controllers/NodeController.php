@@ -1,4 +1,11 @@
 <?php
+/**
+ * NodeController
+ *
+ * @link      http://github.com/tlikai/teaconf
+ * @author    likai<youyuge@gmail.com>
+ * @license   http://www.teaconf.com/license New BSD License
+ */
 
 class NodeController extends Controller
 {
@@ -107,6 +114,12 @@ class NodeController extends Controller
         Response::serverError();
     }
 
+    /**
+     * 加载节点模型
+     *
+     * @param integer $id
+     * @return Node
+     */
     public function loadModel($id)
     {
         $model = Node::model()->findByPk($id);
