@@ -173,17 +173,30 @@ class User extends ActiveRecord
 
     public function getIteratorAttributes()
     {
-        $attributes = parent::getIteratorAttributes();
-        $attributes['avatar_large'] = AvatarUtil::absoluteUrl($attributes['avatar_large']);
-        $attributes['avatar_middle'] = AvatarUtil::absoluteUrl($attributes['avatar_middle']);
-        $attributes['avatar_small'] = AvatarUtil::absoluteUrl($attributes['avatar_small']);
-        unset($attributes['password']);
-        unset($attributes['created_at']);
-        unset($attributes['updated_at']);
-        unset($attributes['last_posted_at']);
+        $attributes = array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'avatar_large' => AvatarUtil::absoluteUrl($this->avatar_large),
+            'avatar_middle' => AvatarUtil::absoluteUrl($this->avatar_middle),
+            'avatar_small' => AvatarUtil::absoluteUrl($this->avatar_small),
+        );
+
+        if(Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'read')
+        {
+            $attributes = array_merge($attributes, array(
+                'weibo' => $this->weibo,
+                'qq' => $this->qq,
+            ));
+        }
+
         return $attributes;
     }
 
+    /**
+     * generate secure code for user change
+     *
+     * @return string
+     */
     public static function generateSecureCode()
     {
         return md5(StrUtil::random(10));

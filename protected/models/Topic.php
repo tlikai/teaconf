@@ -130,12 +130,27 @@ class Topic extends ActiveRecord
 
     public function getIteratorAttributes()
     {
-        $attributes = parent::getIteratorAttributes();
-        return array_merge($attributes, array(
+        $attributes = array(
+            'id' => $this->id,
+            'title' => $this->title,
+            'created_at' => $this->created_at,
+            'last_posted_at' => $this->last_posted_at,
+            'posts_count' => $this->posts_count,
+            'watch_count' => $this->watch_count,
+            'likes_count' => $this->likes_count,
             'node' => $this->node,
             'author' => $this->author,
             'lastPoster' => $this->lastPoster,
-        ));
+        );
+
+        if(Yii::app()->controller->id == 'topic' && Yii::app()->controller->action->id == 'read')
+        {
+            $attributes = array_merge($attributes, array(
+                'content' => $this->content,
+            ));
+        }
+
+        return $attributes;
     }
 
 	public function createDataProvider($nodeAlias = null, $tab = null)

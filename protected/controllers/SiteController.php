@@ -4,11 +4,6 @@ class SiteController extends CController
 {
     public function actionIndex()
     {
-        echo <<<EOF
-<script type="text/javascript">
-    console.log('REQUEST_URI: {$_SERVER['REQUEST_URI']}');
-</script>
-EOF;
         $this->renderPartial('index');
     }
     

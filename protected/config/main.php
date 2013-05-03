@@ -70,6 +70,7 @@ return array(
                 // topic services
                 array('api/topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
                 array('api/topic/unwatch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'DELETE'),
+                array('api/post/list', 'pattern' => 'api/topic/<topic_id:\d+>/posts', 'verb' => 'GET'),
 
                 // notification services
                 array('api/notification/read', 'pattern' => 'api/notification/read/<id:\d+>', 'verb' => 'POST'),

@@ -13,6 +13,7 @@ class ApiModule extends CWebModule
             'api.components.api.*',
             'api.components.base.*',
             'api.components.utils.*',
+            'api.components.serializers.*',
         ));
     }
     

@@ -49,8 +49,7 @@ class Node extends ActiveRecord
 	 */
 	public function relations()
 	{
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -103,4 +102,24 @@ class Node extends ActiveRecord
 			'criteria' => $criteria,
 		));
 	}
+
+    public function getIteratorAttributes()
+    {
+        $attributes = array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'alias' => $this->alias,
+        );
+
+        if(Yii::app()->controller->id == 'node' && Yii::app()->controller->action->id == 'read')
+        {
+            $attributes = array_merge($attributes, array(
+                'describe' => $this->describe,
+                'topics_count' => $this->topics_count,
+            ));
+        }
+
+        return $attributes;
+    }
+
 }

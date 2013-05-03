@@ -130,10 +130,16 @@ class Post extends ActiveRecord
 
     public function getIteratorAttributes()
     {
-        $attributes = parent::getIteratorAttributes();
-        return array_merge($attributes, array(
-            'author' => $this->author
-        ));
+        $attributes = array(
+            'id' => $this->id,
+            'topic_id' => $this->topic_id,
+            'reply_id' => $this->reply_id,
+            'content' => $this->content,
+            'likes_count' => $this->likes_count,
+            'author' => $this->author,
+        );
+
+        return $attributes;
     }
 
 	public function createDataProvider()
