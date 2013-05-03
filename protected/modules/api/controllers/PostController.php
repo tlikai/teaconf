@@ -12,7 +12,7 @@ class PostController extends Controller
     /**
      * 所有回复
      *
-     * uri: /posts
+     * uri: /topic/$topic_id/posts
      * method: GET
      *
      * @param integer $topic_id
