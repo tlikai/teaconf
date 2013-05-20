@@ -82,9 +82,13 @@ return array(
                 array('api/user/<action>', 'pattern' => 'api/user/<id:\d+>/<action:\w+>', 'verb' => 'GET'),
 
                 // topic services
-                array('api/topic/watch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'POST'),
-                array('api/topic/unwatch', 'pattern' => 'api/topic/watch/<id:\d+>', 'verb' => 'DELETE'),
+                array('api/topic/<action>', 'pattern' => 'api/topic/<id:\d+>/<action:(watch|like)>', 'verb' => 'POST'),
+                array('api/topic/un<action>', 'pattern' => 'api/topic/<id:\d+>/<action:(watch|like)>', 'verb' => 'DELETE'),
                 array('api/post/list', 'pattern' => 'api/topic/<topic_id:\d+>/(posts)', 'verb' => 'GET'),
+
+                // post services
+                array('api/post/<action>', 'pattern' => 'api/post/<id:\d+>/<action:(like)>', 'verb' => 'POST'),
+                array('api/post/un<action>', 'pattern' => 'api/post/<id:\d+>/<action:(like)>', 'verb' => 'DELETE'),
 
                 // notification services
                 array('api/notification/read', 'pattern' => 'api/notification/read/<id:\d+>', 'verb' => 'POST'),
@@ -125,14 +129,7 @@ return array(
             )
         ),
 
-        'mailer' => array(
-            'class' => 'ext.mailer.SmtpMailer',
-            'server' => 'smtp.163.com',
-            'port' => '25',
-            'username' => '601200376@163.com',
-            'password' => 'qw8120043',
-            'timeout' => 10,
-        ),
+        'mailer' => include 'mail.php',
     ),
     
     'params' => array(

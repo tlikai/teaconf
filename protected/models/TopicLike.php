@@ -33,7 +33,6 @@ class TopicLike extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, topic_id, created_at', 'required'),
 			array('user_id, topic_id, created_at', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -104,6 +103,18 @@ class TopicLike extends ActiveRecord
 		return parent::model($className);
 	}
 
+    public function behaviors()
+    {
+        return array(
+            'timestamp' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => null,
+                'timestampExpression' => time(),
+            ),
+        );
+    }
+
     /**
      * 标记喜欢
      *
@@ -111,7 +122,7 @@ class TopicLike extends ActiveRecord
      * @param integer $topic_id
      * @return boolean
      */
-    public function like($user_id, $topic_id)
+    public static function like($user_id, $topic_id)
     {
         $model = new self();
         $model->user_id = $user_id;
@@ -132,6 +143,7 @@ class TopicLike extends ActiveRecord
             'user_id' => $user_id,
             'topic_id' => $topic_id,
         ));
+
         if($status)
         {
             Topic::model()->updateCounters(array('likes_count' => -1), 'id =? ', array($topic_id));
@@ -150,8 +162,11 @@ class TopicLike extends ActiveRecord
     public static function hasLike($user_id, $topic_id)
     {
         return self::model()->exists(array(
-            'user_id' => $user_id,
-            'topic_id' => $topic_id,
+            'condition' => 'user_id = :user_id AND topic_id = :topic_id',
+            'params' => array(
+                'user_id' => $user_id,
+                'topic_id' => $topic_id,
+            ),
         ));
     }
 

@@ -1,0 +1,39 @@
+<section class="posts">
+    <h1 class="title">
+        <a href="{{url 'topic#show' id}}">{{title}}</a>
+    </h1>
+    <article class="post topic">
+        <div class="avatar">
+            <img src="{{author.avatar_middle}}" alt="{{author.name}}" />
+        </div>
+        <section class="content box">
+            <div class="meta">
+                <a href="{{url 'user#home' author.name}}" class="author">{{author.name}}</a>
+                发表于
+                <time>1天前</time>
+                <div class="actions">
+                    {{#if Chaplin.mediator.user}}
+                        {{#if can_like}}
+                            <a href="javascript:;" class="action-like"><i class="icon-thumbs-up"></i>喜欢</a>
+                        {{/if}}
+                        &nbsp;
+
+                        {{#if can_watch}}
+                        <a href="javascript:;" class="action-watch"><i class="icon-eye-open"></i>关注</a>
+                        {{/if}}
+                        &nbsp;
+
+                        {{#if can_reply}}
+                        <a href="#create-form" class="action-reply"><i class="icon-plus-sign"></i>回复</a>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+            <div class="body">{{content}}</div>
+            <div class="toolbar">
+                <img src="http://www.passit.cn/images/customise/stripes_16.gif" alt="" />
+            </div>
+        </section>
+    </article>
+    <div class="post-list-view"></div>
+</section>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RequireJS CSS Plugin - Test Link Onload</title>
+
+	<script src="../require-1.0.0.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		var start = new Date().getTime(),
+			head = document.head || document.getElementsByTagName('head')[0],
+			link = document.createElement('link'),
+			nativeLoad;
+
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = 'data:text/css,';
+
+		link.onload = function () {
+			console.log(new Date().getTime() - start + "ms: " + "nativeLoad detected");
+
+			nativeLoad = true;
+		};
+
+		head.appendChild(link);
+
+		setTimeout(function () {
+			head.removeChild(link);
+
+			console.log(new Date().getTime() - start + "ms: " + "timeout run");
+
+			if (nativeLoad !== true) {
+				console.log(new Date().getTime() - start + "ms: " + "nativeLoad not detected");
+
+				nativeLoad = false;
+			}
+		}, 0);
+	</script>
+</body>
+</html>

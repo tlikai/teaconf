@@ -1,0 +1,29 @@
+<section class="simple-page login box span5 offset3">
+    <form action="javascript:;" class="form-horizontal" id="login-form" method="post">
+        <h3 class="box-header">登录</h3>
+        <div class="alert-area"></div>
+        <div class="control-group">
+            <label class="control-label" for="inputID">帐号</label>
+            <div class="controls">
+                <input type="text" name="id" id="inputID" placeholder="用户名或邮箱" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">密码</label>
+            <div class="controls">
+                <input type="password" name="password" id="inputPassword" />
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input type="checkbox" name="rememberMe" />保持登录
+                </label>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">登录</button>
+            <a href="{{url 'resetPassword'}}" class="btn">我忘记了密码</a>
+        </div>
+    </form>
+</section>

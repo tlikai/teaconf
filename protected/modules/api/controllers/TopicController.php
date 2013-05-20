@@ -15,13 +15,13 @@ class TopicController extends Controller
      * uri: /topics
      * method: GET
      *
-     * @param string $node_alias
+     * @param string $node
      * @param string $tab
      */
-	public function actionList($node_alias = null, $tab = 'popular')
+	public function actionList($node = null, $tab = 'popular')
 	{
         $model = new Topic();
-        $dataProvider = $model->createDataProvider($node_alias, $tab);
+        $dataProvider = $model->createDataProvider($node, $tab);
         Response::ok($dataProvider->data);
     }
 
@@ -145,7 +145,7 @@ class TopicController extends Controller
     /**
      * 喜欢主题
      *
-     * uri: /topic/watch/id
+     * uri: /topic/{id}/like
      * method: POST
      *
      * @param integer $id
@@ -154,9 +154,9 @@ class TopicController extends Controller
     {
         Yii::app()->user->requirePermission('likeTopic');
 
-        if(TopicLike::hasWatched(Yii::app()->user->id, $id))
+        if(TopicLike::hasLike(Yii::app()->user->id, $id))
             Response::badRequest('liked');
-        if(TopicWatch::watch(Yii::app()->user->id, $id))
+        if(TopicLike::like(Yii::app()->user->id, $id))
             Response::created();
         Response::serverError();
     }
@@ -164,8 +164,8 @@ class TopicController extends Controller
     /**
      * 取消喜欢主题
      *
-     * uri: /topic/like/id
-     * method: POST
+     * uri: /topic/{id}/like
+     * method: DELETE
      *
      * @param integer $id
      */
@@ -173,7 +173,7 @@ class TopicController extends Controller
     {
         Yii::app()->user->requirePermission('unlikeTopic');
 
-        if(TopicLike::unlik(Yii::app()->user->id, $id))
+        if(TopicLike::unlike(Yii::app()->user->id, $id))
             Response::deleted();
         Response::serverError();
     }

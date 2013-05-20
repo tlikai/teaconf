@@ -1,0 +1,30 @@
+<section class="list">
+    <div class="tabs">
+        {{#if Chaplin.mediator.user}}
+        <a href="{{url 'topic#create'}}" class="btn pull-right">创建主题</a>
+        {{/if}}
+        <ul class="nav nav-pills">
+            <li class="popular"><a href="{{url 'list-by-tab' 'popular'}}">热门</a></li>
+            <li class="latest"><a href="{{url 'list-by-tab' 'latest'}}">最新</a></li>
+            <li class="suggest"><a href="{{url 'list-by-tab' 'suggest'}}">推荐</a></li>
+            {{#if Chaplin.mediator.user}}
+            <li class="watch"><a href="{{url 'list-by-tab' 'watch'}}">关注</a></li>
+            {{/if}}
+        </ul>
+    </div>
+    <div class="box">
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th>话题</th>
+                    <th>节点</th>
+                    <th>作者</th>
+                    <th class="count">喜欢</th>
+                    <th class="count">关注</th>
+                    <th class="count">回复</th>
+                </tr>
+            </thead>
+            <tbody class="topic-list"></tbody>
+        </table>
+    </div>
+</section>

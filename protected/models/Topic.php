@@ -125,6 +125,7 @@ class Topic extends ActiveRecord
             TopicWatch::watch($this->creator_id, $this->id);
             $this->node->updateCounters(array('topics_count' => 1), 'id = ?', array($this->node_id));
         }
+
         return parent::afterSave();
     }
 
@@ -140,13 +141,17 @@ class Topic extends ActiveRecord
             'likes_count' => $this->likes_count,
             'node' => $this->node,
             'author' => $this->author,
-            'lastPoster' => $this->lastPoster,
+            'last_poster' => $this->lastPoster,
         );
 
         if(Yii::app()->controller->id == 'topic' && Yii::app()->controller->action->id == 'read')
         {
             $attributes = array_merge($attributes, array(
                 'content' => $this->content,
+                'can_edit' => Yii::app()->user->id == $this->creator_id,
+                'can_like' => !(!Yii::app()->user->isGuest && TopicLike::hasLike($this->id, Yii::app()->user->id)),
+                'can_watch' => !(!Yii::app()->user->isGuest && TopicWatch::hasWatched($this->id, Yii::app()->user->id)),
+                'can_reply' => !Yii::app()->user->isGuest,
             ));
         }
 

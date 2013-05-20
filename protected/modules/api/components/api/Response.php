@@ -105,7 +105,7 @@ class Response extends CComponent
         new self(404, $body);
     }
 
-    public static function serverError($body)
+    public static function serverError($body = null)
     {
         new self(500, $body);
     }

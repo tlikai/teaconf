@@ -1,0 +1,15 @@
+<section class="simple-page node-list box">
+    <h3 class="box-header">节点导航</h3>
+    <div class="box-body">
+        {{#each items}}
+        <dl class="section">
+            <dt>{{name}}</dt>
+            <dd>
+                {{#each nodes}}
+                <a href="{{url 'list-by-node' alias}}">{{name}}</a>
+                {{/each}}
+            </dd>
+        </dl>
+        {{/each}}
+    </div>
+</section>

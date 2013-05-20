@@ -33,7 +33,7 @@ class PostLike extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, post_id, created_at', 'required'),
+			array('user_id, post_id', 'required'),
 			array('user_id, post_id, created_at', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -103,4 +103,74 @@ class PostLike extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function behaviors()
+    {
+        return array(
+            'timestamp' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => null,
+                'timestampExpression' => time(),
+            ),
+        );
+    }
+
+    /**
+     * 标记喜欢
+     *
+     * @param integer $user_id
+     * @param integer $post_id
+     * @return boolean
+     */
+    public static function like($user_id, $post_id)
+    {
+        $model = new self();
+        $model->user_id = $user_id;
+        $model->post_id = $post_id;
+        $status = $model->save();
+        if($status)
+            Post::model()->updateCounters(array('likes_count' => 1), 'id =? ', array($post_id));
+        return $status;
+    }
+
+    /**
+     * 取消喜欢
+     *
+     * @param integer $user_id
+     * @param integer $post_id
+     * @return boolean
+     */
+    public static function unlike($user_id, $post_id)
+    {
+        $status = self::model()->deleteAllByAttributes(array(
+            'user_id' => $user_id,
+            'post_id' => $post_id,
+        ));
+
+        if($status)
+        {
+            Post::model()->updateCounters(array('likes_count' => -1), 'id =? ', array($post_id));
+            return $status;
+        }
+        return false;
+    }
+
+    /**
+     * has like
+     *
+     * @param integer $user_id
+     * @param integer $post_id
+     * @return boolean
+     */
+    public static function hasLike($user_id, $post_id)
+    {
+        return self::model()->exists(array(
+            'condition' => 'user_id = :user_id AND post_id = :post_id',
+            'params' => array(
+                'user_id' => $user_id,
+                'post_id' => $post_id,
+            ),
+        ));
+    }
 }

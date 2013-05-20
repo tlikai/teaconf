@@ -109,6 +109,42 @@ class PostController extends Controller
     }
 
     /**
+     * 喜欢回复
+     *
+     * uri: /post/{id}/like
+     * method: POST
+     *
+     * @param integer $id
+     */
+    public function actionLike($id)
+    {
+        Yii::app()->user->requirePermission('likePost');
+
+        if(PostLike::hasLike(Yii::app()->user->id, $id))
+            Response::badRequest('liked');
+        if(PostLike::like(Yii::app()->user->id, $id))
+            Response::created();
+        Response::serverError();
+    }
+
+    /**
+     * 取消喜欢回复
+     *
+     * uri: /topic/{id}/like
+     * method: DELETE
+     *
+     * @param integer $id
+     */
+    public function actionUnlike($id)
+    {
+        Yii::app()->user->requirePermission('unlikePost');
+
+        if(PostLike::unlike(Yii::app()->user->id, $id))
+            Response::deleted();
+        Response::serverError();
+    }
+
+    /**
      * 加载回复模型
      *
      * @param integer $id

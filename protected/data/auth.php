@@ -58,6 +58,18 @@ return array(
         'description' => 'unwatch topic',
         'data' => null,
     ),
+    'likeTopic' => array(
+        'type' => CAuthItem::TYPE_OPERATION,
+        'bizRule' => 'return !Yii::app()->user->getIsGuest();',
+        'description' => 'like topic',
+        'data' => null,
+    ),
+    'unlikeTopic' => array(
+        'type' => CAuthItem::TYPE_OPERATION,
+        'bizRule' => 'return !Yii::app()->user->getIsGuest();',
+        'description' => 'unlike topic',
+        'data' => null,
+    ),
 
     // post operation
     'createPost' => array(
@@ -76,6 +88,18 @@ return array(
         'type' => CAuthItem::TYPE_OPERATION,
         'bizRule' => 'return !Yii::app()->user->getIsGuest();',
         'description' => 'delete a topic',
+        'data' => null,
+    ),
+    'likePost' => array(
+        'type' => CAuthItem::TYPE_OPERATION,
+        'bizRule' => 'return !Yii::app()->user->getIsGuest();',
+        'description' => 'like post',
+        'data' => null,
+    ),
+    'unlikePost' => array(
+        'type' => CAuthItem::TYPE_OPERATION,
+        'bizRule' => 'return !Yii::app()->user->getIsGuest();',
+        'description' => 'unlike post',
         'data' => null,
     ),
 

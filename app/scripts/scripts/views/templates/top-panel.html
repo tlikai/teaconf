@@ -1,0 +1,9 @@
+{{#if Chaplin.mediator.user}}
+<li><a href="{{url 'user#home' Chaplin.mediator.user.id}}">{{Chaplin.mediator.user.name}}</a></li>
+<li><a href="{{url 'user#settings' 'profile'}}">设置</a></li>
+<li><a href="{{url 'user#notifications'}}">提醒</a></li>
+<li><a href="{{url 'logout'}}">退出</a></li>
+{{else}}
+<li><a href="{{url 'login'}}">登录</a></li>
+<li><a href="{{url 'register'}}">注册</a></li>
+{{/if}}

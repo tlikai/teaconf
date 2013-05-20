@@ -9,3 +9,4 @@ uploads/avatar/*
 uploads/files/*
 protected/runtime/*
 protected/commands/shell/*
+protected/config/mail.php

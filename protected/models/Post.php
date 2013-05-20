@@ -139,6 +139,17 @@ class Post extends ActiveRecord
             'author' => $this->author,
         );
 
+        // post/list
+        if(Yii::app()->controller->id == 'post' && Yii::app()->controller->action->id == 'list')
+        {
+            $attributes = array_merge($attributes, array(
+                'content' => $this->content,
+                'can_edit' => Yii::app()->user->id == $this->creator_id,
+                'can_like' => !(!Yii::app()->user->isGuest && Postlike::hasLike($this->id, Yii::app()->user->id)),
+                'can_reply' => !Yii::app()->user->isGuest,
+            ));
+        }
+
         return $attributes;
     }
 

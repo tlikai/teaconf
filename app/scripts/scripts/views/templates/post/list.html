@@ -1,0 +1,17 @@
+{{#if Chaplin.mediator.user}}
+<article class="post">
+    <form action="javascript:;" id="post-form" method="post">
+        <div class="avatar">
+            <img src="{{Chaplin.mediator.user.avatar_middle}}" alt="" />
+        </div>
+        <section class="content box">
+            <div class="editor-area">
+                <div class="alert-area"></div>
+                <textarea class="editor" name="content" rows="10" cols="30"></textarea>
+                <input name="topic_id" value="{{topic.id}}" type="hidden" />
+                <button type="submit" class="btn btn-primary">发布</button>
+            </div>
+        </section>
+    </form>
+</article>
+{{/if}}

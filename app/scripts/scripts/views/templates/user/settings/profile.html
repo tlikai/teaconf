@@ -1,0 +1,45 @@
+<section class="box">
+    <form action="javascript:;" class="form-horizontal" id="profile-form" method="post">
+        <h3 class="box-header">个人资料</h3>
+        <div class="alert-area"></div>
+        <div class="control-group">
+            <label class="control-label" for="username">用户名</label>
+            <div class="controls">
+                <input id="username" name="username" type="text" value="{{name}}" disabled/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email">邮箱</label>
+            <div class="controls">
+                <input id="email" name="email" type="text" value="{{email}}" disabled />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="weibo">微博</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">@</span>
+                    <input class="span2" id="weibo" name="weibo" type="text" value="{{weibo}}">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="wechat">微信</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">@</span>
+                    <input class="span2" id="wechat" name="wechat" type="text" value="{{wechat}}">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="signature">签名</label>
+            <div class="controls">
+                <textarea id="signature" name="signature" rows="4" class="input-xlarge">{{signature}}</textarea>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn submit">保存修改</button>
+        </div>
+    </form>
+</section>

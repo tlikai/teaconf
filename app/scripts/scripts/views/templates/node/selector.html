@@ -1,0 +1,10 @@
+<select name="node_id" data-placeholder="所属节点" class="input-xlarge chzn-select">
+    <option></option>
+    {{#each items}}
+    <optgroup label="{{name}}">
+        {{#each nodes}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </optgroup>
+    {{/each}}
+</select>

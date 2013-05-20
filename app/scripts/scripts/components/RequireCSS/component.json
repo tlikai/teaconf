@@ -1,0 +1,9 @@
+{
+  "name": "RequireCSS",
+  "version": "0.0.0",
+  "commit": "abe281400e7553d7e03a7ddac7627e99eaeb639f",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/VIISON/RequireCSS.git"
+  }
+}
