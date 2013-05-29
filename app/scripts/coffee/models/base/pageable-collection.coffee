@@ -1,6 +1,7 @@
 define [
+    'chaplin'
     'models/base/collection'
-], (Collection) ->
+], (Chaplin, Collection) ->
     'use strict'
 
     class PageableCollection extends Collection
@@ -10,12 +11,13 @@ define [
             super
 
         pagination:
-            pageSize: 15
+            pageSize: 20
             totalPages: 0
             totalItems: 0
             currentPage: 0
 
         fetch: (options) ->
+            Chaplin.mediator.publish 'before:fetch'
             options ?= {}
             options.data =
                 _.extend
@@ -23,7 +25,12 @@ define [
                     perpage: @pagination.pageSize
                 , options.data ? {}
 
-            return super options
+            success = options.success
+            options.success = (resp) ->
+                Chaplin.mediator.publish 'after:fetch'
+                if success
+                    success collection, resp, options
+            super options
 
         parse: (data) ->
             #@pagination.pageSize = data.perpage
@@ -42,3 +49,6 @@ define [
                 return false
             @pagination.currentPage++
             @fetch add: true, remove: false
+
+        hasNextPage: ->
+            @pagination.currentPage + 1 < @pagination.totalPages

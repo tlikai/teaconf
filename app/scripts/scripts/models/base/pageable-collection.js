@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['models/base/collection'], function(Collection) {
+define(['chaplin', 'models/base/collection'], function(Chaplin, Collection) {
   'use strict';
   var PageableCollection;
 
@@ -15,15 +15,16 @@ define(['models/base/collection'], function(Collection) {
     }
 
     PageableCollection.prototype.pagination = {
-      pageSize: 15,
+      pageSize: 20,
       totalPages: 0,
       totalItems: 0,
       currentPage: 0
     };
 
     PageableCollection.prototype.fetch = function(options) {
-      var _ref;
+      var success, _ref;
 
+      Chaplin.mediator.publish('before:fetch');
       if (options == null) {
         options = {};
       }
@@ -31,6 +32,13 @@ define(['models/base/collection'], function(Collection) {
         page: this.pagination.currentPage,
         perpage: this.pagination.pageSize
       }, (_ref = options.data) != null ? _ref : {});
+      success = options.success;
+      options.success = function(resp) {
+        Chaplin.mediator.publish('after:fetch');
+        if (success) {
+          return success(collection, resp, options);
+        }
+      };
       return PageableCollection.__super__.fetch.call(this, options);
     };
 
@@ -60,6 +68,10 @@ define(['models/base/collection'], function(Collection) {
         add: true,
         remove: false
       });
+    };
+
+    PageableCollection.prototype.hasNextPage = function() {
+      return this.pagination.currentPage + 1 < this.pagination.totalPages;
     };
 
     return PageableCollection;

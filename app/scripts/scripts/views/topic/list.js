@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['views/base/collection-view', 'views/topic/item', 'text!views/templates/topic/list.html'], function(CollectionView, TopicItemView, template) {
+define(['chaplin', 'views/base/collection-view', 'views/topic/item', 'views/loading', 'text!views/templates/topic/list.html'], function(Chaplin, CollectionView, TopicItemView, LoadingView, template) {
   'use strict';
   var TopicListView, _ref;
 
@@ -14,39 +14,38 @@ define(['views/base/collection-view', 'views/topic/item', 'text!views/templates/
       return _ref;
     }
 
-    TopicListView.prototype.events = {
-      'click .next': function(e) {
-        console.debug(this.collection.state);
-        console.debug(this.collection.hasNext());
-        if (this.collection.hasNext()) {
-          return this.collection.getNextPage({
-            silent: false
-          });
-        }
-      },
-      'click .prev': function(e) {
-        console.debug(this.collection);
-        if (this.collection.hasPrevious()) {
-          return this.collection.getPreviousPage({
-            silent: false
-          });
-        }
-      }
-    };
-
     TopicListView.prototype.itemView = TopicItemView;
 
     TopicListView.prototype.listSelector = '.topic-list';
 
     TopicListView.prototype.template = template;
 
+    TopicListView.prototype.addCollectionListeners = function() {
+      TopicListView.__super__.addCollectionListeners.apply(this, arguments);
+      this.subscribeEvent('before:fetch', function() {
+        return this.loadingView = new LoadingView({
+          message: '主题加载中...',
+          container: $('.list')
+        });
+      });
+      return this.subscribeEvent('after:fetch', function() {
+        if (this.loadingView != null) {
+          this.loadingView.dispose();
+        }
+        this.loadingView = null;
+        return this.loading = false;
+      });
+    };
+
     TopicListView.prototype.render = function() {
       var _this = this;
 
       TopicListView.__super__.render.apply(this, arguments);
+      this.loading = false;
       return $(window).scroll(function() {
-        if ($(window).height() + $(window).scrollTop() >= $(document.body).height()) {
-          return _this.collection && _this.collection.nextPage();
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() && !_this.loading) {
+          _this.loading = true;
+          return _this.collection.hasNextPage() && _this.collection.nextPage();
         }
       });
     };

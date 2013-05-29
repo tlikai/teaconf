@@ -21,22 +21,7 @@ define(['chaplin', 'models/base/model', 'backbone-pageable'], function(Chaplin, 
     Collection.prototype.model = Model;
 
     Collection.prototype.parse = function(data) {
-      this.state.pageSize = data.perpage;
-      this.state.totalRecords = data.total;
-      this.state.totalPages = Math.ceil(this.state.totalRecords / this.state.pageSize);
-      this.state.lastPage = this.state.totalPages - 1;
       return data.data;
-    };
-
-    Collection.prototype.state = {
-      firstPage: 0,
-      currentPage: 0,
-      pageSize: 15
-    };
-
-    Collection.prototype.queryParams = {
-      pageSize: 'perpage',
-      currentPage: 'page'
     };
 
     return Collection;

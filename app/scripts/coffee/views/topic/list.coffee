@@ -1,20 +1,13 @@
 define [
+    'chaplin'
     'views/base/collection-view'
     'views/topic/item'
+    'views/loading'
     'text!views/templates/topic/list.html'
-], (CollectionView, TopicItemView, template) ->
+], (Chaplin, CollectionView, TopicItemView, LoadingView, template) ->
     'use strict'
 
     class TopicListView extends CollectionView
-
-        events:
-            'click .next': (e) ->
-                console.debug @collection.state
-                console.debug @collection.hasNext()
-                @collection.getNextPage silent: false if @collection.hasNext()
-            'click .prev': (e) ->
-                console.debug @collection
-                @collection.getPreviousPage silent: false if @collection.hasPrevious()
 
         itemView: TopicItemView
 
@@ -22,12 +15,23 @@ define [
 
         template: template
 
+        addCollectionListeners: ->
+            super
+            @subscribeEvent 'before:fetch', ->
+                @loadingView = new LoadingView message: '主题加载中...', container: $('.list')
+            @subscribeEvent 'after:fetch', ->
+                @loadingView.dispose() if @loadingView?
+                @loadingView = null
+                @loading = no
+
         render: ->
             super
 
+            @loading = no
             $(window).scroll () =>
-                if $(window).height() + $(window).scrollTop() >= $(document.body).height()
-                    @collection and @collection.nextPage()
+                if $(window).scrollTop()  >= $(document).height() - $(window).height() and !@loading
+                    @loading = yes
+                    @collection.hasNextPage() and @collection.nextPage()
 
         setActiveTab: (tab) ->
             @$(".tabs li.#{tab}").addClass 'active'
