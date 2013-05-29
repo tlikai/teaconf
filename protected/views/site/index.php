@@ -10,7 +10,7 @@
         <meta name="author" content="">
 
         <!-- styles -->
-        <link href="<?php echo $baseUrl; ?>/app/styles/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/app/styles/style.css" rel="stylesheet">
         <!-- icons -->
         <!--<link rel="shortcut icon" href="assets/ico/favicon.png">-->
     </head>
