@@ -4,4 +4,5 @@ define [
     'use strict'
     
     class PageView extends View
+
         region: 'main'

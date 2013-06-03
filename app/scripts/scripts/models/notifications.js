@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['models/base/collection', 'models/node'], function(Collection, Node) {
+define(['models/base/collection', 'models/notification'], function(Collection, Notification) {
   'use strict';
   var Nodes, _ref;
   return Nodes = (function(_super) {
@@ -13,10 +13,10 @@ define(['models/base/collection', 'models/node'], function(Collection, Node) {
       return _ref;
     }
 
-    Nodes.prototype.model = Node;
+    Nodes.prototype.model = Notification;
 
     Nodes.prototype.urlPath = function() {
-      return '/nodes';
+      return '/notifications';
     };
 
     return Nodes;

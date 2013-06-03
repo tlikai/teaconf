@@ -1,0 +1,22 @@
+<section class="page notification">
+    <div class="row">
+        <div class="span2">
+            <ul class="nav nav-list sidenav">
+                <li class="nav-header">提醒</li>
+                <li class="nav-unread"><a href="{{url 'user#notifications'}}">未读</a></li>
+                <li class="nav-all"><a href="{{url 'notifications-all'}}">所有</a></li>
+            </ul>
+        </div>
+        <div class="span10">
+            <section class="box">
+                <h3 class="box-header">
+                    {{#if unread}}
+                    <a href="javascript:;" class="pull-right all-read">全部标记已读</a>
+                    {{/if}}
+                    {{#if unread}}未读{{else}}所有{{/if}}提醒
+                </h3>
+                <div class="box-body notifications"></div>
+            </section>
+        </div>
+    </div>
+</section>

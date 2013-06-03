@@ -62,8 +62,8 @@ return array(
                  */
 
                 // RESTful
-                array('api/<controller>/list', 'pattern' => 'api/<controller:(topic|node)>s', 'verb' => 'GET'),
-                array('api/<controller>/read', 'pattern' => 'api/<controller:(topic|user)>/<id:\d+>', 'verb' => 'GET'),
+                array('api/<controller>/list', 'pattern' => 'api/<controller:(topic|node|notification)>s', 'verb' => 'GET'),
+                array('api/<controller>/read', 'pattern' => 'api/<controller:(topic|user|notification)>/<id:\d+>', 'verb' => 'GET'),
                 array('api/<controller>/create', 'pattern' => 'api/<controller:\w+>s', 'verb' => 'POST'),
                 array('api/<controller>/update', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'PUT'),
                 array('api/<controller>/delete', 'pattern' => 'api/<controller:\w+>/<id:\d+>', 'verb' => 'DELETE'),

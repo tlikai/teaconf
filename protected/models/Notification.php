@@ -82,10 +82,20 @@ class Notification extends ActiveRecord
 
     public function getIteratorAttributes()
     {
-        $attributes = parent::getIteratorAttributes();
-        return array_merge($attributes, array(
-            'replier' => $this->replier,
-        ));
+        $attributes = array(
+            'id' => $this->id,
+            'unread' => $this->unread,
+            'created_at' => $this->replied_at,
+            'target' => array(
+                'id' => $this->topic_id,
+                'title' => $this->topic_title,
+                'content' => $this->topic_quote,
+                'type' => 1,
+            ),
+            'sender' => $this->replier,
+        );
+
+        return $attributes;
     }
 
 	public function createDataProvider()

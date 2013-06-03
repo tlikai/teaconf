@@ -19,11 +19,12 @@ class NotificationController extends Controller
      */
 	public function actionList($unread = true)
 	{
+        $unread = intval($unread);
         if(Yii::app()->user->isGuest)
             Response::unAuthorized();
         $model = new Notification();
         $model->owner_id = Yii::app()->user->id;
-        $model->unread = $unread === true ? Notification::UNREAD : null;
+        $model->unread = $unread ? Notification::UNREAD : null;
         $dataProvider = $model->createDataProvider();
         Response::ok($dataProvider->data);
     }
@@ -41,7 +42,7 @@ class NotificationController extends Controller
         $model->unread = Notification::READ;
         if($model->save())
         {
-            User::model()->updateCounter(array('notifications' => -1), 'id = ?', $model->owner_id);
+            User::model()->updateCounters(array('notifications' => -1), 'id = ?', $model->owner_id);
             Response::ok();
         }
         Response::serverError();

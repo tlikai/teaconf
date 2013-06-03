@@ -11,7 +11,8 @@ define ->
         # user
         match 'home/:id', 'user#home'
         match 'settings', 'user#settings'
-        match 'notifications', 'user#notifications'
+        match 'notifications', 'user#notifications', params: {unread: true}
+        match 'notifications/all', 'user#notifications', name: 'notifications-all', params: {unread: false}
 
         # topic
         match '', 'topic#list', name: 'index'

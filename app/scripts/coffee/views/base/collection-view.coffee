@@ -10,12 +10,6 @@ define [
 
       useCssAnimation: true
 
-
-      getTemplateData: ->
-          data = super
-          _.extend data, 
-              Chaplin: Chaplin
-          data
-
+      getTemplateData: View::getTemplateData
 
       getTemplateFunction: View::getTemplateFunction

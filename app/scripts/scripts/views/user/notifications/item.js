@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['views/base/view', 'handlebars', 'text!views/templates/topic/item.html'], function(View, Handlebars, template) {
+define(['views/base/view', 'text!views/templates/user/notifications/item.html'], function(View, template) {
   'use strict';
   var TopicItemView, _ref;
   return TopicItemView = (function(_super) {
@@ -13,9 +13,21 @@ define(['views/base/view', 'handlebars', 'text!views/templates/topic/item.html']
       return _ref;
     }
 
-    TopicItemView.prototype.tagName = 'tr';
-
     TopicItemView.prototype.template = template;
+
+    TopicItemView.prototype.events = {
+      'click .unread': function(e) {
+        e.preventDefault();
+        return this.model.read({
+          success: function(resp) {
+            return console.debug('123');
+          },
+          error: function(resp) {
+            return console.debug(resp.responseText);
+          }
+        });
+      }
+    };
 
     return TopicItemView;
 
