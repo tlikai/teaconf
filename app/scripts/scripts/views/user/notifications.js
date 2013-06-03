@@ -30,11 +30,6 @@ define(['chaplin', 'views/base/collection-view', 'views/user/notifications/item'
 
     UserNotificationsView.prototype.listSelector = '.notifications';
 
-    UserNotificationsView.prototype.render = function() {
-      UserNotificationsView.__super__.render.apply(this, arguments);
-      return this.setActive();
-    };
-
     UserNotificationsView.prototype.setActive = function() {
       var className;
       className = this.unread ? 'unread' : 'all';

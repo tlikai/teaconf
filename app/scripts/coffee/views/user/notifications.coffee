@@ -25,10 +25,6 @@ define [
 
         listSelector: '.notifications'
 
-        render: ->
-            super
-            @setActive()
-
         setActive: ->
             className = if @unread then 'unread' else 'all'
             $(".nav-#{className}").addClass('active')

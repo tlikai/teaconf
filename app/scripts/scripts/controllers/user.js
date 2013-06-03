@@ -29,6 +29,7 @@ define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notific
     };
 
     UserController.prototype.notifications = function(params) {
+      var _this = this;
       this.loginRequire();
       this.collection = new Notifications;
       this.view = new UserNotificationsView({
@@ -38,6 +39,9 @@ define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notific
       return this.collection.fetch({
         data: {
           unread: params.unread ? 1 : 0
+        },
+        success: function() {
+          return _this.view.setActive();
         }
       });
     };

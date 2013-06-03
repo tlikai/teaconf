@@ -30,3 +30,5 @@ define [
             @collection.fetch 
                 data:
                     unread: if params.unread then 1 else 0
+                success: =>
+                    @view.setActive()
