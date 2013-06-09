@@ -1,0 +1,40 @@
+<section class="page home">
+    <div class="header">
+        <a href="{{id}}" class="avatar"><img src="{{avatar_large}}" alt="" /></a>
+        <div class="info">
+            <h3 class="name">{{name}}</h3>
+            <p class="description">
+                {{describe}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <ul class="nav nav-list sidenav">
+                <li class="nav-header"></li>
+                <li><a href="{{url 'user-topics' id}}">主题</a></li>
+                <li><a href="{{url 'user-posts' id}}">回复</a></li>
+                <li><a href="{{url 'user-watch' id}}">关注</a></li>
+            </ul>
+        </div>
+        <div class="span10">
+            <section class="list">
+                <div class="box">
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <th>话题</th>
+                                <th>节点</th>
+                                <th>作者</th>
+                                <th class="count">喜欢</th>
+                                <th class="count">关注</th>
+                                <th class="count">回复</th>
+                            </tr>
+                        </thead>
+                        <tbody class="homeListView"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>

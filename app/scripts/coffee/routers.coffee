@@ -10,6 +10,10 @@ define ->
 
         # user
         match 'home/:id', 'user#home'
+        match 'home/:id/topics', 'user#home', name: 'user-topics', params: {topic: true}
+        match 'home/:id/posts', 'user#home', name: 'user-posts', params: {post: true}
+        match 'home/:id/watch', 'user#home', name: 'user-watch', params: {watch: true}
+
         match 'settings', 'user#settings'
         match 'notifications', 'user#notifications', params: {unread: true}
         match 'notifications/all', 'user#notifications', name: 'notifications-all', params: {unread: false}

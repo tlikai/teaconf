@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notifications', 'views/user/settings', 'views/user/notifications'], function(Chaplin, Controller, User, Notifications, UserSettingsView, UserNotificationsView) {
+define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notifications', 'views/user/home', 'views/user/settings', 'views/user/notifications'], function(Chaplin, Controller, User, Notifications, UserHomeView, UserSettingsView, UserNotificationsView) {
   'use strict';
   var UserController, _ref;
   return UserController = (function(_super) {
@@ -15,6 +15,26 @@ define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notific
 
     UserController.prototype.loginRequire = function() {
       return Chaplin.mediator.user || Chaplin.mediator.publish('!router:routeByName', 'login');
+    };
+
+    UserController.prototype.home = function(params) {
+      var _this = this;
+      if (params.topic != null) {
+        return require(['models/topics', 'views/user/home/topic'], function(Topics, UserTopicView) {
+          _this.collection = new Topics;
+          _this.itemView = UserTopicView;
+          _this.model = new User({
+            id: params.id
+          });
+          _this.view = new UserHomeView({
+            model: _this.model,
+            collection: _this.collection,
+            itemView: _this.itemView
+          });
+          _this.model.fetch();
+          return _this.collection.fetch();
+        });
+      }
     };
 
     UserController.prototype.settings = function() {
