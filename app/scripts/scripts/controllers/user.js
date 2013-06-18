@@ -19,22 +19,44 @@ define(['chaplin', 'controllers/base/controller', 'models/user', 'models/notific
 
     UserController.prototype.home = function(params) {
       var _this = this;
-      if (params.topic != null) {
-        return require(['models/topics', 'views/user/home/topic'], function(Topics, UserTopicView) {
-          _this.collection = new Topics;
-          _this.itemView = UserTopicView;
-          _this.model = new User({
-            id: params.id
-          });
-          _this.view = new UserHomeView({
-            model: _this.model,
-            collection: _this.collection,
-            itemView: _this.itemView
-          });
-          _this.model.fetch();
-          return _this.collection.fetch();
-        });
-      }
+      this.model = new User({
+        id: params.id
+      });
+      this.view = new UserHomeView({
+        model: this.model
+      });
+      return this.model.fetch({
+        success: function() {
+          if (params.topic != null) {
+            require(['models/topics', 'views/user/home/topic'], function(Topics, HomeTopicView) {
+              _this.collection = new Topics({
+                user: _this.model
+              });
+              _this.view.subView = new HomeTopicView({
+                collection: _this.collection,
+                region: 'home-list-region'
+              });
+              return _this.collection.fetch();
+            });
+          }
+          if (params.post != null) {
+            return require(['models/posts', 'views/user/home/post'], function(Posts, HomePostView) {
+              _this.collection = new Posts({
+                user: _this.model
+              });
+              _this.view.subView = new HomePostView({
+                collection: _this.collection,
+                region: 'home-list-region'
+              });
+              return _this.collection.fetch({
+                success: function(resp) {
+                  return console.debug(respkj);
+                }
+              });
+            });
+          }
+        }
+      });
     };
 
     UserController.prototype.settings = function() {

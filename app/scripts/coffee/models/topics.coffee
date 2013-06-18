@@ -6,7 +6,15 @@ define [
 
     class Topics extends PageableCollection
 
+        constructor: (options) ->
+            @user = options.user if options?.user?
+            super
+
         model: Topic
 
         urlPath: -> 
-            '/topics'
+            if @user?
+                id = @user.get 'id'
+                @user.urlPath() + "/#{id}/topics"
+            else
+                '/topics'

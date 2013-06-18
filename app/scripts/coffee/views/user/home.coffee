@@ -1,16 +1,14 @@
 define [
-    'views/base/collection-view'
+    'views/base/page-view'
+    'models/topics'
+    'views/user/home/topic'
     'text!views/templates/user/home.html'
-], (CollectionView, template) ->
+], (PageView, Topics, HomeTopicView, template) ->
     'use strict'
 
-    class UserHomeView extends CollectionView
+    class UserHomeView extends PageView
+
+        regions:
+            '.home-list-region': 'home-list-region'
 
         template: template
-
-        listSelector: '.homeListView'
-
-        getTemplateData: ->
-            data = super
-            console.debug data
-            data

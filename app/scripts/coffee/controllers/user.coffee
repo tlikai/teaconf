@@ -15,17 +15,30 @@ define [
             Chaplin.mediator.user or Chaplin.mediator.publish '!router:routeByName', 'login'
 
         home: (params) ->
-            if params.topic?
-                require [
-                    'models/topics'
-                    'views/user/home/topic'
-                ], (Topics, UserTopicView) =>
-                    @collection = new Topics
-                    @itemView = UserTopicView
-                    @model = new User id: params.id
-                    @view = new UserHomeView {@model, @collection, @itemView}
-                    @model.fetch()
-                    @collection.fetch()
+            @model = new User id: params.id
+            @view = new UserHomeView {@model}
+
+            @model.fetch
+                success: =>
+                    if params.topic?
+                        require [
+                            'models/topics'
+                            'views/user/home/topic'
+                        ], (Topics, HomeTopicView) =>
+                            @collection = new Topics user: @model
+                            @view.subView = new HomeTopicView collection: @collection, region: 'home-list-region'
+                            @collection.fetch()
+
+                    if params.post?
+                        require [
+                            'models/posts'
+                            'views/user/home/post'
+                        ], (Posts, HomePostView) =>
+                            @collection = new Posts user: @model
+                            @view.subView = new HomePostView collection: @collection, region: 'home-list-region'
+                            @collection.fetch
+                                success: (resp) ->
+                                    console.debug respkj
 
         settings: ->
             @loginRequire()
@@ -41,7 +54,7 @@ define [
             @view = new UserNotificationsView
                 collection: @collection
                 unread: params.unread
-            @collection.fetch 
+            @collection.fetch
                 data:
                     unread: if params.unread then 1 else 0
                 success: =>

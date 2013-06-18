@@ -1,7 +1,7 @@
 <div class="inner item {{#if unread}}unread{{/if}}">
-    <a href="{{sender.id}}" class="pull-right"><img src="{{sender.avatar_middle}}" width="48" height="48" /></a>
+    <a href="{{url 'user#home' sender.id}}" class="pull-right"><img src="{{sender.avatar_middle}}" width="48" height="48" /></a>
     <div class="title">
-        <a href="{{sender.id}}">{{sender.name}}</a> 于 {{created_at}} 回复了 <a href="{{url 'topic#show' target.id}}">{{target.title}}</a>
+        <a href="{{url 'user#home' sender.id}}">{{sender.name}}</a> 于 {{created_at}} 回复了 <a href="{{url 'topic#show' target.id}}">{{target.title}}</a>
     </div>
     <blockquote>
         {{target.content}}

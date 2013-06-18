@@ -4,7 +4,7 @@ define [
 ], (View, template) ->
     'use strict'
 
-    class TopicItemView extends View
+    class NotificationItemView extends View
 
         template: template
 

@@ -1,11 +1,16 @@
 define [
-    'views/base/view'
+    'views/base/collection-view'
+    'views/user/home/topic-item'
     'text!views/templates/user/home/topic.html'
-], (View, template) ->
+], (CollectionView, TopicItemView, template) ->
     'use strict'
 
-    class UserTopicView extends View
+    class HomeTopicView extends CollectionView
 
-        tagName: 'tr'
+        listSelector: '.topic-item-region'
+
+        fallbackSelector: '.empty-region'
+
+        itemView: TopicItemView
 
         template: template

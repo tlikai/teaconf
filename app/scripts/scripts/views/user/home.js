@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['views/base/collection-view', 'text!views/templates/user/home.html'], function(CollectionView, template) {
+define(['views/base/page-view', 'models/topics', 'views/user/home/topic', 'text!views/templates/user/home.html'], function(PageView, Topics, HomeTopicView, template) {
   'use strict';
   var UserHomeView, _ref;
   return UserHomeView = (function(_super) {
@@ -13,18 +13,13 @@ define(['views/base/collection-view', 'text!views/templates/user/home.html'], fu
       return _ref;
     }
 
-    UserHomeView.prototype.template = template;
-
-    UserHomeView.prototype.listSelector = '.homeListView';
-
-    UserHomeView.prototype.getTemplateData = function() {
-      var data;
-      data = UserHomeView.__super__.getTemplateData.apply(this, arguments);
-      console.debug(data);
-      return data;
+    UserHomeView.prototype.regions = {
+      '.home-list-region': 'home-list-region'
     };
+
+    UserHomeView.prototype.template = template;
 
     return UserHomeView;
 
-  })(CollectionView);
+  })(PageView);
 });

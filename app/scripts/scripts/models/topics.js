@@ -4,19 +4,27 @@ var __hasProp = {}.hasOwnProperty,
 
 define(['models/base/pageable-collection', 'models/topic'], function(PageableCollection, Topic) {
   'use strict';
-  var Topics, _ref;
+  var Topics;
   return Topics = (function(_super) {
     __extends(Topics, _super);
 
-    function Topics() {
-      _ref = Topics.__super__.constructor.apply(this, arguments);
-      return _ref;
+    function Topics(options) {
+      if ((options != null ? options.user : void 0) != null) {
+        this.user = options.user;
+      }
+      Topics.__super__.constructor.apply(this, arguments);
     }
 
     Topics.prototype.model = Topic;
 
     Topics.prototype.urlPath = function() {
-      return '/topics';
+      var id;
+      if (this.user != null) {
+        id = this.user.get('id');
+        return this.user.urlPath() + ("/" + id + "/topics");
+      } else {
+        return '/topics';
+      }
     };
 
     return Topics;

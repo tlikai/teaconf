@@ -6,9 +6,20 @@ define [
 
     class Posts extends PageableCollection
 
+        constructor: (options) ->
+            @user = options.user if options?.user?
+            @topic = options.topic if options?.topic?
+            super
+
+        user: null
+
         topic: null
 
         model: Post
 
         urlPath: -> 
-            @topic.urlPath() + '/' + @topic.id + '/posts'
+            if @user?
+                id = @user.get 'id'
+                @user.urlPath() + "/#{id}/posts"
+            else
+                @topic.urlPath() + '/' + @topic.id + '/posts'

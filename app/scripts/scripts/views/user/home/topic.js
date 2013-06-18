@@ -2,22 +2,26 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['views/base/view', 'text!views/templates/user/home/topic.html'], function(View, template) {
+define(['views/base/collection-view', 'views/user/home/topic-item', 'text!views/templates/user/home/topic.html'], function(CollectionView, TopicItemView, template) {
   'use strict';
-  var UserTopicView, _ref;
-  return UserTopicView = (function(_super) {
-    __extends(UserTopicView, _super);
+  var HomeTopicView, _ref;
+  return HomeTopicView = (function(_super) {
+    __extends(HomeTopicView, _super);
 
-    function UserTopicView() {
-      _ref = UserTopicView.__super__.constructor.apply(this, arguments);
+    function HomeTopicView() {
+      _ref = HomeTopicView.__super__.constructor.apply(this, arguments);
       return _ref;
     }
 
-    UserTopicView.prototype.tagName = 'tr';
+    HomeTopicView.prototype.listSelector = '.topic-item-region';
 
-    UserTopicView.prototype.template = template;
+    HomeTopicView.prototype.fallbackSelector = '.empty-region';
 
-    return UserTopicView;
+    HomeTopicView.prototype.itemView = TopicItemView;
 
-  })(View);
+    HomeTopicView.prototype.template = template;
+
+    return HomeTopicView;
+
+  })(CollectionView);
 });

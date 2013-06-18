@@ -51,3 +51,12 @@ define [
                 url: API_URL + '/user/changePassword'
                 method: 'PUT'
             $.ajax options
+
+        topics: (options) ->
+            user_id = @get('id')
+
+            _.extend options, 
+                url: "#{API_URL}/user/#{user_id}/topics"
+                method: 'GET'
+
+            $.ajax options

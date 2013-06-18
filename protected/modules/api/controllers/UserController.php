@@ -49,29 +49,34 @@ class UserController extends Controller
     /**
      * 获取用户主题
      *
-     * @uri user/topics/{id}
+     * @uri user/{id}/posts
      * @method GET
      * 
      * @param integer $id
      */
     public function actionTopics($id)
     {
-        $user = $this->loadModel($id);
-        Response::ok($user->topics);
+        $model = new Topic();
+        $model->creator_id = $id;
+        $dataProvider = $model->createDataProvider();
+        Response::ok($dataProvider->data);
     }
 
     /**
      * 获取用户回复
      *
-     * @uri user/replies/{id}
+     * @uri user/{id}/posts
      * @method GET
      *
      * @param integer $id
      */
-    public function actionReplies($id)
+    public function actionPosts($id)
     {
         $user = $this->loadModel($id);
-        Response::ok($user->posts);
+        $model = new Post();
+        $model->creator_id = $id;
+        $dataProvider = $model->createDataProvider();
+        Response::ok($dataProvider->data);
     }
 
     /**

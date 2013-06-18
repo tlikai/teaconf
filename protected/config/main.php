@@ -79,7 +79,7 @@ return array(
                 // user services
                 array('api/user/changePassword', 'pattern' => 'api/user/changePassword', 'verb' => 'PUT'),
                 array('api/user/updateAvatar', 'pattern' => 'api/user/updateAvatar', 'verb' => 'POST'),
-                array('api/user/<action>', 'pattern' => 'api/user/<id:\d+>/<action:\w+>', 'verb' => 'GET'),
+                array('api/user/<action>', 'pattern' => 'api/user/<id:\d+>/<action:(topics|posts|watch|likes)>', 'verb' => 'GET'),
 
                 // topic services
                 array('api/topic/<action>', 'pattern' => 'api/topic/<id:\d+>/<action:(watch|like)>', 'verb' => 'POST'),

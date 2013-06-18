@@ -1,10 +1,10 @@
 define [
     'views/base/view'
-    'text!views/templates/topic/item.html'
+    'text!views/templates/user/home/post-item.html'
 ], (View, template) ->
     'use strict'
 
-    class TopicItemView extends View
+    class PostItemView extends View
 
         tagName: 'tr'
 

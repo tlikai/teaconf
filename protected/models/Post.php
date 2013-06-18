@@ -150,6 +150,15 @@ class Post extends ActiveRecord
             ));
         }
 
+        // user/posts
+        if(Yii::app()->controller->id == 'user' && Yii::app()->controller->action->id == 'posts')
+        {
+            $attributes = array_merge($attributes, array(
+                'topic' => $this->topic,
+            ));
+        }
+
+
         return $attributes;
     }
 

@@ -1,6 +1,6 @@
 define [
     'views/base/view'
-    'text!views/templates/topic/item.html'
+    'text!views/templates/user/home/topic-item.html'
 ], (View, template) ->
     'use strict'
 

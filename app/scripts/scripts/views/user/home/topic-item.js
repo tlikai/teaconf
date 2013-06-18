@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['views/base/view', 'text!views/templates/topic/item.html'], function(View, template) {
+define(['views/base/view', 'text!views/templates/user/home/topic-item.html'], function(View, template) {
   'use strict';
   var TopicItemView, _ref;
   return TopicItemView = (function(_super) {

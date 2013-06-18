@@ -34,7 +34,7 @@ define(['chaplin', 'models/base/collection'], function(Chaplin, Collection) {
       options.success = function(resp) {
         Chaplin.mediator.publish('after:fetch');
         if (success) {
-          return success(collection, resp, options);
+          return success(resp, options);
         }
       };
       return PageableCollection.__super__.fetch.call(this, options);

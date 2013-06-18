@@ -4,18 +4,18 @@ var __hasProp = {}.hasOwnProperty,
 
 define(['views/base/view', 'text!views/templates/user/notifications/item.html'], function(View, template) {
   'use strict';
-  var TopicItemView, _ref;
-  return TopicItemView = (function(_super) {
-    __extends(TopicItemView, _super);
+  var NotificationItemView, _ref;
+  return NotificationItemView = (function(_super) {
+    __extends(NotificationItemView, _super);
 
-    function TopicItemView() {
-      _ref = TopicItemView.__super__.constructor.apply(this, arguments);
+    function NotificationItemView() {
+      _ref = NotificationItemView.__super__.constructor.apply(this, arguments);
       return _ref;
     }
 
-    TopicItemView.prototype.template = template;
+    NotificationItemView.prototype.template = template;
 
-    TopicItemView.prototype.events = {
+    NotificationItemView.prototype.events = {
       'click .unread': function(e) {
         e.preventDefault();
         return this.model.read({
@@ -29,7 +29,7 @@ define(['views/base/view', 'text!views/templates/user/notifications/item.html'],
       }
     };
 
-    return TopicItemView;
+    return NotificationItemView;
 
   })(View);
 });

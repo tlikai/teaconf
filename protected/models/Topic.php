@@ -176,6 +176,8 @@ class Topic extends ActiveRecord
         elseif($tab == 'watch')
             $this->watchScope(Yii::app()->user->id);
 
+        $criteria->compare('creator_id', $this->creator_id);
+
 		return new ActiveDataProvider($this, array(
 			'criteria' => $criteria,
 		));

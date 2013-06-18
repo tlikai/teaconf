@@ -14,20 +14,24 @@ define(function() {
     match('resetPassword', 'site#resetPassword', {
       name: 'resetPassword'
     });
-    match('home/:id', 'user#home');
-    match('home/:id/topics', 'user#home', {
+    match('user/:id', 'user#home', {
+      params: {
+        topic: true
+      }
+    });
+    match('user/:id/topics', 'user#home', {
       name: 'user-topics',
       params: {
         topic: true
       }
     });
-    match('home/:id/posts', 'user#home', {
+    match('user/:id/posts', 'user#home', {
       name: 'user-posts',
       params: {
         post: true
       }
     });
-    match('home/:id/watch', 'user#home', {
+    match('user/:id/watch', 'user#home', {
       name: 'user-watch',
       params: {
         watch: true

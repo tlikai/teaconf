@@ -79,6 +79,16 @@ define(['chaplin', 'models/base/model'], function(Chaplin, Model) {
       return $.ajax(options);
     };
 
+    User.prototype.topics = function(options) {
+      var user_id;
+      user_id = this.get('id');
+      _.extend(options, {
+        url: "" + API_URL + "/user/" + user_id + "/topics",
+        method: 'GET'
+      });
+      return $.ajax(options);
+    };
+
     return User;
 
   })(Model);

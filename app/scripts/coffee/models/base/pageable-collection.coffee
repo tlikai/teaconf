@@ -29,7 +29,7 @@ define [
             options.success = (resp) ->
                 Chaplin.mediator.publish 'after:fetch'
                 if success
-                    success collection, resp, options
+                    success resp, options
             super options
 
         parse: (data) ->
