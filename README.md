@@ -1,6 +1,6 @@
 A new forum platform
 =======
 
-![screenshot](https://github.com/tlikai/teaconf/raw/master/screenshot.png)
+![screenshot](https://raw.github.com/tlikai/teaconf/master/screenshot.png)
 
 Coming soon
